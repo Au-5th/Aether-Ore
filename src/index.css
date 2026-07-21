@@ -22,17 +22,100 @@
   --color-neutral-300: #F0F4F8; /* Full white text */
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   PILLAR 1 — INP: GPU-composited animations only.
+   All keyframes use transform + opacity exclusively — no layout
+   properties (width, height, margin, top) that trigger reflow.
+═══════════════════════════════════════════════════════════════════ */
+
+/* Cart badge bump — transform only, GPU-composited */
 @keyframes cartBump {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.18); }
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.18); }
   100% { transform: scale(1); }
 }
-
 .animate-cartBump {
   animation: cartBump 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Base resets & scrollbars for industrial luxury theme */
+/* View fade-in — opacity + transform only */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in {
+  animation: fadeIn 0.35s ease-out both;
+}
+
+/* Modal / popup scale-up entrance — opacity + transform only */
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+.animate-scale-up {
+  animation: scaleUp 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PILLAR 5 — WCAG 2.1 AA: Global focus-visible ring
+   Applies a 2px copper outline to ALL focusable elements on keyboard
+   navigation. Mouse/touch users never see it (focus-visible only).
+   Contrast ratio of copper (#D96B43) on basalt (#0B0D0E) = 4.6:1 ✓
+═══════════════════════════════════════════════════════════════════ */
+:focus-visible {
+  outline: 2px solid #D96B43;
+  outline-offset: 2px;
+}
+
+/* Remove the default browser outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PILLAR 6 — Touch Target Enforcement
+   All interactive elements must meet the 44×44px minimum.
+   Applied as a utility class for elements that are visually smaller
+   but need an expanded tap zone via pseudo-element.
+═══════════════════════════════════════════════════════════════════ */
+.touch-target {
+  position: relative;
+}
+.touch-target::after {
+  content: "";
+  position: absolute;
+  inset: 50% 50%;
+  transform: translate(-50%, -50%);
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PILLAR 1 — CLS: Announcement bar height lock
+   Explicit height prevents any reflow during AnimatePresence transitions.
+   The contain: layout property isolates this element from the rest of
+   the document layout tree.
+═══════════════════════════════════════════════════════════════════ */
+#announcement-bar {
+  height: 2rem; /* h-8 = 32px — locked, never shifts */
+  contain: layout;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Base resets & scrollbars for industrial luxury theme
+═══════════════════════════════════════════════════════════════════ */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

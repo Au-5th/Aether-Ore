@@ -44,12 +44,14 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v1_basalt", name: "Anodized Basalt Black", sku: "THF-BSL-500", inventory: 15 },
       { id: "v1_copper", name: "Forged Copper Accent", sku: "THF-COP-500", inventory: 8 }
     ],
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200", // black flask on mossy rock
+    image: "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.jpg",
     images: [
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200", // black basalt flask
-      "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&q=80&w=1200", // forged copper accent
-      "https://images.unsplash.com/photo-1589362483830-746b043b5595?auto=format&fit=crop&q=80&w=1200", // raw brushed titanium
-      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&q=80&w=1200"  // steel/basalt composition
+      "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.jpg",
+      "/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.jpg",
+      "/assets/Clean studio profile view of an anodized titanium skincare bottle.jpg",
+      "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.jpg",
+      "/assets/an Arctic field researcher inspecting equipment inside a mountain shelter.jpg",
+      "/assets/Split screen ad visual.jpg"
     ],
     isFlagship: true
   },
@@ -73,11 +75,11 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v2_standard", name: "Standard Block", sku: "VEB-STD-150", inventory: 124 },
       { id: "v2_dual", name: "Dual-Grit Extreme (Coarse)", sku: "VEB-EXT-150", inventory: 56 }
     ],
-    image: "https://images.unsplash.com/photo-1608248597481-496100c80836?auto=format&fit=crop&q=80&w=1200", // soap block, bottle, balm tin on stone pedestal
+    image: "/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.jpg",
     images: [
-      "https://images.unsplash.com/photo-1608248597481-496100c80836?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=1200"
+      "/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.jpg",
+      "/assets/knolling flat lay photograph of disassembled skincare packaging.jpg",
+      "/assets/studio group photograph of the complete AETHER & ORE skincare module collection.jpg"
     ],
     isFlagship: false
   },
@@ -101,12 +103,12 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v3_standard", name: "Single Tube", sku: "TBC-STD-50", inventory: 89 },
       { id: "v3_heavy", name: "Heavy Expedition Jar", sku: "TBC-JAR-100", inventory: 30 }
     ],
-    image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&q=80&w=1200", // Glacial Barrier Balm grey bottle with copper cap
+    image: "/assets/Isolated commercial studio shot of AETHER & ORE Glacial Barrier Balm.jpg",
     images: [
-      "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=1200"
+      "/assets/Isolated commercial studio shot of AETHER & ORE Glacial Barrier Balm.jpg",
+      "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.jpg",
+      "/assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.jpg",
+      "/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.jpg"
     ],
     isFlagship: false
   },
@@ -129,10 +131,10 @@ export const PRODUCTS_DATA: Product[] = [
     variants: [
       { id: "v4_standard", name: "Aluminium Squeeze Tube", sku: "CHB-ALU-75", inventory: 240 }
     ],
-    image: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&q=80&w=1200", // extreme close up spread of cream with spatula
+    image: "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.jpg",
     images: [
-      "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1608248597481-496100c80836?auto=format&fit=crop&q=80&w=1200"
+      "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.jpg",
+      "/assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.jpg"
     ],
     isFlagship: false
   },
@@ -155,11 +157,11 @@ export const PRODUCTS_DATA: Product[] = [
     variants: [
       { id: "v5_standard", name: "Active Flask Dispenser", sku: "UIS-FLK-60", inventory: 98 }
     ],
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=1200", // close up man applying white cream in snowy area
+    image: "/assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.jpg",
     images: [
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&q=80&w=1200"
+      "/assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.jpg",
+      "/assets/frozen glacial water crystals expanding under a polarized light microscope.jpg",
+      "/assets/landscape photography of windswept sub-zero alpine mountain peaks.jpg"
     ],
     isFlagship: false
   },
@@ -183,11 +185,11 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v6_raw", name: "Raw Milled Brass", sku: "MTV-BRS-150", inventory: 12 },
       { id: "v6_black", name: "Cerakote Tactical Black", sku: "MTV-BLK-150", inventory: 22 }
     ],
-    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1200", // copper cap on stone block
+    image: "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.jpg",
     images: [
-      "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1589362483830-746b043b5595?auto=format&fit=crop&q=80&w=1200",
-      "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&q=80&w=1200"
+      "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.jpg",
+      "/assets/Clean studio profile view of an anodized titanium skincare bottle.jpg",
+      "/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.jpg"
     ],
     isFlagship: false
   }

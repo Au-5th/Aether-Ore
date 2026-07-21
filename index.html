@@ -3,15 +3,153 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AETHER & ORE | Flagship Headless Storefront & Plus Case Study</title>
-    <!-- Preconnect to google fonts for Core Web Vitals optimization -->
+    <title>AETHER &amp; ORE | Flagship Headless Storefront &amp; Plus Case Study</title>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SEO META — PILLAR 5
+    ═══════════════════════════════════════════════════════════════ -->
+    <meta name="description" content="AETHER &amp; ORE engineers grade-5 titanium hardware and volcanic mineral skincare for extreme alpine environments. Formulated for the borderland of water and rock." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://aetherandore.com/" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://aetherandore.com/" />
+    <meta property="og:title" content="AETHER &amp; ORE | Engineered Alpine Skincare &amp; Hardware" />
+    <meta property="og:description" content="Grade-5 titanium hardware and volcanic mineral formulations engineered for extreme physical environments." />
+    <meta property="og:image" content="/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AETHER &amp; ORE | Engineered Alpine Skincare &amp; Hardware" />
+    <meta name="twitter:description" content="Grade-5 titanium hardware and volcanic mineral formulations engineered for extreme physical environments." />
+    <meta name="twitter:image" content="/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.jpg" />
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         PERFORMANCE — PILLAR 1: LCP Critical Asset Preload
+         Locks in the above-the-fold hero image before the browser
+         discovers it via the React render cycle, targeting LCP < 1.2s.
+    ═══════════════════════════════════════════════════════════════ -->
+    <link
+      rel="preload"
+      as="image"
+      href="/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.jpg"
+      fetchpriority="high"
+    />
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         PERFORMANCE — PILLAR 1: DNS Preconnect + Prefetch
+         Eliminates DNS lookup latency for all third-party origins.
+    ═══════════════════════════════════════════════════════════════ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <!-- dns-prefetch as fallback for older browsers -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+    <!-- Google Fonts: display=swap prevents FOIT; subset reduces payload -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SEO — PILLAR 5: Schema.org JSON-LD Structured Data
+         Injected in <head> for immediate crawler ingestion.
+         Covers Product, Offer, AggregateRating, and BreadcrumbList.
+    ═══════════════════════════════════════════════════════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://aetherandore.com/#organization",
+          "name": "AETHER & ORE",
+          "url": "https://aetherandore.com/",
+          "logo": "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.jpg",
+          "sameAs": []
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://aetherandore.com/#website",
+          "url": "https://aetherandore.com/",
+          "name": "AETHER & ORE",
+          "publisher": { "@id": "https://aetherandore.com/#organization" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://aetherandore.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Tactical Collection",
+              "item": "https://aetherandore.com/#collection"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Anodized Titanium Flask",
+              "item": "https://aetherandore.com/products/titanium-flask"
+            }
+          ]
+        },
+        {
+          "@type": "Product",
+          "@id": "https://aetherandore.com/products/titanium-flask#product",
+          "name": "Anodized Titanium Flask",
+          "description": "Grade-5 vacuum-insulated tactical titanium flask with micro-milled tactile exterior grip. Engineered to survive Arctic storms and rocky drops alike without compromising heat retention.",
+          "sku": "AO-THF-01",
+          "mpn": "THF-RAW-500",
+          "brand": {
+            "@type": "Brand",
+            "name": "AETHER & ORE"
+          },
+          "image": [
+            "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.jpg",
+            "/assets/Clean studio profile view of an anodized titanium skincare bottle.jpg",
+            "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.jpg"
+          ],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.95",
+            "reviewCount": "148",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://aetherandore.com/products/titanium-flask",
+            "priceCurrency": "USD",
+            "price": "120.00",
+            "priceValidUntil": "2027-12-31",
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition",
+            "seller": { "@id": "https://aetherandore.com/#organization" }
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         PERFORMANCE — PILLAR 1: Critical inline styles
+         Prevent FOUC on body background before CSS hydrates.
+         Also locks announcement bar height to prevent CLS on load.
+    ═══════════════════════════════════════════════════════════════ -->
+    <style>
+      /* Lock body bg immediately — eliminates white flash before Tailwind loads */
+      html, body { background-color: #0B0D0E; color: #F0F4F8; }
+      /* Lock announcement bar height to prevent layout shift on first paint */
+      #announcement-bar { height: 2rem; /* 32px = h-8 */ contain: strict; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ShoppingBag,
@@ -85,6 +85,88 @@ export default function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // ─── PILLAR 3: Lead-Capture Popup — 10s idle OR 50% scroll depth ──────────
+  // Stores permanent dismissal flag in localStorage so it never re-triggers.
+  const [showLeadCapture, setShowLeadCapture] = useState(false);
+  const [leadEmail, setLeadEmail] = useState("");
+  const [leadSubmitted, setLeadSubmitted] = useState(false);
+  const leadCaptureTriggered = useRef(false);
+
+  const dismissLeadCapture = useCallback(() => {
+    setShowLeadCapture(false);
+    localStorage.setItem("ao_lead_dismissed", "1");
+  }, []);
+
+  useEffect(() => {
+    // Never show if already dismissed permanently
+    if (localStorage.getItem("ao_lead_dismissed")) return;
+
+    let idleTimer: ReturnType<typeof setTimeout>;
+
+    const triggerOnce = () => {
+      if (leadCaptureTriggered.current) return;
+      leadCaptureTriggered.current = true;
+      setShowLeadCapture(true);
+    };
+
+    // Trigger 1: 10 second idle
+    idleTimer = setTimeout(triggerOnce, 10000);
+
+    // Trigger 2: 50% scroll depth — passive listener, no layout cost
+    const handleLeadScroll = () => {
+      const scrollPct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      if (scrollPct >= 0.5) triggerOnce();
+    };
+    window.addEventListener("scroll", handleLeadScroll, { passive: true });
+
+    return () => {
+      clearTimeout(idleTimer);
+      window.removeEventListener("scroll", handleLeadScroll);
+    };
+  }, []);
+
+  // ─── PILLAR 5: Global ESC key handler — closes cart drawer + modal ─────────
+  // Modal state declared here so it's available to the ESC handler below
+  const [selectedProductDetails, setSelectedProductDetails] = useState<Product | null>(null);
+  const [modalActiveImage, setModalActiveImage] = useState<string | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (selectedProductDetails) {
+          setSelectedProductDetails(null);
+          setModalActiveImage(null);
+        } else if (cartOpen) {
+          setCartOpen(false);
+        } else if (showLeadCapture) {
+          dismissLeadCapture();
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [cartOpen, selectedProductDetails, showLeadCapture, dismissLeadCapture]);
+
+  // ─── PILLAR 5: Focus trap for product modal ────────────────────────────────
+  // When modal opens, focus it. When it closes, return focus to the trigger.
+  const lastFocusedElement = useRef<HTMLElement | null>(null);
+
+  const openProductProtocol = (product: Product) => {
+    lastFocusedElement.current = document.activeElement as HTMLElement;
+    setSelectedProductDetails(product);
+    setModalActiveImage(product.image);
+    // Defer focus to after render
+    requestAnimationFrame(() => {
+      modalRef.current?.focus();
+    });
+  };
+
+  const closeModal = useCallback(() => {
+    setSelectedProductDetails(null);
+    setModalActiveImage(null);
+    lastFocusedElement.current?.focus();
+  }, []);
   // Fast-Lane Hero Selector State
   const flagshipProduct = PRODUCTS_DATA[0]; // Flask
   const [heroSubscription, setHeroSubscription] = useState(false);
@@ -95,26 +177,17 @@ export default function App() {
   // Synchronize Hero Image with Selected Variant
   useEffect(() => {
     if (heroVariant.id === "v1_raw") {
-      setHeroActiveImage("https://images.unsplash.com/photo-1589362483830-746b043b5595?auto=format&fit=crop&q=80&w=1200");
+      setHeroActiveImage("/assets/Clean studio profile view of an anodized titanium skincare bottle.jpg");
     } else if (heroVariant.id === "v1_basalt") {
-      setHeroActiveImage("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200");
+      setHeroActiveImage("/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.jpg");
     } else if (heroVariant.id === "v1_copper") {
-      setHeroActiveImage("https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&q=80&w=1200");
+      setHeroActiveImage("/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.jpg");
     }
   }, [heroVariant]);
 
   // Climate Contextualizer State
   const [selectedEnvironment, setSelectedEnvironment] = useState<"subzero" | "friction" | "uv">("subzero");
   
-  // Details Modal state
-  const [selectedProductDetails, setSelectedProductDetails] = useState<Product | null>(null);
-  const [modalActiveImage, setModalActiveImage] = useState<string | null>(null);
-
-  const openProductProtocol = (product: Product) => {
-    setSelectedProductDetails(product);
-    setModalActiveImage(product.image);
-  };
-
   // B2B Wholesale Portal State
   const [wholesaleQuantities, setWholesaleQuantities] = useState<Record<string, number>>({});
   const [b2bSimulationStatus, setB2bSimulationStatus] = useState<"idle" | "review" | "ordered">("idle");
@@ -395,11 +468,14 @@ export default function App() {
             </div>
 
             {/* Core Tabs Navigator */}
-            <nav className="flex flex-wrap items-center justify-center gap-1 bg-neutral-900/50 p-1 border border-neutral-800">
+            <nav role="tablist" aria-label="Site sections" className="flex flex-wrap items-center justify-center gap-1 bg-neutral-900/50 p-1 border border-neutral-800">
               <button
                 id="tab-storefront-btn"
+                role="tab"
+                aria-selected={activeTab === "storefront"}
+                aria-controls="storefront-view"
                 onClick={() => setActiveTab("storefront")}
-                className={`px-3 py-1.5 text-xs font-mono tracking-wider transition-all rounded-none ${
+                className={`min-h-[44px] px-3 py-2 text-xs font-mono tracking-wider transition-all rounded-none focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-1 ${
                   activeTab === "storefront"
                     ? "bg-copper text-basalt font-bold"
                     : "text-neutral-400 hover:text-canvas hover:bg-neutral-800/50"
@@ -409,8 +485,11 @@ export default function App() {
               </button>
               <button
                 id="tab-codebase-btn"
+                role="tab"
+                aria-selected={activeTab === "codebase"}
+                aria-controls="codebase-view"
                 onClick={() => setActiveTab("codebase")}
-                className={`px-3 py-1.5 text-xs font-mono tracking-wider transition-all rounded-none ${
+                className={`min-h-[44px] px-3 py-2 text-xs font-mono tracking-wider transition-all rounded-none focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-1 ${
                   activeTab === "codebase"
                     ? "bg-copper text-basalt font-bold"
                     : "text-neutral-400 hover:text-canvas hover:bg-neutral-800/50"
@@ -420,8 +499,11 @@ export default function App() {
               </button>
               <button
                 id="tab-architecture-btn"
+                role="tab"
+                aria-selected={activeTab === "architecture"}
+                aria-controls="architecture-view"
                 onClick={() => setActiveTab("architecture")}
-                className={`px-3 py-1.5 text-xs font-mono tracking-wider transition-all rounded-none ${
+                className={`min-h-[44px] px-3 py-2 text-xs font-mono tracking-wider transition-all rounded-none focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-1 ${
                   activeTab === "architecture"
                     ? "bg-copper text-basalt font-bold"
                     : "text-neutral-400 hover:text-canvas hover:bg-neutral-800/50"
@@ -431,8 +513,11 @@ export default function App() {
               </button>
               <button
                 id="tab-case-study-btn"
+                role="tab"
+                aria-selected={activeTab === "case-study"}
+                aria-controls="case-study-view"
                 onClick={() => setActiveTab("case-study")}
-                className={`px-3 py-1.5 text-xs font-mono tracking-wider transition-all rounded-none ${
+                className={`min-h-[44px] px-3 py-2 text-xs font-mono tracking-wider transition-all rounded-none focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-1 ${
                   activeTab === "case-study"
                     ? "bg-copper text-basalt font-bold"
                     : "text-neutral-400 hover:text-canvas hover:bg-neutral-800/50"
@@ -446,12 +531,15 @@ export default function App() {
               <button
                 id="cart-trigger-btn"
                 onClick={() => setCartOpen(true)}
-                className={`relative px-4 py-2 border border-neutral-700 bg-neutral-950 font-mono text-xs font-bold tracking-widest hover:border-copper hover:text-copper transition-all flex items-center gap-2 rounded-none cursor-pointer ${
+                aria-label={`Open cart, ${cart.reduce((s, i) => s + i.quantity, 0)} items`}
+                aria-expanded={cartOpen}
+                aria-controls="cart-drawer"
+                className={`relative min-h-[44px] px-4 py-2 border border-neutral-700 bg-neutral-950 font-mono text-xs font-bold tracking-widest hover:border-copper hover:text-copper transition-all flex items-center gap-2 rounded-none cursor-pointer focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-2 ${
                   cartBump ? "animate-cartBump border-copper text-copper" : ""
                 }`}
               >
-                <ShoppingBag size={14} />
-                BAG [<span className="text-copper">{cart.reduce((s, i) => s + i.quantity, 0)}</span>]
+                <ShoppingBag size={14} aria-hidden="true" />
+                BAG [<span className="text-copper" aria-hidden="true">{cart.reduce((s, i) => s + i.quantity, 0)}</span>]
               </button>
             </div>
           </div>
@@ -525,21 +613,23 @@ export default function App() {
                     </div>
 
                     {/* Interactive Gallery Indicators */}
-                    <div className="flex gap-2 justify-center">
+                    <div className="flex gap-2 justify-center" role="group" aria-label="Product image gallery">
                       {flagshipProduct.images.map((imgUrl, idx) => (
                         <button
                           key={idx}
                           type="button"
                           onClick={() => setHeroActiveImage(imgUrl)}
-                          className={`w-12 h-12 border overflow-hidden transition-all duration-200 rounded-none ${
+                          aria-label={`View product image ${idx + 1}`}
+                          aria-pressed={heroActiveImage === imgUrl}
+                          className={`w-12 h-12 border overflow-hidden transition-all duration-200 rounded-none focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-2 ${
                             heroActiveImage === imgUrl ? "border-copper" : "border-neutral-800 hover:border-neutral-500"
                           }`}
                         >
                           <img 
                             src={imgUrl} 
-                            alt={`Flagship view ${idx + 1}`} 
+                            alt={`${flagshipProduct.title} — view ${idx + 1}`}
                             className="w-full h-full object-cover filter grayscale"
-                            referrerPolicy="no-referrer"
+                            loading="lazy"
                           />
                         </button>
                       ))}
@@ -629,23 +719,25 @@ export default function App() {
 
                         <div className="space-y-1.5">
                           <label className="block text-[10px] font-mono text-neutral-400 tracking-widest uppercase">QUANTITY</label>
-                          <div className="flex items-center border border-neutral-800 bg-neutral-900 h-[38px]">
+                          <div className="flex items-center border border-neutral-800 bg-neutral-900 h-[44px]">
                             <button 
                               type="button" 
                               onClick={() => setHeroQuantity(q => Math.max(1, q - 1))}
-                              className="px-3 text-neutral-400 hover:text-copper transition-colors h-full flex items-center justify-center"
+                              aria-label="Decrease quantity"
+                              className="min-w-[44px] h-full text-neutral-400 hover:text-copper transition-colors flex items-center justify-center focus-visible:outline-2 focus-visible:outline-copper"
                             >
-                              <Minus size={12} />
+                              <Minus size={12} aria-hidden="true" />
                             </button>
-                            <span className="flex-1 text-center font-mono text-xs text-canvas select-none">
+                            <span className="flex-1 text-center font-mono text-xs text-canvas select-none" aria-live="polite" aria-atomic="true">
                               {heroQuantity}
                             </span>
                             <button 
                               type="button" 
                               onClick={() => setHeroQuantity(q => q + 1)}
-                              className="px-3 text-neutral-400 hover:text-copper transition-colors h-full flex items-center justify-center"
+                              aria-label="Increase quantity"
+                              className="min-w-[44px] h-full text-neutral-400 hover:text-copper transition-colors flex items-center justify-center focus-visible:outline-2 focus-visible:outline-copper"
                             >
-                              <Plus size={12} />
+                              <Plus size={12} aria-hidden="true" />
                             </button>
                           </div>
                         </div>
@@ -653,7 +745,8 @@ export default function App() {
 
                       <button
                         onClick={() => handleAddToCart(flagshipProduct, heroVariant, heroQuantity, heroSubscription)}
-                        className="w-full bg-canvas hover:bg-copper hover:text-basalt font-sans font-black text-xs sm:text-sm tracking-[0.2em] py-5 text-basalt uppercase transition-all duration-250 rounded-none cursor-pointer"
+                        aria-label={`Add ${heroQuantity} × ${flagshipProduct.title} (${heroVariant.name}) to cart`}
+                        className="w-full bg-canvas hover:bg-copper hover:text-basalt font-sans font-black text-xs sm:text-sm tracking-[0.2em] py-5 text-basalt uppercase transition-all duration-250 rounded-none cursor-pointer focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-2"
                       >
                         DEPLOY TO ACTIVE BAG
                       </button>
@@ -763,7 +856,7 @@ export default function App() {
                                     src={prod.image} 
                                     alt={prod.title} 
                                     className="object-cover w-full h-full filter grayscale"
-                                    referrerPolicy="no-referrer"
+                                    loading="lazy"
                                   />
                                 </div>
                                 <span className="font-mono text-[9px] text-neutral-500 tracking-widest uppercase">{prod.category}</span>
@@ -820,12 +913,13 @@ export default function App() {
                         <span className="font-mono text-lg font-extrabold text-copper">${flagshipProduct.price}</span>
                       </div>
 
-                      <div className="aspect-[16:9] w-full bg-basalt overflow-hidden border border-neutral-800">
+                      {/* aspect-video = 16/9. The colon syntax "16:9" is not valid CSS — slash form required. */}
+                      <div className="aspect-video w-full bg-basalt overflow-hidden border border-neutral-800">
                         <img 
                           src={flagshipProduct.image} 
                           alt="Anodized Titanium Flask Detail" 
                           className="object-cover w-full h-full filter grayscale hover:grayscale-0 transition-all duration-500"
-                          referrerPolicy="no-referrer"
+                          loading="lazy"
                         />
                       </div>
 
@@ -877,7 +971,7 @@ export default function App() {
                             src={prod.image} 
                             alt={prod.title} 
                             className="object-cover w-full h-full filter grayscale hover:grayscale-0 transition-all duration-500"
-                            referrerPolicy="no-referrer"
+                            loading="lazy"
                           />
                           <span className="absolute bottom-2 left-2 bg-basalt text-canvas border border-neutral-800 font-mono text-[8px] px-1.5 py-0.5">
                             {prod.size}
@@ -944,10 +1038,10 @@ export default function App() {
                     <div className="md:col-span-8 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[340px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
-                          src="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&q=80&w=1200" 
-                          alt="Alpine Deployment" 
+                          src="/assets/portrait of a 38-year-old alpine climber with weathered, healthy skin and crisp focus.jpg" 
+                          alt="Alpine field deployment — subject testing barrier cream at -14°C on Nordic Ridge" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
-                          referrerPolicy="no-referrer"
+                          loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
@@ -970,10 +1064,10 @@ export default function App() {
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[340px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
-                          src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200" 
-                          alt="Laboratory Research" 
+                          src="/assets/two cosmetic formulation engineers in dark charcoal lab coats discussing liquid active samples inside an industrial minimalist studio.jpg" 
+                          alt="Two AETHER & ORE formulation engineers reviewing liquid active samples in studio lab" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
-                          referrerPolicy="no-referrer"
+                          loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
@@ -996,10 +1090,10 @@ export default function App() {
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[280px]">
                       <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-500">
                         <img 
-                          src="https://images.unsplash.com/photo-1535813547-99c456a41d4a?auto=format&fit=crop&q=80&w=1200" 
-                          alt="Apothecary Bio-Reactor" 
+                          src="/assets/high-tech cleanroom formulation lab in Zurich.jpg" 
+                          alt="High-tech cleanroom formulation lab — Zurich manufacturing facility" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
-                          referrerPolicy="no-referrer"
+                          loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
@@ -1018,10 +1112,10 @@ export default function App() {
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[280px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
-                          src="https://images.unsplash.com/photo-1548263544-9beb67fbc990?auto=format&fit=crop&q=80&w=1200" 
-                          alt="Carbon Molecule Dispersion" 
+                          src="/assets/a molten copper drop hitting cold water alongside recycled aluminum shavings.jpg" 
+                          alt="Molten copper drop hitting cold water — viscosity shear dispersion diagnostic" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
-                          referrerPolicy="no-referrer"
+                          loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
@@ -1040,10 +1134,10 @@ export default function App() {
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[280px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
-                          src="https://images.unsplash.com/photo-1485594050903-8e8ee7b071a8?auto=format&fit=crop&q=80&w=1200" 
-                          alt="Symmetrical Ice Lattice" 
+                          src="/assets/frozen glacial water crystals expanding under a polarized light microscope.jpg" 
+                          alt="Frozen glacial water crystals under polarized light microscope — cryo-crystallization analysis" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
-                          referrerPolicy="no-referrer"
+                          loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
@@ -1062,10 +1156,10 @@ export default function App() {
                     <div className="md:col-span-6 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[300px]">
                       <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-500">
                         <img 
-                          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200" 
-                          alt="Volcanic Stone Mineral Veins" 
+                          src="/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.jpg" 
+                          alt="Basalt rocks in icy water with copper mineral veins — Icelandic ore extraction source" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
-                          referrerPolicy="no-referrer"
+                          loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
@@ -1088,10 +1182,10 @@ export default function App() {
                     <div className="md:col-span-6 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[300px]">
                       <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-500">
                         <img 
-                          src="https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&q=80&w=1200" 
-                          alt="Canister Refills on Glacial Ice" 
+                          src="/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.jpg" 
+                          alt="Three matte black refillable skincare pods in dark wool felt travel wrap — zero-waste packaging" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
-                          referrerPolicy="no-referrer"
+                          loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
@@ -1747,7 +1841,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
   "@type": "Product",
   "name": "Anodized Titanium Hydration Flask",
   "image": [
-    "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe"
+    "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.jpg"
   ],
   "description": "Grade-5 vacuum-insulated tactical titanium flask with micro-milled exterior grip.",
   "sku": "THF-RAW-500",
@@ -1831,9 +1925,11 @@ fn function_main(input: Input) -> Result<Output, Error> {
         </div>
 
         {/* 6. AJAX Slide-Out Cart Drawer */}
+        {/* Overlay — aria-hidden so screen readers skip it (the drawer itself is the modal) */}
         <div 
           id="cart-overlay"
           onClick={() => setCartOpen(false)}
+          aria-hidden="true"
           className={`fixed inset-0 bg-basalt/80 backdrop-blur-sm z-50 transition-opacity duration-300 ${
             cartOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
@@ -1841,7 +1937,11 @@ fn function_main(input: Input) -> Result<Output, Error> {
 
         <div 
           id="cart-drawer"
-          className={`fixed top-0 right-0 h-full w-full sm:w-[480px] bg-basalt border-l border-neutral-800 z-50 transition-all duration-300 cubic-bezier(0.16, 1, 0.3, 1) flex flex-col justify-between ${
+          role="dialog"
+          aria-modal="true"
+          aria-label="Shopping cart"
+          aria-hidden={!cartOpen}
+          className={`fixed top-0 right-0 h-full w-full sm:w-[480px] bg-basalt border-l border-neutral-800 z-50 transition-all duration-300 flex flex-col justify-between ${
             cartOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -1855,7 +1955,8 @@ fn function_main(input: Input) -> Result<Output, Error> {
             <button 
               id="cart-close-btn"
               onClick={() => setCartOpen(false)}
-              className="text-xs font-mono text-neutral-400 hover:text-copper uppercase cursor-pointer"
+              aria-label="Close cart"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center text-xs font-mono text-neutral-400 hover:text-copper uppercase cursor-pointer focus-visible:outline-2 focus-visible:outline-copper rounded-none"
             >
               [ CLOSE X ]
             </button>
@@ -1910,7 +2011,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
                         src={item.product.image} 
                         alt={item.product.title} 
                         className="object-cover w-full h-full filter grayscale"
-                        referrerPolicy="no-referrer"
+                        loading="lazy"
                       />
                     </div>
 
@@ -1936,19 +2037,21 @@ fn function_main(input: Input) -> Result<Output, Error> {
                       </p>
                       
                       {!isFreeGift && (
-                        <div className="flex items-center gap-3 mt-1.5">
+                        <div className="flex items-center gap-2 mt-1.5">
                           <button 
                             onClick={() => handleUpdateCartQty(idx, -1)}
-                            className="text-neutral-400 hover:text-copper transition-colors font-mono"
+                            aria-label={`Decrease quantity of ${item.product.title}`}
+                            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper transition-colors focus-visible:outline-2 focus-visible:outline-copper rounded-none"
                           >
-                            <Minus size={10} />
+                            <Minus size={10} aria-hidden="true" />
                           </button>
-                          <span className="font-mono text-xs text-canvas font-bold">{item.quantity}</span>
+                          <span className="font-mono text-xs text-canvas font-bold w-4 text-center" aria-live="polite">{item.quantity}</span>
                           <button 
                             onClick={() => handleUpdateCartQty(idx, 1)}
-                            className="text-neutral-400 hover:text-copper transition-colors font-mono"
+                            aria-label={`Increase quantity of ${item.product.title}`}
+                            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper transition-colors focus-visible:outline-2 focus-visible:outline-copper rounded-none"
                           >
-                            <Plus size={10} />
+                            <Plus size={10} aria-hidden="true" />
                           </button>
                         </div>
                       )}
@@ -2009,14 +2112,25 @@ fn function_main(input: Input) -> Result<Output, Error> {
 
         {/* 7. Product Ritual & Application Protocol Modal */}
         {selectedProductDetails && (
-          <div className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-            <div className="bg-neutral-950 border-2 border-copper w-full max-w-4xl p-6 sm:p-8 rounded-none shadow-[6px_6px_0px_0px_rgba(11,13,14,1)] relative animate-scale-up z-50">
-              
+          <div
+            className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-center justify-center p-4"
+            aria-hidden="true"
+            onClick={(e) => { if (e.target === e.currentTarget) closeModal(); }}
+          >
+            <div
+              ref={modalRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="modal-product-title"
+              tabIndex={-1}
+              className="bg-neutral-950 border-2 border-copper w-full max-w-4xl p-6 sm:p-8 rounded-none shadow-[6px_6px_0px_0px_rgba(11,13,14,1)] relative animate-scale-up z-50 outline-none"
+            >
               <button 
-                onClick={() => { setSelectedProductDetails(null); setModalActiveImage(null); }}
-                className="absolute top-4 right-4 text-neutral-400 hover:text-copper cursor-pointer z-10"
+                onClick={closeModal}
+                aria-label="Close product details"
+                className="absolute top-4 right-4 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper cursor-pointer z-10 focus-visible:outline-2 focus-visible:outline-copper rounded-none"
               >
-                <X size={18} />
+                <X size={18} aria-hidden="true" />
               </button>
 
               <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
@@ -2033,13 +2147,15 @@ fn function_main(input: Input) -> Result<Output, Error> {
                   
                   {/* Gallery Thumbnails */}
                   {selectedProductDetails.images && selectedProductDetails.images.length > 1 && (
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-4 gap-2" role="group" aria-label="Product image gallery">
                       {selectedProductDetails.images.map((imgUrl, idx) => (
                         <button
                           key={idx}
                           type="button"
                           onClick={() => setModalActiveImage(imgUrl)}
-                          className={`aspect-square border overflow-hidden transition-all duration-200 cursor-pointer ${
+                          aria-label={`View ${selectedProductDetails.title} image ${idx + 1}`}
+                          aria-pressed={(modalActiveImage || selectedProductDetails.image) === imgUrl}
+                          className={`aspect-square min-h-[44px] border overflow-hidden transition-all duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-copper ${
                             (modalActiveImage || selectedProductDetails.image) === imgUrl
                               ? "border-copper bg-copper/5"
                               : "border-neutral-800 bg-neutral-900 hover:border-neutral-600"
@@ -2047,9 +2163,9 @@ fn function_main(input: Input) -> Result<Output, Error> {
                         >
                           <img
                             src={imgUrl}
-                            alt={`${selectedProductDetails.title} view ${idx + 1}`}
+                            alt={`${selectedProductDetails.title} — view ${idx + 1}`}
                             className="object-cover w-full h-full filter grayscale"
-                            referrerPolicy="no-referrer"
+                            loading="lazy"
                           />
                         </button>
                       ))}
@@ -2062,7 +2178,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
                   <div className="space-y-4">
                     <div>
                       <span className="font-mono text-[10px] text-copper uppercase tracking-widest font-bold">APPLICATION PROTOCOL RITUAL</span>
-                      <h3 className="font-display font-bold text-lg text-canvas tracking-wider mt-1">{selectedProductDetails.title}</h3>
+                      <h3 id="modal-product-title" className="font-display font-bold text-lg text-canvas tracking-wider mt-1">{selectedProductDetails.title}</h3>
                       <p className="text-neutral-400 font-mono text-xs mt-0.5">PRODUCT CODE: {selectedProductDetails.code}</p>
                     </div>
 
@@ -2088,8 +2204,8 @@ fn function_main(input: Input) -> Result<Output, Error> {
                       BARRIER SYSTEM ALPHA • EST. REYKJAVÍK 64°N
                     </div>
                     <button
-                      onClick={() => { setSelectedProductDetails(null); setModalActiveImage(null); }}
-                      className="bg-neutral-900 border border-neutral-800 hover:border-copper hover:text-copper text-xs font-mono font-bold text-canvas px-5 py-2 rounded-none uppercase transition-colors cursor-pointer"
+                      onClick={closeModal}
+                      className="bg-neutral-900 border border-neutral-800 hover:border-copper hover:text-copper text-xs font-mono font-bold text-canvas px-5 py-2 rounded-none uppercase transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-copper"
                     >
                       DISMISS ROUTINE
                     </button>
@@ -2097,6 +2213,105 @@ fn function_main(input: Input) -> Result<Output, Error> {
                 </div>
               </div>
 
+            </div>
+          </div>
+        )}
+
+        {/* ═══════════════════════════════════════════════════════════
+             PILLAR 3 — Lead Capture Popup
+             Fires on 10s idle OR 50% scroll depth (whichever first).
+             Permanently dismissed via localStorage flag.
+             Position: fixed — zero CLS impact on document flow.
+        ═══════════════════════════════════════════════════════════ */}
+        {showLeadCapture && (
+          <div
+            className="fixed inset-0 bg-basalt/75 backdrop-blur-sm z-[60] flex items-end sm:items-center justify-center p-4"
+            aria-hidden="true"
+            onClick={(e) => { if (e.target === e.currentTarget) dismissLeadCapture(); }}
+          >
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="lead-capture-title"
+              className="w-full max-w-md bg-neutral-950 border-2 border-copper p-6 sm:p-8 shadow-[6px_6px_0px_0px_#D96B43] space-y-5 animate-scale-up"
+            >
+              {/* Close */}
+              <button
+                onClick={dismissLeadCapture}
+                aria-label="Close offer"
+                className="absolute top-4 right-4 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper focus-visible:outline-2 focus-visible:outline-copper"
+              >
+                <X size={16} aria-hidden="true" />
+              </button>
+
+              <div className="space-y-2">
+                <span className="font-mono text-[10px] text-copper uppercase tracking-[0.25em] font-bold">
+                  VANGUARD INSIDER ACCESS
+                </span>
+                <h2 id="lead-capture-title" className="font-display font-bold text-xl tracking-wider text-canvas uppercase">
+                  UNLOCK 20% OFF YOUR FIRST EXPEDITION KIT
+                </h2>
+                <p className="text-neutral-400 text-xs font-sans leading-relaxed">
+                  Join the AETHER &amp; ORE field dispatch. Receive exclusive hardware drops, formulation logs, and a 20% discount code on your first order.
+                </p>
+              </div>
+
+              {!leadSubmitted ? (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (leadEmail.trim()) {
+                      setLeadSubmitted(true);
+                      // In production: POST to Klaviyo / Shopify Customer API
+                    }
+                  }}
+                  className="space-y-3"
+                >
+                  <label htmlFor="lead-email" className="block text-[10px] font-mono text-neutral-400 uppercase tracking-wider">
+                    FIELD OPERATIVE EMAIL
+                  </label>
+                  <input
+                    id="lead-email"
+                    type="email"
+                    required
+                    value={leadEmail}
+                    onChange={(e) => setLeadEmail(e.target.value)}
+                    placeholder="operator@domain.com"
+                    className="w-full bg-basalt border border-neutral-700 focus:border-copper px-4 py-3 text-xs font-mono text-canvas rounded-none outline-none placeholder:text-neutral-600 focus-visible:outline-2 focus-visible:outline-copper"
+                    aria-required="true"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full bg-copper hover:bg-canvas text-basalt font-display font-bold text-xs tracking-[0.2em] py-4 rounded-none uppercase transition-colors focus-visible:outline-2 focus-visible:outline-copper"
+                  >
+                    CLAIM 20% DISCOUNT CODE
+                  </button>
+                  <button
+                    type="button"
+                    onClick={dismissLeadCapture}
+                    className="w-full text-[10px] font-mono text-neutral-500 hover:text-neutral-300 uppercase tracking-wider py-1 transition-colors"
+                  >
+                    No thanks, I'll pay full price
+                  </button>
+                </form>
+              ) : (
+                <div className="text-center space-y-3 py-4">
+                  <div className="text-emerald-400 font-mono text-sm font-bold uppercase">✓ DISPATCH CONFIRMED</div>
+                  <p className="text-neutral-300 text-xs">
+                    Your 20% code is inbound. Check your field communications within 5 minutes.
+                  </p>
+                  <button
+                    onClick={dismissLeadCapture}
+                    className="w-full bg-neutral-900 border border-neutral-800 hover:border-copper text-canvas font-mono text-xs py-3 uppercase tracking-wider transition-colors focus-visible:outline-2 focus-visible:outline-copper"
+                  >
+                    CLOSE
+                  </button>
+                </div>
+              )}
+
+              <p className="text-[9px] text-neutral-600 font-mono text-center">
+                No spam. Unsubscribe any time. Discount valid for 48 hours after receipt.
+              </p>
             </div>
           </div>
         )}
