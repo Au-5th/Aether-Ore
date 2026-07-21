@@ -1,0 +1,6 @@
+{
+  "name": "Aether & Ore Flagship Storefront",
+  "description": "High-performance enterprise e-commerce storefront, Shopify Plus architecture, and case study dashboard for Aether & Ore.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

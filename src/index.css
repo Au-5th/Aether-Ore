@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-basalt: #0B0D0E;
+  --color-canvas: #F0F4F8;
+  --color-copper: #D96B43;
+  --color-navy: #0A1C36;
+  --color-hazard: #D01C24;
+
+  /* Override neutrals for Editorial Aesthetic */
+  --color-neutral-950: #111315; /* Neutral Dark Panel */
+  --color-neutral-900: #0B0D0E; /* Basalt Slate backdrop */
+  --color-neutral-800: rgba(240, 244, 248, 0.1); /* Subtle white border line */
+  --color-neutral-700: rgba(240, 244, 248, 0.2); /* Stronger white border line */
+  --color-neutral-600: rgba(240, 244, 248, 0.3);
+  --color-neutral-500: rgba(240, 244, 248, 0.5); /* Semi-transparent labels */
+  --color-neutral-400: rgba(240, 244, 248, 0.7); /* Editorial text opacity */
+  --color-neutral-300: #F0F4F8; /* Full white text */
+}
+
+@keyframes cartBump {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+.animate-cartBump {
+  animation: cartBump 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Base resets & scrollbars for industrial luxury theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #111315;
+}
+::-webkit-scrollbar-thumb {
+  background: #D96B43;
+}
+
+body {
+  background-color: #0B0D0E;
+  color: #F0F4F8;
+  overflow-x: hidden;
+}
