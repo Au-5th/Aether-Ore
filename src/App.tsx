@@ -285,6 +285,22 @@ export default function App() {
   const [orderTelemetryOpen, setOrderTelemetryOpen] = useState<boolean>(false);
   const [orderSearchId, setOrderSearchId] = useState<string>("AO-9842");
 
+  // ─── SIDE-BY-SIDE PRODUCT COMPARISON MATRIX STATE ───
+  const [compareModalOpen, setCompareModalOpen] = useState<boolean>(false);
+  const [comparedProductIds, setComparedProductIds] = useState<string[]>(["prod_1", "prod_3", "prod_6"]);
+
+  const toggleCompareProduct = (id: string) => {
+    if (comparedProductIds.includes(id)) {
+      setComparedProductIds(comparedProductIds.filter(p => p !== id));
+    } else {
+      if (comparedProductIds.length >= 3) {
+        alert("You can compare up to 3 system modules side-by-side.");
+        return;
+      }
+      setComparedProductIds([...comparedProductIds, id]);
+    }
+  };
+
   // ─── WEB AUDIO ALPINE AMBIENT SOUNDSCAPE SYNTHESIZER ───
   const [audioPlaying, setAudioPlaying] = useState(false);
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -671,6 +687,14 @@ export default function App() {
 
             {/* Quick Action Controls */}
             <div className="flex items-center gap-2 flex-wrap justify-center">
+              {/* Compare Matrix Trigger */}
+              <button
+                onClick={() => setCompareModalOpen(true)}
+                className="bg-neutral-900/80 border border-neutral-800 hover:border-copper text-neutral-300 hover:text-copper font-mono text-[11px] px-2.5 py-1.5 cursor-pointer uppercase font-semibold hidden xl:flex items-center gap-1 transition-all"
+              >
+                <span>⚖️ COMPARE ({comparedProductIds.length})</span>
+              </button>
+
               {/* Alpine Audio Soundscape Toggle */}
               <button
                 onClick={toggleAlpineAudio}
@@ -1308,13 +1332,24 @@ export default function App() {
                           <span className="font-mono text-xs font-bold text-copper">{formatPrice(prod.price)}</span>
                         </div>
 
-                        <p className="text-neutral-400 text-[11px] leading-relaxed mt-2 line-clamp-3">
+                        <p className="text-neutral-400 text-[11px] leading-relaxed mt-2 line-clamp-2">
                           {prod.description}
                         </p>
 
-                        <div className="mt-3 font-mono text-[9px] text-neutral-500 flex items-center gap-1.5 bg-neutral-900 px-2 py-1 border border-neutral-800/40">
-                          <span className="text-copper uppercase font-bold">SCENT:</span>
-                          {prod.scent}
+                        {/* Compare Checkbox Trigger */}
+                        <div className="mt-3 font-mono text-[9px] flex justify-between items-center bg-neutral-900 px-2 py-1 border border-neutral-800/40">
+                          <button
+                            type="button"
+                            onClick={() => toggleCompareProduct(prod.id)}
+                            className={`px-1.5 py-0.5 border text-[8px] font-bold uppercase transition-colors cursor-pointer ${
+                              comparedProductIds.includes(prod.id)
+                                ? "bg-copper text-basalt border-copper"
+                                : "bg-neutral-950 text-neutral-400 border-neutral-800 hover:text-copper"
+                            }`}
+                          >
+                            {comparedProductIds.includes(prod.id) ? "✓ COMPARED" : "+ COMPARE"}
+                          </button>
+                          <span className="text-neutral-500">{prod.category}</span>
                         </div>
 
                         {/* Laser Engraving Input for Hardware */}
@@ -1912,6 +1947,166 @@ export default function App() {
                       >
                         + ADD PRESCRIBED SHIELD TO BAG
                       </button>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* ALPINE EXPEDITION MOTION VIDEO REELS SECTION */}
+              <section id="expedition-reels" className="py-20 bg-gradient-to-b from-basalt via-neutral-950 to-basalt">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                  <div className="text-center max-w-3xl mx-auto space-y-3">
+                    <span className="font-mono text-[10px] text-copper uppercase tracking-[0.25em] font-bold">
+                      VISUAL FIELD REELS // EXTREME SUB-ZERO PERFORMANCE
+                    </span>
+                    <h2 className="font-display font-bold text-3xl tracking-wider text-canvas uppercase">
+                      ALPINE EXPEDITION MOTION REELS
+                    </h2>
+                    <p className="text-neutral-400 text-xs font-mono">
+                      LIVE FIELD ASSESSMENTS • THERMAL DROP TESTS • DERMABRASION PROTOCOLS
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Reel 1 */}
+                    <div className="group relative border-2 border-neutral-800 bg-neutral-950 overflow-hidden aspect-[9/16] flex flex-col justify-between p-6 shadow-[6px_6px_0px_0px_#0B0D0E]">
+                      <img
+                        src="/assets/portrait of a 38-year-old alpine climber with weathered, healthy skin and crisp focus.webp"
+                        alt="Glacier Traverse Field Reel"
+                        className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-60"
+                        loading="lazy"
+                      />
+                      <div className="relative z-10 flex justify-between items-start font-mono text-[9px]">
+                        <span className="bg-copper text-basalt font-bold px-2 py-0.5 uppercase">REEL #01</span>
+                        <span className="bg-basalt/90 text-canvas px-1.5 py-0.5 border border-neutral-800">-18°C SVALBARD</span>
+                      </div>
+                      <div className="relative z-10 space-y-3 bg-neutral-950/90 p-4 border border-neutral-800 backdrop-blur-sm">
+                        <h4 className="font-display font-bold text-xs tracking-wider text-canvas uppercase">GLACIAL BARRIER TRAVERSE</h4>
+                        <p className="text-neutral-400 font-mono text-[9px] leading-relaxed">Testing lipid shield integrity across 8-hour sub-zero climb.</p>
+                        <button
+                          type="button"
+                          onClick={() => handleAddToCart(PRODUCTS_DATA[2], PRODUCTS_DATA[2].variants[0], 1, false)}
+                          className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-mono font-bold text-[10px] py-2 uppercase transition-colors"
+                        >
+                          + QUICK ADD BARRIER CREAM ({formatPrice(48)})
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Reel 2 */}
+                    <div className="group relative border-2 border-neutral-800 bg-neutral-950 overflow-hidden aspect-[9/16] flex flex-col justify-between p-6 shadow-[6px_6px_0px_0px_#0B0D0E]">
+                      <img
+                        src="/assets/Basalt Volcanic Exfoliating Block Studio View.webp"
+                        alt="Volcanic Ash Dermabrasion Demo Reel"
+                        className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-60"
+                        loading="lazy"
+                      />
+                      <div className="relative z-10 flex justify-between items-start font-mono text-[9px]">
+                        <span className="bg-copper text-basalt font-bold px-2 py-0.5 uppercase">REEL #02</span>
+                        <span className="bg-basalt/90 text-canvas px-1.5 py-0.5 border border-neutral-800">OBSIDIAN SCRUB</span>
+                      </div>
+                      <div className="relative z-10 space-y-3 bg-neutral-950/90 p-4 border border-neutral-800 backdrop-blur-sm">
+                        <h4 className="font-display font-bold text-xs tracking-wider text-canvas uppercase">VOLCANIC DERMABRASION DEMO</h4>
+                        <p className="text-neutral-400 font-mono text-[9px] leading-relaxed">Deep micro-pore scrubbing of industrial particulate grime.</p>
+                        <button
+                          type="button"
+                          onClick={() => handleAddToCart(PRODUCTS_DATA[1], PRODUCTS_DATA[1].variants[0], 1, false)}
+                          className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-mono font-bold text-[10px] py-2 uppercase transition-colors"
+                        >
+                          + QUICK ADD VOLCANIC BLOCK ({formatPrice(35)})
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Reel 3 */}
+                    <div className="group relative border-2 border-neutral-800 bg-neutral-950 overflow-hidden aspect-[9/16] flex flex-col justify-between p-6 shadow-[6px_6px_0px_0px_#0B0D0E]">
+                      <img
+                        src="/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp"
+                        alt="Titanium Drop Test Reel"
+                        className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-60"
+                        loading="lazy"
+                      />
+                      <div className="relative z-10 flex justify-between items-start font-mono text-[9px]">
+                        <span className="bg-copper text-basalt font-bold px-2 py-0.5 uppercase">REEL #03</span>
+                        <span className="bg-basalt/90 text-canvas px-1.5 py-0.5 border border-neutral-800">MIL-STD DROP</span>
+                      </div>
+                      <div className="relative z-10 space-y-3 bg-neutral-950/90 p-4 border border-neutral-800 backdrop-blur-sm">
+                        <h4 className="font-display font-bold text-xs tracking-wider text-canvas uppercase">TITANIUM THERMAL DROP TEST</h4>
+                        <p className="text-neutral-400 font-mono text-[9px] leading-relaxed">Grade-5 titanium vessel surviving 20m granite impact test.</p>
+                        <button
+                          type="button"
+                          onClick={() => handleAddToCart(PRODUCTS_DATA[0], PRODUCTS_DATA[0].variants[0], 1, false)}
+                          className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-mono font-bold text-[10px] py-2 uppercase transition-colors"
+                        >
+                          + QUICK ADD TITANIUM FLASK ({formatPrice(75)})
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* DIGITAL EXPEDITION GIFT CARDS & CORPORATE BULK VAULT */}
+              <section id="corporate-vault" className="py-20 bg-neutral-950 border-t border-neutral-800">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                  <div className="text-center max-w-3xl mx-auto space-y-3">
+                    <span className="font-mono text-[10px] text-copper uppercase tracking-[0.25em] font-bold">
+                      FIELD PROCUREMENT // CORPORATE & GIFTING
+                    </span>
+                    <h2 className="font-display font-bold text-3xl tracking-wider text-canvas uppercase">
+                      DIGITAL EXPEDITION GIFT CARDS & BULK VAULT
+                    </h2>
+                    <p className="text-neutral-400 text-xs font-mono">
+                      PURCHASE EXPEDITION CREDIT OR REQUEST CUSTOM LOGO LASER ETCHING FOR BULK OPERATIVE ORDERS
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    {/* Gift Cards Card */}
+                    <div className="lg:col-span-6 border-2 border-neutral-800 bg-neutral-900/60 p-6 sm:p-8 space-y-6">
+                      <div className="space-y-2">
+                        <span className="bg-copper text-basalt font-mono text-[9px] font-bold px-2 py-0.5 uppercase">DIGITAL GIFT VAULT</span>
+                        <h3 className="font-display font-bold text-xl text-canvas uppercase">EXPEDITION GIFT CREDIT CARD</h3>
+                        <p className="text-neutral-400 font-mono text-xs">Instantly delivered digital field credit codes redeemable for any hardware vessel or barrier pod.</p>
+                      </div>
+
+                      <div className="grid grid-cols-4 gap-2 font-mono text-xs text-center">
+                        {[50, 100, 250, 500].map((amt) => (
+                          <button
+                            key={amt}
+                            type="button"
+                            onClick={() => alert(`Digital Expedition Gift Card (${formatPrice(amt)}) added to bag.`)}
+                            className="p-3 border border-neutral-800 bg-neutral-950 hover:border-copper text-copper font-bold cursor-pointer transition-all hover:scale-105"
+                          >
+                            {formatPrice(amt)}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Corporate Bulk Request */}
+                    <div className="lg:col-span-6 border-2 border-neutral-800 bg-neutral-900/60 p-6 sm:p-8 space-y-6">
+                      <div className="space-y-2">
+                        <span className="bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono text-[9px] font-bold px-2 py-0.5 uppercase">CORPORATE PROCUREMENT (20+ UNITS)</span>
+                        <h3 className="font-display font-bold text-xl text-canvas uppercase">CUSTOM LOGO & COORDINATE LASER ETCHING</h3>
+                        <p className="text-neutral-400 font-mono text-xs">Equip your outdoor expedition team or industrial crew with custom-etched Grade-5 titanium vessels.</p>
+                      </div>
+
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          alert("Corporate Bulk Procurement Inquiry Transmitted. A field specialist will contact you within 4 hours.");
+                        }}
+                        className="space-y-3 font-mono text-xs"
+                      >
+                        <div className="grid grid-cols-2 gap-2">
+                          <input type="text" placeholder="OPERATIVE NAME" required className="bg-neutral-950 border border-neutral-800 p-2 text-canvas focus:border-copper outline-none" />
+                          <input type="email" placeholder="COMPANY EMAIL" required className="bg-neutral-950 border border-neutral-800 p-2 text-canvas focus:border-copper outline-none" />
+                        </div>
+                        <button type="submit" className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-bold py-3 uppercase transition-colors cursor-pointer">
+                          TRANSMIT BULK PROCUREMENT INQUIRY
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -3490,6 +3685,122 @@ fn function_main(input: Input) -> Result<Output, Error> {
                   className="w-full bg-neutral-900 border border-neutral-800 hover:border-copper text-canvas text-xs py-3 uppercase tracking-wider transition-colors cursor-pointer"
                 >
                   CLOSE TELEMETRY TRACKER
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* SIDE-BY-SIDE PRODUCT COMPARISON MATRIX MODAL */}
+        {compareModalOpen && (
+          <div
+            className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto"
+            aria-hidden="true"
+            onClick={(e) => { if (e.target === e.currentTarget) setCompareModalOpen(false); }}
+          >
+            <div className="bg-neutral-950 border-2 border-copper w-full max-w-4xl p-6 sm:p-8 rounded-none shadow-[8px_8px_0px_0px_#D96B43] relative animate-scale-up z-50 font-mono my-8">
+              <button
+                onClick={() => setCompareModalOpen(false)}
+                className="absolute top-4 right-4 text-neutral-400 hover:text-copper cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+
+              <div className="space-y-6">
+                <div className="flex items-center gap-2">
+                  <span className="bg-copper text-basalt text-[9px] font-bold px-2 py-0.5 uppercase">
+                    DERMAL COMPATIBILITY & SPECIFICATION MATRIX
+                  </span>
+                  <span className="text-canvas text-xs">• SIDE-BY-SIDE COMPARISON ({comparedProductIds.length} SYSTEM MODULES)</span>
+                </div>
+
+                <h3 className="font-display font-extrabold text-2xl text-canvas uppercase tracking-wider">
+                  PRODUCT SYSTEM COMPARISON
+                </h3>
+
+                {comparedProductIds.length === 0 ? (
+                  <div className="p-8 text-center text-neutral-400 text-xs">
+                    No products selected for comparison. Click "+ COMPARE" on product cards to add modules.
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-xs text-left">
+                      <thead>
+                        <tr className="border-b border-neutral-800">
+                          <th className="p-3 text-neutral-500 uppercase text-[10px] w-1/4">SPECIFICATION</th>
+                          {comparedProductIds.map((id) => {
+                            const p = PRODUCTS_DATA.find((item) => item.id === id);
+                            if (!p) return null;
+                            return (
+                              <th key={p.id} className="p-3 text-copper font-bold uppercase w-1/4">
+                                <div className="space-y-2">
+                                  <img src={p.image} alt={p.title} className="w-16 h-16 object-cover border border-neutral-800" />
+                                  <div>{p.title}</div>
+                                  <div className="text-canvas text-xs">{formatPrice(p.price)}</div>
+                                </div>
+                              </th>
+                            );
+                          })}
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-neutral-800/60">
+                        <tr>
+                          <td className="p-3 text-neutral-400 uppercase text-[10px] font-bold">CATEGORY</td>
+                          {comparedProductIds.map((id) => {
+                            const p = PRODUCTS_DATA.find((item) => item.id === id);
+                            return <td key={id} className="p-3 text-canvas font-semibold">{p?.category}</td>;
+                          })}
+                        </tr>
+                        <tr>
+                          <td className="p-3 text-neutral-400 uppercase text-[10px] font-bold">CONTAINER SIZE</td>
+                          {comparedProductIds.map((id) => {
+                            const p = PRODUCTS_DATA.find((item) => item.id === id);
+                            return <td key={id} className="p-3 text-neutral-300">{p ? formatSize(p.size) : "-"}</td>;
+                          })}
+                        </tr>
+                        <tr>
+                          <td className="p-3 text-neutral-400 uppercase text-[10px] font-bold">THERMAL PROTECTION LIMIT</td>
+                          {comparedProductIds.map((id) => {
+                            const p = PRODUCTS_DATA.find((item) => item.id === id);
+                            return <td key={id} className="p-3 text-emerald-400 font-bold">{p?.isFlagship ? "-50°C TO 120°C" : "-30°C TO 60°C"}</td>;
+                          })}
+                        </tr>
+                        <tr>
+                          <td className="p-3 text-neutral-400 uppercase text-[10px] font-bold">CONTAINER MATERIAL</td>
+                          {comparedProductIds.map((id) => {
+                            const p = PRODUCTS_DATA.find((item) => item.id === id);
+                            return <td key={id} className="p-3 text-neutral-300">{p?.isFlagship ? "Grade-5 Titanium Alloy" : "Anodized Aluminum / Polymer"}</td>;
+                          })}
+                        </tr>
+                        <tr>
+                          <td className="p-3 text-neutral-400 uppercase text-[10px] font-bold">1-CLICK ADD TO BAG</td>
+                          {comparedProductIds.map((id) => {
+                            const p = PRODUCTS_DATA.find((item) => item.id === id);
+                            if (!p) return null;
+                            return (
+                              <td key={id} className="p-3">
+                                <button
+                                  type="button"
+                                  onClick={() => handleAddToCart(p, p.variants[0], 1, false)}
+                                  className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-bold py-2 text-[10px] uppercase transition-colors cursor-pointer"
+                                >
+                                  + ADD MODULE
+                                </button>
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => setCompareModalOpen(false)}
+                  className="w-full bg-neutral-900 border border-neutral-800 hover:border-copper text-canvas text-xs py-3 uppercase tracking-wider transition-colors cursor-pointer"
+                >
+                  CLOSE COMPARISON MATRIX
                 </button>
               </div>
             </div>
