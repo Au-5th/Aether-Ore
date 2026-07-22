@@ -3931,19 +3931,181 @@ fn function_main(input: Input) -> Result<Output, Error> {
           </div>
         )}
 
-        {/* Footer */}
-        <footer className="bg-basalt border-t border-neutral-800 py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-2">
-              <span className="h-4 w-1.5 bg-copper"></span>
-              <span className="font-display font-bold text-xs tracking-wider text-canvas uppercase">
-                AETHER & ORE // ENTERPRISE STOREFRONT ARCHITECTURE
-              </span>
-            </div>
+        {/* Master Luxury Enterprise Footer */}
+        <footer className="bg-neutral-950 border-t-2 border-neutral-800 pt-16 pb-12 text-neutral-400">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
             
-            <div className="font-mono text-[10px] text-neutral-500">
-              © {new Date().getFullYear()} AETHER & ORE • ALL CODES RESERVED • EST. REYKJAVÍK 64°N
+            {/* Top Grid: 4 Columns */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 pb-12 border-b border-neutral-800/80">
+              
+              {/* Col 1: Brand & Mission */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <img
+                    src="/assets/brand_creative_logo.webp"
+                    alt="AETHER & ORE Creative Logo Mark"
+                    className="w-8 h-8 object-cover border border-copper/80 shadow-[0_0_8px_rgba(217,107,67,0.4)]"
+                  />
+                  <span className="font-display font-black text-base tracking-[0.25em] text-canvas uppercase">
+                    AETHER &amp; ORE
+                  </span>
+                </div>
+                <p className="font-mono text-xs text-neutral-400 leading-relaxed">
+                  Engineered grade-5 titanium hardware and volcanic mineral formulations forged for extreme alpine environments.
+                </p>
+                <div className="font-mono text-[9px] text-neutral-500 tracking-widest uppercase space-y-1 pt-2 border-t border-neutral-900">
+                  <div className="flex items-center gap-2 text-emerald-400">
+                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>SYSTEM STATUS: OPERATIONAL</span>
+                  </div>
+                  <div>REYKJAVÍK 64°08'N 21°56'W</div>
+                </div>
+              </div>
+
+              {/* Col 2: Storefront Navigation */}
+              <div className="space-y-3">
+                <span className="font-mono text-[10px] text-copper uppercase tracking-[0.25em] font-bold block">
+                  STOREFRONT SYSTEM
+                </span>
+                <ul className="space-y-2 font-mono text-xs text-neutral-400">
+                  <li>
+                    <a href="#collection" className="hover:text-copper transition-colors block">
+                      [01] TACTICAL COLLECTION
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#climate-widget" className="hover:text-copper transition-colors block">
+                      [02] CLIMATE HAZARD SIMULATOR
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#tactical-command-hub" className="hover:text-copper transition-colors block">
+                      [03] COMMAND HUB & QUIZ
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#expedition-reels" className="hover:text-copper transition-colors block">
+                      [04] MOTION REELS GALLERY
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#corporate-vault" className="hover:text-copper transition-colors block">
+                      [05] B2B CORPORATE VAULT
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Col 3: Headless Architecture */}
+              <div className="space-y-3">
+                <span className="font-mono text-[10px] text-copper uppercase tracking-[0.25em] font-bold block">
+                  ENTERPRISE STACK
+                </span>
+                <ul className="space-y-2 font-mono text-xs text-neutral-400">
+                  <li>
+                    <button onClick={() => setActiveTab("codebase")} className="hover:text-copper transition-colors text-left block cursor-pointer">
+                      RUST WASM FUNCTIONS
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => setActiveTab("architecture")} className="hover:text-copper transition-colors text-left block cursor-pointer">
+                      SHOPIFY PLUS CHECKOUT
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => setActiveTab("architecture")} className="hover:text-copper transition-colors text-left block cursor-pointer">
+                      FLOW AUTOMATION SCHEMAS
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => setActiveTab("codebase")} className="hover:text-copper transition-colors text-left block cursor-pointer">
+                      STOREFRONT API GRAPHQL
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => setActiveTab("case-study")} className="hover:text-copper transition-colors text-left block cursor-pointer">
+                      ENTERPRISE CASE STUDY
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Col 4: Field Dispatch Newsletter */}
+              <div className="space-y-3">
+                <span className="font-mono text-[10px] text-copper uppercase tracking-[0.25em] font-bold block">
+                  FIELD DISPATCH ACCESS
+                </span>
+                <p className="text-xs font-mono text-neutral-400 leading-relaxed">
+                  Subscribe for hardware allocation alerts and receive a 20% discount code.
+                </p>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    alert("Field Dispatch Subscription confirmed! Check your inbox for your 20% code.");
+                  }}
+                  className="space-y-2"
+                >
+                  <input
+                    type="email"
+                    required
+                    placeholder="operator@domain.com"
+                    className="w-full bg-basalt border border-neutral-800 focus:border-copper px-3 py-2 text-xs font-mono text-canvas outline-none"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full bg-copper hover:bg-canvas text-basalt font-mono font-bold text-xs py-2 uppercase transition-colors cursor-pointer"
+                  >
+                    JOIN VANGUARD
+                  </button>
+                </form>
+              </div>
+
             </div>
+
+            {/* Middle Row: Trust Badges */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 border-b border-neutral-800/80 font-mono text-[11px] text-neutral-400 text-center">
+              <div className="border border-neutral-900 bg-neutral-900/40 p-3">
+                <span className="text-copper font-bold block mb-0.5">🛡️ GRADE-5 TITANIUM</span>
+                <span className="text-[9px] text-neutral-500">LIFETIME ALLOY GUARANTEE</span>
+              </div>
+              <div className="border border-neutral-900 bg-neutral-900/40 p-3">
+                <span className="text-emerald-400 font-bold block mb-0.5">🌐 SATCOM TELEMETRY</span>
+                <span className="text-[9px] text-neutral-500">TRACKED EXPEDITION DISPATCH</span>
+              </div>
+              <div className="border border-neutral-900 bg-neutral-900/40 p-3">
+                <span className="text-copper font-bold block mb-0.5">❄️ -40°C TESTED</span>
+                <span className="text-[9px] text-neutral-500">ARCTIC RESILIENCE VERIFIED</span>
+              </div>
+              <div className="border border-neutral-900 bg-neutral-900/40 p-3">
+                <span className="text-amber-400 font-bold block mb-0.5">👑 VANGUARD VIP</span>
+                <span className="text-[9px] text-neutral-500">RECURRING REFILL REWARDS</span>
+              </div>
+            </div>
+
+            {/* Bottom Row: Copyright, Payment Badges & Legal */}
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-4 font-mono text-[10px] text-neutral-500">
+              <div className="flex items-center gap-3">
+                <span className="h-3 w-1 bg-copper"></span>
+                <span>© {new Date().getFullYear()} AETHER &amp; ORE INC. • ALL CODES RESERVED • REYKJAVÍK 64°N</span>
+              </div>
+
+              {/* Payment Method Badges */}
+              <div className="flex items-center gap-2 flex-wrap justify-center text-[9px] font-bold text-neutral-400">
+                <span className="bg-neutral-900 border border-neutral-800 px-2 py-1 uppercase">SHOP PAY 1-TAP</span>
+                <span className="bg-neutral-900 border border-neutral-800 px-2 py-1 uppercase">APPLE PAY</span>
+                <span className="bg-neutral-900 border border-neutral-800 px-2 py-1 uppercase">VISA</span>
+                <span className="bg-neutral-900 border border-neutral-800 px-2 py-1 uppercase">MASTERCARD</span>
+                <span className="bg-neutral-900 border border-neutral-800 px-2 py-1 uppercase">AMEX</span>
+                <span className="bg-neutral-900 border border-neutral-800 px-2 py-1 uppercase">CRYPTO SATCOM</span>
+              </div>
+
+              <div className="flex items-center gap-4 text-neutral-400">
+                <a href="#" className="hover:text-copper transition-colors">PRIVACY PROTOCOL</a>
+                <a href="#" className="hover:text-copper transition-colors">TERMS OF DISPATCH</a>
+                <a href="#" className="hover:text-copper transition-colors">ADA ACCESSIBILITY</a>
+              </div>
+            </div>
+
           </div>
         </footer>
 
