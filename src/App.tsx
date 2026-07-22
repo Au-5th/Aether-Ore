@@ -1370,25 +1370,25 @@ export default function App() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-                    {/* Item 1: Wide Banner - Alpine climber */}
+                    {/* Item 1: High-Altitude Lifestyle Campaign */}
                     <div className="md:col-span-8 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[340px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
                           src="/assets/portrait of a 38-year-old alpine climber with weathered, healthy skin and crisp focus.webp" 
-                          alt="Alpine field deployment — subject testing barrier cream at -14°C on Nordic Ridge" 
+                          alt="High-Altitude Lifestyle Campaign — 38-year-old alpine climber on Nordic Ridge" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
                         <span className="bg-copper text-basalt font-mono text-[9px] font-bold px-2 py-0.5 uppercase">
-                          ACTIVE FIELD DEPLOYMENT
+                          HIGH-ALTITUDE LIFESTYLE CAMPAIGN
                         </span>
-                        <span className="font-mono text-[10px] text-neutral-400">LOG #409-A</span>
+                        <span className="font-mono text-[10px] text-neutral-400">4:5 LEICA SL2</span>
                       </div>
                       <div className="relative z-10 space-y-2 bg-neutral-950/80 p-4 border border-neutral-800 max-w-md backdrop-blur-sm">
-                        <h4 className="font-display font-bold text-xs tracking-wider text-canvas">
-                          HIGH-EXPOSURE ZONE DEPLOYMENT
+                        <h4 className="font-display font-bold text-xs tracking-wider text-canvas uppercase">
+                          ALPINE CLIMBER FIELD ASSESSMENT
                         </h4>
                         <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">
                           Subject testing Alpine Barrier Cream during vertical ascent in Zone 01 (Nordic Ridge). Temperature: -14°C. Relative humidity: 88%. Absolute skin lipid shield confirmed.
@@ -1396,146 +1396,172 @@ export default function App() {
                       </div>
                     </div>
 
-                    {/* Item 2: Vertical Box - Scientists in lab */}
+                    {/* Item 2: Team / Founder Photography */}
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[340px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
                           src="/assets/two cosmetic formulation engineers in dark charcoal lab coats discussing liquid active samples inside an industrial minimalist studio.webp" 
-                          alt="Two AETHER & ORE formulation engineers reviewing liquid active samples in studio lab" 
+                          alt="Team & Founder Photography — Two AETHER & ORE formulation engineers discussing liquid active samples" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
                         <span className="bg-neutral-800 text-canvas border border-neutral-700 font-mono text-[9px] font-bold px-2 py-0.5 uppercase">
-                          CLINICAL SYNTHESIS
+                          TEAM & FOUNDER PHOTOGRAPHY
                         </span>
-                        <span className="font-mono text-[10px] text-neutral-400">LOG #011</span>
+                        <span className="font-mono text-[10px] text-neutral-400">STUDIO LOG #011</span>
                       </div>
                       <div className="relative z-10 space-y-2 bg-neutral-950/80 p-4 border border-neutral-800 backdrop-blur-sm">
-                        <h4 className="font-display font-bold text-xs tracking-wider text-canvas">
-                          MOLECULAR VALIDATION
+                        <h4 className="font-display font-bold text-xs tracking-wider text-canvas uppercase">
+                          FORMULATION SYNTHESIS
                         </h4>
                         <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">
-                          Dr. Rostova monitoring deep-sea thermophile liposomes. Gasket-sealed climate bioreactor running at 0.02 micron shear force.
+                          Dr. Rostova monitoring deep-sea thermophile liposomes inside our industrial minimalist studio setup.
                         </p>
                       </div>
                     </div>
 
-                    {/* Item 3: Quad Box Left - Industrial stainless tanks */}
+                    {/* Item 3: Factory / Cleanroom Formulation Lab */}
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[280px]">
                       <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-500">
                         <img 
                           src="/assets/high-tech cleanroom formulation lab in Zurich.webp" 
-                          alt="High-tech cleanroom formulation lab — Zurich manufacturing facility" 
+                          alt="Factory / Cleanroom Formulation Lab in Zurich" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
                         <span className="bg-neutral-800 text-neutral-400 border border-neutral-800 font-mono text-[9px] px-2 py-0.5 uppercase">
-                          MANUFACTURING
+                          FACTORY / CLEANROOM LAB
                         </span>
-                        <span className="font-mono text-[10px] text-neutral-500">SYS_V_09</span>
+                        <span className="font-mono text-[10px] text-neutral-500">ZURICH // 16:9</span>
                       </div>
                       <div className="relative z-10 bg-neutral-950/90 p-3 border border-neutral-900 font-mono text-[10px] text-neutral-300">
-                        <div className="text-copper font-extrabold mb-1">STAINLESS BIOTANKS</div>
-                        Milling and extraction of Icelandic Volcanic Basalt minerals. Sterile batch tracking active.
+                        <div className="text-copper font-extrabold mb-1 uppercase">STAINLESS BIO-REACTORS</div>
+                        Cleanroom formulation lab in Zurich with stainless steel bio-reactors & precision robotics.
                       </div>
                     </div>
 
-                    {/* Item 4: Quad Box Middle - Liquid drop splashing */}
+                    {/* Item 4: Sustainability & Circular Hardware Concept */}
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[280px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
                           src="/assets/a molten copper drop hitting cold water alongside recycled aluminum shavings.webp" 
-                          alt="Molten copper drop hitting cold water — viscosity shear dispersion diagnostic" 
+                          alt="Sustainability & Circular Hardware Concept — Molten copper drop hitting cold water" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
                         <span className="bg-neutral-800 text-neutral-400 border border-neutral-800 font-mono text-[9px] px-2 py-0.5 uppercase">
-                          VISCOSITY DIAGNOSTICS
+                          SUSTAINABILITY & CIRCULARITY
                         </span>
-                        <span className="font-mono text-[10px] text-neutral-500">VISC_SHR_2</span>
+                        <span className="font-mono text-[10px] text-neutral-500">RAW CRAFTSMANSHIP</span>
                       </div>
                       <div className="relative z-10 bg-neutral-950/90 p-3 border border-neutral-900 font-mono text-[10px] text-neutral-300">
-                        <div className="text-copper font-extrabold mb-1">SHEAR DISPERSION</div>
-                        Micro-carbon lubrication balm demonstrating high viscosity and zero friction breakdown.
+                        <div className="text-copper font-extrabold mb-1 uppercase">RECYCLED HARDWARE ORE</div>
+                        Molten copper drop hitting cold water alongside recycled aluminum shavings.
                       </div>
                     </div>
 
-                    {/* Item 5: Quad Box Right - Gold flake ice lattice */}
+                    {/* Item 5: Blog / Journal Featured Header Image */}
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[280px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
                           src="/assets/frozen glacial water crystals expanding under a polarized light microscope.webp" 
-                          alt="Frozen glacial water crystals under polarized light microscope — cryo-crystallization analysis" 
+                          alt="Blog / Journal Featured Header Image — Frozen glacial water crystals under polarized light microscope" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
                         <span className="bg-neutral-800 text-neutral-400 border border-neutral-800 font-mono text-[9px] px-2 py-0.5 uppercase">
-                          CRYO-CRYSTALLIZATION
+                          JOURNAL FEATURED HEADER
                         </span>
-                        <span className="font-mono text-[10px] text-neutral-500">CRY_02</span>
+                        <span className="font-mono text-[10px] text-neutral-500">CRY_POLAR_02</span>
                       </div>
                       <div className="relative z-10 bg-neutral-950/90 p-3 border border-neutral-900 font-mono text-[10px] text-neutral-300">
-                        <div className="text-copper font-extrabold mb-1">CELLULAR GEOMETRY</div>
-                        Micro-snowflake golden lattice stabilization. Molecular gold formulation layer.
+                        <div className="text-copper font-extrabold mb-1 uppercase">GLACIAL CRYSTAL MICROSCOPY</div>
+                        Polarized microscope photography of frozen glacial water crystals.
                       </div>
                     </div>
 
-                    {/* Item 6: Wide Bottom Left - Volcanic cracked kintsugi stone */}
-                    <div className="md:col-span-6 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[300px]">
+                    {/* Item 6: Collection Banner (Barrier Care) */}
+                    <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[300px]">
                       <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-500">
                         <img 
                           src="/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.webp" 
-                          alt="Basalt rocks in icy water with copper mineral veins — Icelandic ore extraction source" 
+                          alt="Collection Banner (Barrier Care) — Basalt rocks in shallow icy water with copper mineral veins" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
                         <span className="bg-copper text-basalt font-mono text-[9px] font-bold px-2 py-0.5 uppercase">
-                          BASALT EXTRACTION SOURCE
+                          COLLECTION BANNER (BARRIER CARE)
                         </span>
-                        <span className="font-mono text-[10px] text-neutral-400">COORD 64°08'N</span>
+                        <span className="font-mono text-[10px] text-neutral-400">21:9 RATIO</span>
                       </div>
                       <div className="relative z-10 space-y-1">
-                        <h4 className="font-display font-bold text-xs tracking-wider text-canvas">
-                          KINTSUGI ORE FIELD
+                        <h4 className="font-display font-bold text-xs tracking-wider text-canvas uppercase">
+                          KINTSUGI BASALT ORE FIELD
                         </h4>
-                        <p className="text-neutral-400 font-mono text-[10px] leading-relaxed max-w-md">
-                          Cracked volcanic bedrock containing rich sulfurous veins and micro-abrasive obsidian. Ground and processed into our signature volcanic exfoliating block.
+                        <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">
+                          Cracked volcanic bedrock containing rich sulfurous veins and obsidian minerals.
                         </p>
                       </div>
                     </div>
 
-                    {/* Item 7: Wide Bottom Right - Refill canister pouch on ice */}
-                    <div className="md:col-span-6 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[300px]">
+                    {/* Item 7: Seasonal Winter Campaign Banner */}
+                    <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[300px]">
                       <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-500">
                         <img 
                           src="/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.webp" 
-                          alt="Three matte black refillable skincare pods in dark wool felt travel wrap — zero-waste packaging" 
+                          alt="Seasonal Winter Campaign Banner — Three matte black refillable skincare pods in wool felt travel wrap" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
                         />
                       </div>
                       <div className="relative z-10 flex justify-between items-start">
                         <span className="bg-neutral-800 text-canvas border border-neutral-700 font-mono text-[9px] font-bold px-2 py-0.5 uppercase">
-                          ZERO-WASTE ARCHITECTURE
+                          SEASONAL WINTER CAMPAIGN
                         </span>
-                        <span className="font-mono text-[10px] text-neutral-400">REFILL PK-02</span>
+                        <span className="font-mono text-[10px] text-neutral-400">21:9 FLAT-LAY</span>
                       </div>
                       <div className="relative z-10 space-y-1">
-                        <h4 className="font-display font-bold text-xs tracking-wider text-canvas">
-                          GLACIAL REPLENISHMENT VESSEL
+                        <h4 className="font-display font-bold text-xs tracking-wider text-canvas uppercase">
+                          WOOL FELT TRANSIT POD SUITE
                         </h4>
-                        <p className="text-neutral-400 font-mono text-[10px] leading-relaxed max-w-md">
-                          High-density grey wool transit pouch protecting aluminum replenishment canisters on glacier fields. Zero waste packaging designed for complete system loops.
+                        <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">
+                          High-density wool transit wrap protecting matte black refillable skincare pods.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Item 8: TikTok / Instagram Story Creative (9:16 Vertical) */}
+                    <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[300px]">
+                      <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
+                        <img 
+                          src="/assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.webp" 
+                          alt="TikTok / Instagram Story Creative — Hand holding dark aluminum flask under freezing alpine waterfall" 
+                          className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="relative z-10 flex justify-between items-start">
+                        <span className="bg-copper text-basalt font-mono text-[9px] font-bold px-2 py-0.5 uppercase">
+                          TIKTOK / STORY CREATIVE
+                        </span>
+                        <span className="font-mono text-[10px] text-neutral-400">9:16 VERTICAL</span>
+                      </div>
+                      <div className="relative z-10 space-y-1">
+                        <h4 className="font-display font-bold text-xs tracking-wider text-canvas uppercase">
+                          FREEZING WATERFALL DISPATCH
+                        </h4>
+                        <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">
+                          Motion freeze action creative holding dark aluminum flask under Arctic waterfall.
                         </p>
                       </div>
                     </div>
