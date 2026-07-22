@@ -117,9 +117,7 @@ export const PRODUCTS_DATA: Product[] = [
     image: "/assets/Basalt Volcanic Exfoliating Block Studio View.webp",
     images: [
       "/assets/Basalt Volcanic Exfoliating Block Studio View.webp",
-      "/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.webp",
-      "/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.webp",
-      "/assets/knolling flat lay photograph of disassembled skincare packaging.webp"
+      "/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.webp"
     ],
     isFlagship: false,
     rating: 4.88,
@@ -162,8 +160,7 @@ export const PRODUCTS_DATA: Product[] = [
     images: [
       "/assets/Isolated commercial studio shot of AETHER & ORE Glacial Barrier Balm.webp",
       "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.webp",
-      "/assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.webp",
-      "/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.webp"
+      "/assets/Clean studio profile view of an anodized titanium skincare bottle.webp"
     ],
     isFlagship: false,
     rating: 4.92,
@@ -204,8 +201,6 @@ export const PRODUCTS_DATA: Product[] = [
     image: "/assets/Tactile Carbon Hand Balm Tube View.webp",
     images: [
       "/assets/Tactile Carbon Hand Balm Tube View.webp",
-      "/assets/Clean studio profile view of an anodized titanium skincare bottle.webp",
-      "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.webp",
       "/assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.webp"
     ],
     isFlagship: false,
@@ -248,7 +243,6 @@ export const PRODUCTS_DATA: Product[] = [
     images: [
       "/assets/UV-Hazard Glacier Shield Dispenser Studio View.webp",
       "/assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.webp",
-      "/assets/frozen glacial water crystals expanding under a polarized light microscope.webp",
       "/assets/landscape photography of windswept sub-zero alpine mountain peaks.webp"
     ],
     isFlagship: false,
@@ -291,8 +285,7 @@ export const PRODUCTS_DATA: Product[] = [
     image: "/assets/Milled Brass Travel Vault Studio View.webp",
     images: [
       "/assets/Milled Brass Travel Vault Studio View.webp",
-      "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp",
-      "/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.webp"
+      "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp"
     ],
     isFlagship: false,
     rating: 4.96,
@@ -310,6 +303,47 @@ export const PRODUCTS_DATA: Product[] = [
       }
     ],
     frequentlyBoughtWithIds: ["prod_2", "prod_1"]
+  },
+  {
+    id: "prod_7",
+    code: "AO-OGP-07",
+    title: "Obsidian Glacial Hydration Pod",
+    category: "Skincare",
+    price: 52,
+    subscriptionPrice: 42,
+    size: "50ml",
+    scent: "Eucalyptus & Polar Dew",
+    description: "Anodized dark alloy container enclosing ultra-concentrated glacial obsidian serum. Delivers 48-hour deep cellular hydration under extreme high-altitude wind freeze.",
+    ritual: [
+      "Unscrew anodized alloy pod cap.",
+      "Dispense 2 drops onto fingertips.",
+      "Smooth across exposed face and neck tissue.",
+      "Lock with Alpine Barrier Cream for sub-zero protection."
+    ],
+    variants: [
+      { id: "v7_standard", name: "Anodized Pod", sku: "OGP-POD-50", inventory: 78 }
+    ],
+    image: "/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.webp",
+    images: [
+      "/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.webp",
+      "/assets/frozen glacial water crystals expanding under a polarized light microscope.webp"
+    ],
+    isFlagship: false,
+    rating: 4.94,
+    reviewCount: 74,
+    reviews: [
+      {
+        id: "rev_701",
+        author: "Svenja K.",
+        rating: 5,
+        date: "2026-07-14",
+        title: "Supreme Deep Hydration",
+        comment: "The obsidian minerals immediately soothe wind-burned skin after glacier ascents.",
+        verified: true,
+        location: "Bergen, Norway"
+      }
+    ],
+    frequentlyBoughtWithIds: ["prod_3", "prod_1"]
   }
 ];
 

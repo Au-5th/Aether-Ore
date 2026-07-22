@@ -1451,24 +1451,24 @@ export default function App() {
                       THE COMPLETE MASTER EXPEDITION VAULT SUITE
                     </span>
                     <h2 className="font-display font-extrabold text-3xl sm:text-5xl text-canvas uppercase tracking-tight">
-                      ALL 6 SYSTEM MODULES IN ONE VAULT
+                      ALL 7 SYSTEM MODULES IN ONE VAULT
                     </h2>
                     <p className="text-neutral-300 font-mono text-xs leading-relaxed">
-                      Includes the Grade-5 Titanium Flask, Basalt Volcanic Block, Alpine Barrier Cream, Carbon Hand Balm, Glacier Shield Dispenser, and Milled Brass Vault — encased in our wool transit wrap.
+                      Includes the Titanium Flask, Volcanic Block, Alpine Barrier Cream, Carbon Hand Balm, Glacier Shield Dispenser, Milled Brass Vault, and Obsidian Hydration Pod — encased in our wool transit wrap.
                     </p>
 
                     <div className="p-4 bg-neutral-950 border border-neutral-800 space-y-2 font-mono text-xs">
                       <div className="flex justify-between text-neutral-400">
                         <span>INDIVIDUAL COMBINED PRICE:</span>
-                        <span className="line-through">{formatPrice(349)}</span>
+                        <span className="line-through">{formatPrice(364)}</span>
                       </div>
                       <div className="flex justify-between text-copper font-bold">
                         <span>20% VANGUARD SUITE SAVINGS:</span>
-                        <span>-{formatPrice(70)}</span>
+                        <span>-{formatPrice(73)}</span>
                       </div>
                       <div className="flex justify-between text-canvas font-extrabold text-base pt-2 border-t border-neutral-800">
                         <span>MASTER SUITE PRICE:</span>
-                        <span className="text-copper">{formatPrice(279)}</span>
+                        <span className="text-copper">{formatPrice(291)}</span>
                       </div>
                     </div>
 
@@ -1479,7 +1479,7 @@ export default function App() {
                       }}
                       className="w-full sm:w-auto bg-copper hover:bg-canvas hover:text-basalt text-basalt font-display font-bold text-xs py-4 px-8 uppercase transition-colors cursor-pointer"
                     >
-                      ADD COMPLETE MASTER SUITE TO BAG — {formatPrice(279)}
+                      ADD COMPLETE MASTER SUITE TO BAG — {formatPrice(291)}
                     </button>
                   </div>
 
