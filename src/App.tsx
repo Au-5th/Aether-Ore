@@ -384,20 +384,26 @@ export default function App() {
     }, 0);
   }, [cart]);
 
-  // ─── SCROLL-FOCUS REVEAL OBSERVER ───
+  // ─── SCROLL-FOCUS REVEAL OBSERVER (MOBILE & DESKTOP VIEWPORT BAND) ───
   useEffect(() => {
+    const isMobile = window.innerWidth < 768 || window.matchMedia("(hover: none)").matches;
+    const rootMargin = isMobile ? "-15% 0px -15% 0px" : "-5% 0px -5% 0px";
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("in-view");
+          } else if (isMobile) {
+            // On mobile, gracefully transition back to base when exiting center focus band
+            entry.target.classList.remove("in-view");
           }
         });
       },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+      { threshold: isMobile ? 0.2 : 0.15, rootMargin }
     );
 
-    const elements = document.querySelectorAll(".scroll-reveal");
+    const elements = document.querySelectorAll(".scroll-reveal, .group, section img, #collection img, #expedition-reels img");
     elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();

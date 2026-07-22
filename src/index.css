@@ -147,9 +147,12 @@ body {
 ═══════════════════════════════════════════════════════════════════ */
 img {
   filter: grayscale(85%) contrast(108%);
-  transition: filter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.075s, 
-              opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.075s, 
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.075s;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  will-change: filter, transform;
+  transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Universal Hover, Keyboard Focus, Focus-Within, and Scroll-In-View */
@@ -161,14 +164,28 @@ img:focus,
 .group:focus img,
 .group:focus-within img,
 .in-view img,
-img.in-view {
+img.in-view,
+.group.in-view img {
   filter: grayscale(0%) contrast(125%) saturate(145%) !important;
+}
+
+/* Touch Mobile Specific Viewport Focus Optimization */
+@media (hover: none) and (pointer: coarse) {
+  img {
+    transition: filter 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  /* Touch tap feedback */
+  img:active,
+  .group:active img {
+    filter: grayscale(0%) contrast(125%) saturate(145%) !important;
+  }
 }
 
 /* Universal Container Copper Glow Sheen on Hover & Focus */
 .border-neutral-800,
 .border-2 {
-  transition: border-color 0.4s ease 0.075s, box-shadow 0.5s ease 0.075s, transform 0.5s ease 0.075s !important;
+  transition: border-color 0.4s ease 0.05s, box-shadow 0.5s ease 0.05s, transform 0.5s ease 0.05s !important;
 }
 
 .border-neutral-800:hover,
@@ -176,7 +193,9 @@ img.in-view {
 .border-2:hover,
 .border-2:focus-within,
 .group:hover .border-neutral-800,
-.group:focus-within .border-neutral-800 {
+.group:focus-within .border-neutral-800,
+.group.in-view .border-neutral-800,
+.in-view.border-neutral-800 {
   border-color: #D96B43 !important;
   box-shadow: 0 0 25px rgba(217, 107, 67, 0.35), 4px 4px 0px 0px #D96B43 !important;
 }
