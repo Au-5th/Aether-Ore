@@ -132,3 +132,22 @@ body {
   color: #F0F4F8;
   overflow-x: hidden;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Scroll-Focus Color Reveal System
+   Automatically transitions imagery to full vibrant color as users scroll into view
+═══════════════════════════════════════════════════════════════════ */
+.scroll-reveal {
+  opacity: 0.9;
+  filter: grayscale(80%) contrast(110%);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal.in-view,
+.scroll-reveal:hover,
+.scroll-reveal:focus,
+.scroll-reveal:focus-within {
+  opacity: 1;
+  filter: grayscale(0%) contrast(125%) saturate(145%);
+}
+

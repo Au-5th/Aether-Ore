@@ -310,6 +310,25 @@ export default function App() {
     }, 0);
   }, [cart]);
 
+  // ─── SCROLL-FOCUS REVEAL OBSERVER ───
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+
+    const elements = document.querySelectorAll(".scroll-reveal");
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [activeTab, filteredProducts]);
+
   // Tiered Free Gift Calculation
   // Tier 1: Over $80 -> Basalt Volcanic Exfoliating Block (Free Gift worth $35)
   // Tier 2: Over $150 -> Brass Travel Vault (Free Gift worth $85)
@@ -736,7 +755,7 @@ export default function App() {
                       <img 
                         src={heroActiveImage} 
                         alt="Aether & Ore Anodized Titanium Flask on frosted Basalt stone" 
-                        className="object-cover w-full h-full filter grayscale hover:grayscale-0 transition-all duration-700"
+                        className="scroll-reveal object-cover w-full h-full filter grayscale contrast-110 hover:grayscale-0 focus:grayscale-0 hover:contrast-125 focus:contrast-125 hover:saturate-150 focus:saturate-150 hover:scale-105 focus:scale-105 transition-all duration-500 outline-none"
                         referrerPolicy="no-referrer"
                         fetchPriority="high"
                       />
@@ -1093,8 +1112,10 @@ export default function App() {
                         <img 
                           src={flagshipProduct.image} 
                           alt="Anodized Titanium Flask Detail" 
-                          className={`object-cover w-full h-full transition-all duration-500 ${
-                            arThermalMode ? "hue-rotate-180 contrast-200" : "filter grayscale group-hover:grayscale-0"
+                          className={`scroll-reveal object-cover w-full h-full transition-all duration-500 ${
+                            arThermalMode
+                              ? "hue-rotate-180 contrast-200"
+                              : "filter grayscale contrast-110 group-hover:grayscale-0 group-focus-within:grayscale-0 group-hover:contrast-125 group-focus-within:contrast-125 group-hover:saturate-150 group-focus-within:saturate-150 group-hover:scale-105 group-focus-within:scale-105"
                           }`}
                           loading="lazy"
                         />
@@ -1199,7 +1220,7 @@ export default function App() {
                           <img 
                             src={prod.image} 
                             alt={prod.title} 
-                            className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                            className="scroll-reveal object-cover w-full h-full filter grayscale contrast-110 group-hover:grayscale-0 group-focus-within:grayscale-0 group-hover:contrast-125 group-focus-within:contrast-125 group-hover:saturate-150 group-focus-within:saturate-150 group-hover:scale-105 group-focus-within:scale-105 transition-all duration-500"
                             loading="lazy"
                           />
                           {/* Overlay Product Identification Telemetry Tag */}
@@ -1413,17 +1434,17 @@ export default function App() {
               {/* FULL UNCROPPED EDITORIAL CAMPAIGN DUAL-SYSTEM PROMO BANNER */}
               <section id="hardware-campaign" className="py-16 border-t border-b border-neutral-800 bg-neutral-950 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                  <div className="lg:col-span-6 relative overflow-hidden border border-neutral-800 bg-black aspect-[4/3] md:aspect-[16/9] w-full flex items-center justify-center">
+                  <div className="lg:col-span-6 relative overflow-hidden border-2 border-neutral-800 bg-basalt aspect-[4/5] w-full flex items-center justify-center group shadow-[6px_6px_0px_0px_#0B0D0E]">
                     <img
                       src="/assets/Split screen ad visual.webp"
                       alt="AETHER & ORE Dual Formulation & Hardware Campaign Visual"
-                      className="w-full h-full object-contain filter grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
+                      className="w-full h-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-basalt via-transparent to-transparent opacity-70 pointer-events-none"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-basalt via-transparent to-transparent opacity-80 pointer-events-none"></div>
                     <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end font-mono text-[10px] text-canvas z-10">
-                      <span className="bg-copper text-basalt px-2 py-0.5 font-bold uppercase tracking-wider">CAMPAIGN FEATURE // DUAL SYSTEM</span>
-                      <span className="text-neutral-400">REYKJAVÍK 64°N</span>
+                      <span className="bg-copper text-basalt px-2.5 py-1 font-bold uppercase tracking-wider">SPLIT-SCREEN AD CREATIVE // 4:5 RATIO</span>
+                      <span className="bg-basalt/90 border border-neutral-800 text-copper px-2 py-0.5 font-bold uppercase">REYKJAVÍK 64°N</span>
                     </div>
                   </div>
                   <div className="lg:col-span-6 space-y-5">
