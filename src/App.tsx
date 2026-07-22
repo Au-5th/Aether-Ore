@@ -28,6 +28,7 @@ import {
   Truck,
   Info,
   X,
+  Compass,
   Building2
 } from "lucide-react";
 import { PRODUCTS_DATA, BRAND_SYSTEM, MIDJOURNEY_PROMPTS, FLOW_AUTOMATIONS, CASE_STUDY_METRICS, Product, ProductVariant } from "./data";
@@ -439,7 +440,7 @@ export default function App() {
   }, [cart, freeGiftProgress]);
 
   // Helper to add item to cart
-  const handleAddToCart = (product: Product, variant: ProductVariant, qty: number, isSub: boolean) => {
+  const handleAddToCart = (product: Product, variant: ProductVariant, qty: number, isSub: boolean, engraving?: string) => {
     setCart((prevCart) => {
       const existingIdx = prevCart.findIndex(
         (item) => item.product.id === product.id && item.variant.id === variant.id && item.isSubscription === isSub
