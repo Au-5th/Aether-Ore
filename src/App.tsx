@@ -281,6 +281,63 @@ export default function App() {
   // ─── VANGUARD VIP LOYALTY VAULT STATE ───
   const [vipDrawerOpen, setVipDrawerOpen] = useState<boolean>(false);
 
+  // ─── SATELLITE ORDER TELEMETRY STATE ───
+  const [orderTelemetryOpen, setOrderTelemetryOpen] = useState<boolean>(false);
+  const [orderSearchId, setOrderSearchId] = useState<string>("AO-9842");
+
+  // ─── WEB AUDIO ALPINE AMBIENT SOUNDSCAPE SYNTHESIZER ───
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+
+  const toggleAlpineAudio = () => {
+    if (audioPlaying) {
+      if (audioCtxRef.current) {
+        audioCtxRef.current.close();
+        audioCtxRef.current = null;
+      }
+      setAudioPlaying(false);
+    } else {
+      try {
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        const ctx = new AudioContextClass();
+        audioCtxRef.current = ctx;
+
+        const bufferSize = ctx.sampleRate * 2;
+        const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.96900 * b2 + white * 0.1538520;
+          b3 = 0.86650 * b3 + white * 0.3104856;
+          b4 = 0.55000 * b4 + white * 0.5329522;
+          b5 = -0.7616 * b5 - white * 0.0168980;
+          output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+          output[i] *= 0.012;
+          b6 = white * 0.115926;
+        }
+
+        const whiteNoise = ctx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+        whiteNoise.loop = true;
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(320, ctx.currentTime);
+
+        whiteNoise.connect(filter);
+        filter.connect(ctx.destination);
+        whiteNoise.start();
+
+        setAudioPlaying(true);
+      } catch (err) {
+        console.error("Web Audio not supported:", err);
+      }
+    }
+  };
+
   const filteredProducts = useMemo(() => {
     return PRODUCTS_DATA.filter((p) => {
       const matchesSearch =
@@ -642,6 +699,25 @@ export default function App() {
             </nav>
 
             <div className="flex items-center gap-2">
+              {/* Alpine Audio Soundscape Toggle */}
+              <button
+                onClick={toggleAlpineAudio}
+                className={`border font-mono text-xs px-2.5 py-1.5 cursor-pointer uppercase font-bold hidden xl:flex items-center gap-1.5 transition-colors ${
+                  audioPlaying ? "bg-copper text-basalt border-copper animate-pulse" : "bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-copper"
+                }`}
+                title="Toggle Web Audio Alpine Wind Soundscape"
+              >
+                <span>{audioPlaying ? "🔊 ALPINE AUDIO: ON" : "🔇 ALPINE AUDIO: OFF"}</span>
+              </button>
+
+              {/* Satellite Order Telemetry Trigger */}
+              <button
+                onClick={() => setOrderTelemetryOpen(true)}
+                className="bg-neutral-950 border border-neutral-800 hover:border-copper text-neutral-400 hover:text-copper font-mono text-xs px-2.5 py-1.5 cursor-pointer uppercase font-semibold hidden lg:flex items-center gap-1"
+              >
+                <span>🛰️ ORDER TELEMETRY</span>
+              </button>
+
               {/* Quiz Trigger */}
               <button
                 onClick={() => setQuizModalOpen(true)}
@@ -1128,6 +1204,15 @@ export default function App() {
                           <div className="absolute inset-0 bg-[radial-gradient(#D96B43_1px,transparent_1px)] [background-size:12px_12px] opacity-40 pointer-events-none"></div>
                         )}
 
+                        {/* Live Laser Engraving Overlay on Hardware Card Image */}
+                        {laserEngravings[flagshipProduct.id] && (
+                          <div className="absolute inset-x-0 bottom-10 flex items-center justify-center pointer-events-none z-20">
+                            <span className="bg-basalt/90 text-copper border border-copper px-3 py-1 font-mono text-xs font-extrabold tracking-widest uppercase shadow-[0_0_12px_#D96B43] animate-pulse">
+                              ETCH: "{laserEngravings[flagshipProduct.id]}"
+                            </span>
+                          </div>
+                        )}
+
                         <div className="absolute inset-0 bg-copper/0 group-hover:bg-copper/10 transition-colors flex items-center justify-center">
                           <span className="opacity-0 group-hover:opacity-100 bg-basalt/90 text-copper border border-copper font-mono text-[9px] px-3 py-1 font-bold tracking-widest uppercase transition-opacity">
                             + QUICK POPUP MODAL
@@ -1210,7 +1295,7 @@ export default function App() {
                   {filteredProducts.filter(p => !p.isFlagship).map((prod) => (
                     <div 
                       key={prod.id}
-                      className="border-2 border-neutral-800 bg-neutral-950 p-5 flex flex-col justify-between transition-all duration-300 hover:border-copper hover:-translate-y-1 shadow-[4px_4px_0px_0px_rgba(11,13,14,1)] hover:shadow-[4px_4px_0px_0px_#D96B43]"
+                      className="card-copper-sheen border-2 border-neutral-800 bg-neutral-950 p-5 flex flex-col justify-between transition-all duration-300 hover:border-copper hover:-translate-y-1 shadow-[4px_4px_0px_0px_rgba(11,13,14,1)] hover:shadow-[4px_4px_0px_0px_#D96B43]"
                     >
                       <div>
                         <div 
@@ -3352,6 +3437,86 @@ fn function_main(input: Input) -> Result<Output, Error> {
                   className="w-full bg-neutral-900 border border-neutral-800 hover:border-copper text-canvas text-xs py-3 uppercase tracking-wider transition-colors cursor-pointer"
                 >
                   CLOSE VIP VAULT
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* SATELLITE ORDER TELEMETRY TRACKER MODAL */}
+        {orderTelemetryOpen && (
+          <div
+            className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-center justify-center p-4"
+            aria-hidden="true"
+            onClick={(e) => { if (e.target === e.currentTarget) setOrderTelemetryOpen(false); }}
+          >
+            <div className="bg-neutral-950 border-2 border-copper w-full max-w-xl p-6 sm:p-8 rounded-none shadow-[6px_6px_0px_0px_#D96B43] relative animate-scale-up z-50 font-mono">
+              <button
+                onClick={() => setOrderTelemetryOpen(false)}
+                className="absolute top-4 right-4 text-neutral-400 hover:text-copper cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <span className="bg-copper text-basalt text-[9px] font-bold px-2 py-0.5 uppercase">
+                    POLAR SATELLITE LOGISTICS TELEMETRY
+                  </span>
+                  <span className="text-emerald-400 text-[10px] uppercase font-bold">• REAL-TIME IN-TRANSIT</span>
+                </div>
+
+                <h3 className="font-display font-extrabold text-xl text-canvas uppercase tracking-wider">
+                  EXPEDITION ORDER TRACKER
+                </h3>
+
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={orderSearchId}
+                    onChange={(e) => setOrderSearchId(e.target.value.toUpperCase())}
+                    placeholder="ENTER ORDER ID (e.g. AO-9842)"
+                    className="flex-1 bg-neutral-900 border border-neutral-800 text-canvas px-3 py-2 text-xs focus:border-copper outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => alert(`Locating satellite telemetry for Order ${orderSearchId}...`)}
+                    className="bg-copper text-basalt font-bold text-xs px-4 py-2 uppercase hover:bg-canvas transition-colors cursor-pointer"
+                  >
+                    LOCATE
+                  </button>
+                </div>
+
+                <div className="p-4 bg-neutral-900 border border-neutral-800 space-y-3">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-neutral-400">TELEMETRY TARGET:</span>
+                    <span className="text-copper font-bold">{orderSearchId}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-neutral-400">FLIGHT CORRIDOR:</span>
+                    <span className="text-canvas">REYKJAVÍK 64°N → SVALBARD 78°N</span>
+                  </div>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-neutral-400">CARGO DISPATCH STATUS:</span>
+                    <span className="text-emerald-400 font-bold uppercase">OUT FOR EXPEDITION DELIVERY</span>
+                  </div>
+
+                  {/* Simulated Flight Map Corridor */}
+                  <div className="aspect-[16/6] bg-neutral-950 border border-neutral-800 relative overflow-hidden flex items-center justify-center">
+                    <div className="absolute inset-0 bg-[radial-gradient(#D96B43_1px,transparent_1px)] [background-size:16px_16px] opacity-30"></div>
+                    <div className="relative z-10 text-center font-mono text-[10px] text-copper font-bold space-y-1">
+                      <div className="animate-pulse">🛰️ SATELLITE BEACON ACTIVE: 64°08'N // 21°56'W</div>
+                      <div className="text-neutral-400 font-normal">EST. TRAVERSE ARRIVAL: 18 HOURS</div>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setOrderTelemetryOpen(false)}
+                  className="w-full bg-neutral-900 border border-neutral-800 hover:border-copper text-canvas text-xs py-3 uppercase tracking-wider transition-colors cursor-pointer"
+                >
+                  CLOSE TELEMETRY TRACKER
                 </button>
               </div>
             </div>
