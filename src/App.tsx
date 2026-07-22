@@ -691,17 +691,6 @@ export default function App() {
 
             {/* Quick Action Controls */}
             <div className="flex items-center gap-2 flex-wrap justify-center">
-              {/* Alpine Audio Soundscape Toggle */}
-              <button
-                onClick={toggleAlpineAudio}
-                className={`border font-mono text-[11px] px-2.5 py-1.5 cursor-pointer uppercase font-bold hidden xl:flex items-center gap-1 transition-all ${
-                  audioPlaying ? "bg-copper text-basalt border-copper shadow-[0_0_10px_#D96B43]" : "bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-copper hover:border-copper"
-                }`}
-                title="Toggle Web Audio Alpine Wind Soundscape"
-              >
-                <span>{audioPlaying ? "🔊 AMBIENT: ON" : "🔇 AMBIENT"}</span>
-              </button>
-
               {/* Currency Selector */}
               <select
                 value={currency}
@@ -1080,93 +1069,117 @@ export default function App() {
                 </div>
               </section>
 
-              {/* OPERATIVE COMMAND CENTER — Compare, Telemetry, Quiz, Vault */}
-              <section id="command-center" className="py-16 bg-gradient-to-b from-basalt via-neutral-950 to-basalt">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+              {/* OPERATIVE TACTICAL COMMAND HUB SECTION */}
+              <section id="tactical-command-hub" className="py-20 bg-neutral-950 border-t border-b border-neutral-800/80">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                   <div className="text-center max-w-3xl mx-auto space-y-3">
                     <span className="font-mono text-[10px] text-copper uppercase tracking-[0.25em] font-bold">
-                      FIELD OPERATIVE TOOLKIT // INTERACTIVE COMMAND CENTER
+                      SYSTEM UTILITIES & TACTICAL TOOL SUITE
                     </span>
-                    <h2 className="font-display font-bold text-3xl tracking-wider text-canvas uppercase">
-                      OPERATIVE COMMAND CENTER
+                    <h2 className="font-display font-bold text-3xl sm:text-4xl tracking-wider text-canvas uppercase">
+                      OPERATIVE TACTICAL COMMAND HUB
                     </h2>
                     <p className="text-neutral-400 text-xs font-mono">
-                      DIAGNOSTIC TOOLS • ORDER TRACKING • LOYALTY REWARDS • SIDE-BY-SIDE COMPARISON
+                      ACCESS SKIN DIAGNOSTICS, REAL-TIME SATELLITE TELEMETRY, SPEC COMPARISONS & VIP REWARDS
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    {/* Skin Quiz Card */}
-                    <button
-                      type="button"
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {/* Card 1: Skin Quiz */}
+                    <div 
                       onClick={() => setQuizModalOpen(true)}
-                      className="group border-2 border-neutral-800 bg-neutral-950 p-6 text-left space-y-4 cursor-pointer transition-all hover:border-copper hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(217,107,67,0.2),4px_4px_0px_0px_#D96B43]"
+                      className="group border-2 border-neutral-800 bg-neutral-900/60 p-6 flex flex-col justify-between space-y-6 cursor-pointer hover:border-copper hover:-translate-y-1 transition-all duration-300 shadow-[4px_4px_0px_0px_#0B0D0E] hover:shadow-[4px_4px_0px_0px_#D96B43]"
                     >
-                      <div className="flex justify-between items-start">
-                        <span className="text-3xl">⚡</span>
-                        <span className="bg-copper text-basalt font-mono text-[8px] font-bold px-2 py-0.5 uppercase">DIAGNOSTIC</span>
+                      <div className="space-y-4">
+                        <div className="w-14 h-14 bg-basalt border-2 border-copper/80 p-3 flex items-center justify-center text-copper shadow-[0_0_15px_rgba(217,107,67,0.3)] group-hover:scale-110 transition-transform">
+                          <Zap size={28} className="animate-pulse" />
+                        </div>
+                        <div className="space-y-1">
+                          <span className="bg-copper text-basalt font-mono text-[8px] font-bold px-2 py-0.5 uppercase">AI DIAGNOSTIC PROTOCOL</span>
+                          <h3 className="font-display font-bold text-lg text-canvas uppercase tracking-wider group-hover:text-copper transition-colors">
+                            SKIN RESILIENCE QUIZ
+                          </h3>
+                        </div>
+                        <p className="text-neutral-400 font-mono text-xs leading-relaxed">
+                          3-step diagnostic calculating climate stress factors and prescribing custom antidote bundles.
+                        </p>
                       </div>
-                      <h3 className="font-display font-bold text-sm text-canvas uppercase tracking-wider">SUB-ZERO SKIN RESILIENCE QUIZ</h3>
-                      <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">3-step AI diagnostic assessing your environment, activity type, and skin sensitivity to generate a tailored antidote routine.</p>
-                      <div className="flex items-center gap-2 text-copper font-mono text-[10px] font-bold uppercase group-hover:translate-x-1 transition-transform">
-                        <span>LAUNCH DIAGNOSTIC</span>
-                        <span>→</span>
-                      </div>
-                    </button>
+                      <button className="w-full bg-neutral-900 border border-copper text-copper group-hover:bg-copper group-hover:text-basalt font-mono font-bold text-xs py-2.5 uppercase transition-colors">
+                        LAUNCH DIAGNOSTIC
+                      </button>
+                    </div>
 
-                    {/* Order Telemetry Card */}
-                    <button
-                      type="button"
+                    {/* Card 2: Order Telemetry */}
+                    <div 
                       onClick={() => setOrderTelemetryOpen(true)}
-                      className="group border-2 border-neutral-800 bg-neutral-950 p-6 text-left space-y-4 cursor-pointer transition-all hover:border-copper hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(217,107,67,0.2),4px_4px_0px_0px_#D96B43]"
+                      className="group border-2 border-neutral-800 bg-neutral-900/60 p-6 flex flex-col justify-between space-y-6 cursor-pointer hover:border-copper hover:-translate-y-1 transition-all duration-300 shadow-[4px_4px_0px_0px_#0B0D0E] hover:shadow-[4px_4px_0px_0px_#D96B43]"
                     >
-                      <div className="flex justify-between items-start">
-                        <span className="text-3xl">🛰️</span>
-                        <span className="bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono text-[8px] font-bold px-2 py-0.5 uppercase">LIVE TRACKING</span>
+                      <div className="space-y-4">
+                        <div className="w-14 h-14 bg-basalt border-2 border-emerald-500/80 p-3 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.2)] group-hover:scale-110 transition-transform">
+                          <Compass size={28} />
+                        </div>
+                        <div className="space-y-1">
+                          <span className="bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono text-[8px] font-bold px-2 py-0.5 uppercase">POLAR SATELLITE BEACON</span>
+                          <h3 className="font-display font-bold text-lg text-canvas uppercase tracking-wider group-hover:text-copper transition-colors">
+                            ORDER TELEMETRY TRACKER
+                          </h3>
+                        </div>
+                        <p className="text-neutral-400 font-mono text-xs leading-relaxed">
+                          Real-time satellite tracking of cargo dispatches across North Atlantic flight corridors.
+                        </p>
                       </div>
-                      <h3 className="font-display font-bold text-sm text-canvas uppercase tracking-wider">SATELLITE ORDER TELEMETRY</h3>
-                      <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">Track your expedition cargo in real-time across Arctic supply corridors. Reykjavík 64°N → Svalbard 78°N flight telemetry.</p>
-                      <div className="flex items-center gap-2 text-copper font-mono text-[10px] font-bold uppercase group-hover:translate-x-1 transition-transform">
-                        <span>OPEN TRACKER</span>
-                        <span>→</span>
-                      </div>
-                    </button>
+                      <button className="w-full bg-neutral-900 border border-neutral-700 text-canvas group-hover:border-copper group-hover:bg-copper group-hover:text-basalt font-mono font-bold text-xs py-2.5 uppercase transition-colors">
+                        TRACK EXPEDITION
+                      </button>
+                    </div>
 
-                    {/* Product Comparison Card */}
-                    <button
-                      type="button"
+                    {/* Card 3: Compare Matrix */}
+                    <div 
                       onClick={() => setCompareModalOpen(true)}
-                      className="group border-2 border-neutral-800 bg-neutral-950 p-6 text-left space-y-4 cursor-pointer transition-all hover:border-copper hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(217,107,67,0.2),4px_4px_0px_0px_#D96B43]"
+                      className="group border-2 border-neutral-800 bg-neutral-900/60 p-6 flex flex-col justify-between space-y-6 cursor-pointer hover:border-copper hover:-translate-y-1 transition-all duration-300 shadow-[4px_4px_0px_0px_#0B0D0E] hover:shadow-[4px_4px_0px_0px_#D96B43]"
                     >
-                      <div className="flex justify-between items-start">
-                        <span className="text-3xl">⚖️</span>
-                        <span className="bg-neutral-800 text-canvas font-mono text-[8px] font-bold px-2 py-0.5 uppercase">{comparedProductIds.length} MODULES</span>
+                      <div className="space-y-4">
+                        <div className="w-14 h-14 bg-basalt border-2 border-copper/80 p-3 flex items-center justify-center text-copper shadow-[0_0_15px_rgba(217,107,67,0.3)] group-hover:scale-110 transition-transform">
+                          <Layers size={28} />
+                        </div>
+                        <div className="space-y-1">
+                          <span className="bg-copper/20 text-copper border border-copper/40 font-mono text-[8px] font-bold px-2 py-0.5 uppercase">SIDE-BY-SIDE SPEC MATRIX</span>
+                          <h3 className="font-display font-bold text-lg text-canvas uppercase tracking-wider group-hover:text-copper transition-colors">
+                            MODULE COMPARISON
+                          </h3>
+                        </div>
+                        <p className="text-neutral-400 font-mono text-xs leading-relaxed">
+                          Compare up to 3 system modules on thermal limits, alloy materials, and lipid concentrations.
+                        </p>
                       </div>
-                      <h3 className="font-display font-bold text-sm text-canvas uppercase tracking-wider">SIDE-BY-SIDE COMPARISON</h3>
-                      <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">Compare up to 3 system modules on thermal limits, container alloy, lipid concentration, and price — with 1-click quick-adds.</p>
-                      <div className="flex items-center gap-2 text-copper font-mono text-[10px] font-bold uppercase group-hover:translate-x-1 transition-transform">
-                        <span>OPEN MATRIX</span>
-                        <span>→</span>
-                      </div>
-                    </button>
+                      <button className="w-full bg-neutral-900 border border-neutral-700 text-canvas group-hover:border-copper group-hover:bg-copper group-hover:text-basalt font-mono font-bold text-xs py-2.5 uppercase transition-colors">
+                        COMPARE ({comparedProductIds.length}) MODULES
+                      </button>
+                    </div>
 
-                    {/* VIP Vault Card */}
-                    <button
-                      type="button"
+                    {/* Card 4: VIP Loyalty Vault */}
+                    <div 
                       onClick={() => setVipDrawerOpen(true)}
-                      className="group border-2 border-copper/40 bg-neutral-950 p-6 text-left space-y-4 cursor-pointer transition-all hover:border-copper hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(217,107,67,0.2),4px_4px_0px_0px_#D96B43]"
+                      className="group border-2 border-neutral-800 bg-neutral-900/60 p-6 flex flex-col justify-between space-y-6 cursor-pointer hover:border-copper hover:-translate-y-1 transition-all duration-300 shadow-[4px_4px_0px_0px_#0B0D0E] hover:shadow-[4px_4px_0px_0px_#D96B43]"
                     >
-                      <div className="flex justify-between items-start">
-                        <span className="text-3xl">👑</span>
-                        <span className="bg-copper text-basalt font-mono text-[8px] font-bold px-2 py-0.5 uppercase">1,450 PTS</span>
+                      <div className="space-y-4">
+                        <div className="w-14 h-14 bg-basalt border-2 border-amber-500/80 p-3 flex items-center justify-center text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.2)] group-hover:scale-110 transition-transform">
+                          <Award size={28} />
+                        </div>
+                        <div className="space-y-1">
+                          <span className="bg-amber-950 text-amber-400 border border-amber-800 font-mono text-[8px] font-bold px-2 py-0.5 uppercase">VANGUARD REWARDS VAULT</span>
+                          <h3 className="font-display font-bold text-lg text-canvas uppercase tracking-wider group-hover:text-copper transition-colors">
+                            VIP LOYALTY VAULT
+                          </h3>
+                        </div>
+                        <p className="text-neutral-400 font-mono text-xs leading-relaxed">
+                          Track operative tier status (1,450 PTS), claim free annual refills, and unlock exclusive perks.
+                        </p>
                       </div>
-                      <h3 className="font-display font-bold text-sm text-canvas uppercase tracking-wider">VANGUARD VIP LOYALTY VAULT</h3>
-                      <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">Access your operative tier status, claim free annual refill pods, unlock early access to limited batch drops, and track expedition points.</p>
-                      <div className="flex items-center gap-2 text-copper font-mono text-[10px] font-bold uppercase group-hover:translate-x-1 transition-transform">
-                        <span>OPEN VAULT</span>
-                        <span>→</span>
-                      </div>
-                    </button>
+                      <button className="w-full bg-neutral-900 border border-neutral-700 text-canvas group-hover:border-copper group-hover:bg-copper group-hover:text-basalt font-mono font-bold text-xs py-2.5 uppercase transition-colors">
+                        OPEN VIP VAULT
+                      </button>
+                    </div>
                   </div>
                 </div>
               </section>
