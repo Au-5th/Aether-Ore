@@ -71,8 +71,8 @@ Aether-Ore/
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/aether-ore.git
-   cd aether-ore
+   git clone https://github.com/Au-5th/Aether-Ore.git
+   cd Aether-Ore
    ```
 
 2. **Install dependencies:**
@@ -134,4 +134,4 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 ## ✍️ Author & Candidate Contact
 
 - **Candidate Project:** Built for the **Keen Shopify Developer** evaluation.
-- **Repository:** [https://github.com/your-username/aether-ore](https://github.com/your-username/aether-ore)
+- **Repository:** [https://github.com/Au-5th/Aether-Ore](https://github.com/Au-5th/Aether-Ore)
