@@ -59,13 +59,13 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v1_basalt", name: "Anodized Basalt Black", sku: "THF-BSL-500", inventory: 15 },
       { id: "v1_copper", name: "Forged Copper Accent", sku: "THF-COP-500", inventory: 8 }
     ],
-    image: "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp",
+    image: "assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp",
     images: [
-      "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp",
-      "/assets/Raw Brushed Titanium Flask Studio View.webp",
-      "/assets/Anodized Basalt Black Titanium Flask View.webp",
-      "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp",
-      "/assets/an Arctic field researcher inspecting equipment inside a mountain shelter.webp"
+      "assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp",
+      "assets/Raw Brushed Titanium Flask Studio View.webp",
+      "assets/Anodized Basalt Black Titanium Flask View.webp",
+      "assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp",
+      "assets/an Arctic field researcher inspecting equipment inside a mountain shelter.webp"
     ],
     isFlagship: true,
     rating: 4.95,
@@ -114,10 +114,10 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v2_standard", name: "Standard Block", sku: "VEB-STD-150", inventory: 124 },
       { id: "v2_dual", name: "Dual-Grit Extreme (Coarse)", sku: "VEB-EXT-150", inventory: 56 }
     ],
-    image: "/assets/Basalt Volcanic Exfoliating Block Studio View.webp",
+    image: "assets/Basalt Volcanic Exfoliating Block Studio View.webp",
     images: [
-      "/assets/Basalt Volcanic Exfoliating Block Studio View.webp",
-      "/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.webp"
+      "assets/Basalt Volcanic Exfoliating Block Studio View.webp",
+      "assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.webp"
     ],
     isFlagship: false,
     rating: 4.88,
@@ -156,11 +156,11 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v3_standard", name: "Single Tube", sku: "TBC-STD-50", inventory: 89 },
       { id: "v3_heavy", name: "Heavy Expedition Jar", sku: "TBC-JAR-100", inventory: 30 }
     ],
-    image: "/assets/Isolated commercial studio shot of AETHER & ORE Glacial Barrier Balm.webp",
+    image: "assets/Isolated commercial studio shot of AETHER & ORE Glacial Barrier Balm.webp",
     images: [
-      "/assets/Isolated commercial studio shot of AETHER & ORE Glacial Barrier Balm.webp",
-      "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.webp",
-      "/assets/Clean studio profile view of an anodized titanium skincare bottle.webp"
+      "assets/Isolated commercial studio shot of AETHER & ORE Glacial Barrier Balm.webp",
+      "assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.webp",
+      "assets/Clean studio profile view of an anodized titanium skincare bottle.webp"
     ],
     isFlagship: false,
     rating: 4.92,
@@ -198,10 +198,10 @@ export const PRODUCTS_DATA: Product[] = [
     variants: [
       { id: "v4_standard", name: "Aluminium Squeeze Tube", sku: "CHB-ALU-75", inventory: 240 }
     ],
-    image: "/assets/Tactile Carbon Hand Balm Tube View.webp",
+    image: "assets/Tactile Carbon Hand Balm Tube View.webp",
     images: [
-      "/assets/Tactile Carbon Hand Balm Tube View.webp",
-      "/assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.webp"
+      "assets/Tactile Carbon Hand Balm Tube View.webp",
+      "assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.webp"
     ],
     isFlagship: false,
     rating: 4.87,
@@ -239,11 +239,11 @@ export const PRODUCTS_DATA: Product[] = [
     variants: [
       { id: "v5_standard", name: "Active Flask Dispenser", sku: "UIS-FLK-60", inventory: 98 }
     ],
-    image: "/assets/UV-Hazard Glacier Shield Dispenser Studio View.webp",
+    image: "assets/UV-Hazard Glacier Shield Dispenser Studio View.webp",
     images: [
-      "/assets/UV-Hazard Glacier Shield Dispenser Studio View.webp",
-      "/assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.webp",
-      "/assets/landscape photography of windswept sub-zero alpine mountain peaks.webp"
+      "assets/UV-Hazard Glacier Shield Dispenser Studio View.webp",
+      "assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.webp",
+      "assets/landscape photography of windswept sub-zero alpine mountain peaks.webp"
     ],
     isFlagship: false,
     rating: 4.91,
@@ -282,10 +282,10 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v6_raw", name: "Raw Milled Brass", sku: "MTV-BRS-150", inventory: 12 },
       { id: "v6_black", name: "Cerakote Tactical Black", sku: "MTV-BLK-150", inventory: 22 }
     ],
-    image: "/assets/Milled Brass Travel Vault Studio View.webp",
+    image: "assets/Milled Brass Travel Vault Studio View.webp",
     images: [
-      "/assets/Milled Brass Travel Vault Studio View.webp",
-      "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp"
+      "assets/Milled Brass Travel Vault Studio View.webp",
+      "assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp"
     ],
     isFlagship: false,
     rating: 4.96,
@@ -323,10 +323,10 @@ export const PRODUCTS_DATA: Product[] = [
     variants: [
       { id: "v7_standard", name: "Anodized Pod", sku: "OGP-POD-50", inventory: 78 }
     ],
-    image: "/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.webp",
+    image: "assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.webp",
     images: [
-      "/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.webp",
-      "/assets/frozen glacial water crystals expanding under a polarized light microscope.webp"
+      "assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.webp",
+      "assets/frozen glacial water crystals expanding under a polarized light microscope.webp"
     ],
     isFlagship: false,
     rating: 4.94,

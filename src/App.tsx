@@ -192,11 +192,11 @@ export default function App() {
   // Synchronize Hero Image with Selected Variant
   useEffect(() => {
     if (heroVariant.id === "v1_raw") {
-      setHeroActiveImage("/assets/Raw Brushed Titanium Flask Studio View.webp");
+      setHeroActiveImage("assets/Raw Brushed Titanium Flask Studio View.webp");
     } else if (heroVariant.id === "v1_basalt") {
-      setHeroActiveImage("/assets/Anodized Basalt Black Titanium Flask View.webp");
+      setHeroActiveImage("assets/Anodized Basalt Black Titanium Flask View.webp");
     } else if (heroVariant.id === "v1_copper") {
-      setHeroActiveImage("/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp");
+      setHeroActiveImage("assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp");
     }
   }, [heroVariant]);
 
@@ -649,7 +649,7 @@ export default function App() {
             <div className="flex items-center gap-3">
               <a href="#" className="relative group block flex-shrink-0">
                 <img
-                  src="/assets/brand_creative_logo.webp"
+                  src="assets/brand_creative_logo.webp"
                   alt="AETHER & ORE Creative Logo Mark"
                   className="w-9 h-9 object-cover border border-copper/80 shadow-[0_0_10px_rgba(217,107,67,0.4)] group-hover:scale-105 transition-transform"
                 />
@@ -1606,7 +1606,7 @@ export default function App() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                   <div className="lg:col-span-6 relative overflow-hidden border-2 border-neutral-800 bg-basalt aspect-[4/5] w-full flex items-center justify-center group shadow-[6px_6px_0px_0px_#0B0D0E]">
                     <img
-                      src="/assets/Split screen ad visual.webp"
+                      src="assets/Split screen ad visual.webp"
                       alt="AETHER & ORE Dual Formulation & Hardware Campaign Visual"
                       className="w-full h-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700"
                       loading="lazy"
@@ -1656,7 +1656,7 @@ export default function App() {
                     <div className="md:col-span-8 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[340px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
-                          src="/assets/portrait of a 38-year-old alpine climber with weathered, healthy skin and crisp focus.webp" 
+                          src="assets/portrait of a 38-year-old alpine climber with weathered, healthy skin and crisp focus.webp" 
                           alt="High-Altitude Lifestyle Campaign — 38-year-old alpine climber on Nordic Ridge" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
@@ -1682,7 +1682,7 @@ export default function App() {
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[340px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
-                          src="/assets/two cosmetic formulation engineers in dark charcoal lab coats discussing liquid active samples inside an industrial minimalist studio.webp" 
+                          src="assets/two cosmetic formulation engineers in dark charcoal lab coats discussing liquid active samples inside an industrial minimalist studio.webp" 
                           alt="Team & Founder Photography — Two AETHER & ORE formulation engineers discussing liquid active samples" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
@@ -1708,7 +1708,7 @@ export default function App() {
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[280px]">
                       <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-500">
                         <img 
-                          src="/assets/high-tech cleanroom formulation lab in Zurich.webp" 
+                          src="assets/high-tech cleanroom formulation lab in Zurich.webp" 
                           alt="Factory / Cleanroom Formulation Lab in Zurich" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
@@ -1730,7 +1730,7 @@ export default function App() {
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[280px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
-                          src="/assets/a molten copper drop hitting cold water alongside recycled aluminum shavings.webp" 
+                          src="assets/a molten copper drop hitting cold water alongside recycled aluminum shavings.webp" 
                           alt="Sustainability & Circular Hardware Concept — Molten copper drop hitting cold water" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
@@ -1752,7 +1752,7 @@ export default function App() {
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[280px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
-                          src="/assets/frozen glacial water crystals expanding under a polarized light microscope.webp" 
+                          src="assets/frozen glacial water crystals expanding under a polarized light microscope.webp" 
                           alt="Blog / Journal Featured Header Image — Frozen glacial water crystals under polarized light microscope" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
@@ -1774,7 +1774,7 @@ export default function App() {
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[300px]">
                       <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-500">
                         <img 
-                          src="/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.webp" 
+                          src="assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.webp" 
                           alt="Collection Banner (Barrier Care) — Basalt rocks in shallow icy water with copper mineral veins" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
@@ -1800,7 +1800,7 @@ export default function App() {
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[300px]">
                       <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-500">
                         <img 
-                          src="/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.webp" 
+                          src="assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.webp" 
                           alt="Seasonal Winter Campaign Banner — Three matte black refillable skincare pods in wool felt travel wrap" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
@@ -1826,7 +1826,7 @@ export default function App() {
                     <div className="md:col-span-4 group relative overflow-hidden border border-neutral-800 bg-neutral-950 flex flex-col justify-between p-6 h-[300px]">
                       <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
                         <img 
-                          src="/assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.webp" 
+                          src="assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.webp" 
                           alt="TikTok / Instagram Story Creative — Hand holding dark aluminum flask under freezing alpine waterfall" 
                           className="w-full h-full object-cover filter grayscale group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"
@@ -1996,7 +1996,7 @@ export default function App() {
                     {/* Reel 1 */}
                     <div className="group relative border-2 border-neutral-800 bg-neutral-950 overflow-hidden aspect-[9/16] flex flex-col justify-between p-6 shadow-[6px_6px_0px_0px_#0B0D0E]">
                       <img
-                        src="/assets/reel_glacier_traverse.webp"
+                        src="assets/reel_glacier_traverse.webp"
                         alt="Glacier Traverse Field Reel"
                         className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-70"
                         loading="lazy"
@@ -2021,7 +2021,7 @@ export default function App() {
                     {/* Reel 2 */}
                     <div className="group relative border-2 border-neutral-800 bg-neutral-950 overflow-hidden aspect-[9/16] flex flex-col justify-between p-6 shadow-[6px_6px_0px_0px_#0B0D0E]">
                       <img
-                        src="/assets/reel_volcanic_scrub.webp"
+                        src="assets/reel_volcanic_scrub.webp"
                         alt="Volcanic Ash Dermabrasion Demo Reel"
                         className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-70"
                         loading="lazy"
@@ -2046,7 +2046,7 @@ export default function App() {
                     {/* Reel 3 */}
                     <div className="group relative border-2 border-neutral-800 bg-neutral-950 overflow-hidden aspect-[9/16] flex flex-col justify-between p-6 shadow-[6px_6px_0px_0px_#0B0D0E]">
                       <img
-                        src="/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp"
+                        src="assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp"
                         alt="Titanium Drop Test Reel"
                         className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-60"
                         loading="lazy"
@@ -2142,7 +2142,7 @@ export default function App() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                   <div className="lg:col-span-6 relative border border-neutral-800 overflow-hidden group">
                     <img
-                      src="/assets/knolling flat lay photograph of disassembled skincare packaging.webp"
+                      src="assets/knolling flat lay photograph of disassembled skincare packaging.webp"
                       alt="Exploded Packaging Knolling Flat Lay — disassembled skincare packaging grid"
                       className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700"
                       loading="lazy"
@@ -2795,7 +2795,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
   "@type": "Product",
   "name": "Anodized Titanium Hydration Flask",
   "image": [
-    "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp"
+    "assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp"
   ],
   "description": "Grade-5 vacuum-insulated tactical titanium flask with micro-milled exterior grip.",
   "sku": "THF-RAW-500",
@@ -3942,7 +3942,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <img
-                    src="/assets/brand_creative_logo.webp"
+                    src="assets/brand_creative_logo.webp"
                     alt="AETHER & ORE Creative Logo Mark"
                     className="w-8 h-8 object-cover border border-copper/80 shadow-[0_0_8px_rgba(217,107,67,0.4)]"
                   />
