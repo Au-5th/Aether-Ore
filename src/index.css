@@ -134,36 +134,44 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Scroll-Focus & Delayed Hover/Focus Color Reveal System
-   Features silky 75ms start delay, 800ms luxury cubic-bezier easing,
-   and glowing copper illumination sheen on hover/focus.
+   GLOBAL UNIFIED HOVER/FOCUS-TO-COLOR SYSTEM
+   Automatically targets 100% of images and container frames site-wide
 ═══════════════════════════════════════════════════════════════════ */
-.scroll-reveal {
-  opacity: 0.9;
-  filter: grayscale(80%) contrast(110%);
+img {
+  filter: grayscale(85%) contrast(108%);
   transition: filter 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.075s, 
               opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.075s, 
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.075s,
-              border-color 0.4s ease 0.075s,
-              box-shadow 0.5s ease 0.075s;
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.075s;
 }
 
-.scroll-reveal.in-view,
-.scroll-reveal:hover,
-.scroll-reveal:focus,
-.scroll-reveal:focus-within {
-  opacity: 1;
-  filter: grayscale(0%) contrast(125%) saturate(145%);
+/* Universal Hover, Keyboard Focus, Focus-Within, and Scroll-In-View */
+img:hover,
+img:focus,
+*:focus > img,
+*:focus-within > img,
+.group:hover img,
+.group:focus img,
+.group:focus-within img,
+.in-view img,
+img.in-view {
+  filter: grayscale(0%) contrast(125%) saturate(145%) !important;
 }
 
-.card-copper-sheen {
-  transition: border-color 0.4s ease 0.075s, box-shadow 0.5s ease 0.075s, transform 0.5s ease 0.075s;
+/* Universal Container Copper Glow Sheen on Hover & Focus */
+.border-neutral-800,
+.border-2 {
+  transition: border-color 0.4s ease 0.075s, box-shadow 0.5s ease 0.075s, transform 0.5s ease 0.075s !important;
 }
 
-.card-copper-sheen:hover,
-.card-copper-sheen:focus-within {
+.border-neutral-800:hover,
+.border-neutral-800:focus-within,
+.border-2:hover,
+.border-2:focus-within,
+.group:hover .border-neutral-800,
+.group:focus-within .border-neutral-800 {
   border-color: #D96B43 !important;
   box-shadow: 0 0 25px rgba(217, 107, 67, 0.35), 4px 4px 0px 0px #D96B43 !important;
 }
+
 
 

@@ -624,121 +624,93 @@ export default function App() {
       {/* Main Container padding to account for fixed Announcement Bar */}
       <div className="pt-8">
         
-        {/* Navigation Header */}
-        <header id="main-header" className="sticky top-8 bg-basalt/95 border-b border-neutral-800 z-40 backdrop-blur-md">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+        {/* Floating Glassmorphism Command Header */}
+        <header id="main-header" className="sticky top-10 z-40 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mt-2 transition-all">
+          <div className="bg-neutral-950/90 backdrop-blur-xl border-2 border-neutral-800/80 shadow-[0_8px_32px_rgba(0,0,0,0.8)] p-3 sm:p-4 flex flex-col lg:flex-row justify-between items-center gap-4">
             
+            {/* Logo & Operational Status */}
             <div className="flex items-center gap-3">
-              <span className="h-5 w-2 bg-copper"></span>
-              <a href="#" className="font-display font-bold text-lg tracking-[0.2em] hover:text-copper transition-colors uppercase" style={{ fontFamily: '"Arial Black", sans-serif' }}>
-                AETHER & ORE
-              </a>
-              <span className="font-mono text-[9px] text-neutral-500 border border-neutral-800 px-2 py-0.5">
-                PLUS // STOREFRONT
-              </span>
+              <div className="relative flex items-center justify-center">
+                <span className="h-4 w-4 rounded-full bg-emerald-500/20 animate-ping absolute"></span>
+                <span className="h-2 w-2 rounded-full bg-emerald-400 relative"></span>
+              </div>
+              <div>
+                <a href="#" className="font-display font-black text-lg tracking-[0.25em] text-canvas hover:text-copper transition-colors uppercase block leading-none">
+                  AETHER & ORE
+                </a>
+                <span className="font-mono text-[8px] text-neutral-500 tracking-widest uppercase block mt-1">
+                  OPERATIONAL // REYKJAVÍK 64°N
+                </span>
+              </div>
             </div>
 
             {/* Core Tabs Navigator */}
-            <nav role="tablist" aria-label="Site sections" className="flex flex-wrap items-center justify-center gap-1 bg-neutral-900/50 p-1 border border-neutral-800">
-              <button
-                id="tab-storefront-btn"
-                role="tab"
-                aria-selected={activeTab === "storefront"}
-                aria-controls="storefront-view"
-                onClick={() => setActiveTab("storefront")}
-                className={`min-h-[44px] px-3 py-2 text-xs font-mono tracking-wider transition-all rounded-none focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-1 ${
-                  activeTab === "storefront"
-                    ? "bg-copper text-basalt font-bold"
-                    : "text-neutral-400 hover:text-canvas hover:bg-neutral-800/50"
-                }`}
-              >
-                1. STOREFRONT
-              </button>
-              <button
-                id="tab-codebase-btn"
-                role="tab"
-                aria-selected={activeTab === "codebase"}
-                aria-controls="codebase-view"
-                onClick={() => setActiveTab("codebase")}
-                className={`min-h-[44px] px-3 py-2 text-xs font-mono tracking-wider transition-all rounded-none focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-1 ${
-                  activeTab === "codebase"
-                    ? "bg-copper text-basalt font-bold"
-                    : "text-neutral-400 hover:text-canvas hover:bg-neutral-800/50"
-                }`}
-              >
-                2. HEADLESS CODEBASE
-              </button>
-              <button
-                id="tab-architecture-btn"
-                role="tab"
-                aria-selected={activeTab === "architecture"}
-                aria-controls="architecture-view"
-                onClick={() => setActiveTab("architecture")}
-                className={`min-h-[44px] px-3 py-2 text-xs font-mono tracking-wider transition-all rounded-none focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-1 ${
-                  activeTab === "architecture"
-                    ? "bg-copper text-basalt font-bold"
-                    : "text-neutral-400 hover:text-canvas hover:bg-neutral-800/50"
-                }`}
-              >
-                3. SHOPIFY PLUS CORE
-              </button>
-              <button
-                id="tab-case-study-btn"
-                role="tab"
-                aria-selected={activeTab === "case-study"}
-                aria-controls="case-study-view"
-                onClick={() => setActiveTab("case-study")}
-                className={`min-h-[44px] px-3 py-2 text-xs font-mono tracking-wider transition-all rounded-none focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-1 ${
-                  activeTab === "case-study"
-                    ? "bg-copper text-basalt font-bold"
-                    : "text-neutral-400 hover:text-canvas hover:bg-neutral-800/50"
-                }`}
-              >
-                4. CASE STUDY
-              </button>
+            <nav role="tablist" aria-label="Site sections" className="flex flex-wrap items-center justify-center gap-1 bg-neutral-900/60 p-1 border border-neutral-800/80 backdrop-blur-sm">
+              {[
+                { id: "storefront", label: "[01] STOREFRONT" },
+                { id: "codebase", label: "[02] CODEBASE" },
+                { id: "architecture", label: "[03] SHOPIFY PLUS" },
+                { id: "case-study", label: "[04] CASE STUDY" }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  id={`tab-${tab.id}-btn`}
+                  role="tab"
+                  aria-selected={activeTab === tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`relative min-h-[38px] px-3.5 py-1.5 text-xs font-mono tracking-wider transition-all cursor-pointer ${
+                    activeTab === tab.id
+                      ? "bg-copper text-basalt font-extrabold shadow-[0_0_12px_#D96B43]"
+                      : "text-neutral-400 hover:text-canvas hover:bg-neutral-800/40"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </nav>
 
-            <div className="flex items-center gap-2">
+            {/* Quick Action Controls */}
+            <div className="flex items-center gap-2 flex-wrap justify-center">
               {/* Alpine Audio Soundscape Toggle */}
               <button
                 onClick={toggleAlpineAudio}
-                className={`border font-mono text-xs px-2.5 py-1.5 cursor-pointer uppercase font-bold hidden xl:flex items-center gap-1.5 transition-colors ${
-                  audioPlaying ? "bg-copper text-basalt border-copper animate-pulse" : "bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-copper"
+                className={`border font-mono text-[11px] px-2.5 py-1.5 cursor-pointer uppercase font-bold hidden xl:flex items-center gap-1 transition-all ${
+                  audioPlaying ? "bg-copper text-basalt border-copper shadow-[0_0_10px_#D96B43]" : "bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-copper hover:border-copper"
                 }`}
                 title="Toggle Web Audio Alpine Wind Soundscape"
               >
-                <span>{audioPlaying ? "🔊 ALPINE AUDIO: ON" : "🔇 ALPINE AUDIO: OFF"}</span>
+                <span>{audioPlaying ? "🔊 AMBIENT: ON" : "🔇 AMBIENT"}</span>
               </button>
 
               {/* Satellite Order Telemetry Trigger */}
               <button
                 onClick={() => setOrderTelemetryOpen(true)}
-                className="bg-neutral-950 border border-neutral-800 hover:border-copper text-neutral-400 hover:text-copper font-mono text-xs px-2.5 py-1.5 cursor-pointer uppercase font-semibold hidden lg:flex items-center gap-1"
+                className="bg-neutral-900/80 border border-neutral-800 hover:border-copper text-neutral-300 hover:text-copper font-mono text-[11px] px-2.5 py-1.5 cursor-pointer uppercase font-semibold hidden lg:flex items-center gap-1 transition-all"
               >
-                <span>🛰️ ORDER TELEMETRY</span>
+                <span>🛰️ TELEMETRY</span>
               </button>
 
               {/* Quiz Trigger */}
               <button
                 onClick={() => setQuizModalOpen(true)}
-                className="bg-neutral-950 border border-copper/50 hover:border-copper text-copper font-mono text-xs px-2.5 py-1.5 cursor-pointer uppercase font-bold hidden lg:flex items-center gap-1.5"
+                className="bg-neutral-900/80 border border-copper/60 hover:border-copper text-copper font-mono text-[11px] px-2.5 py-1.5 cursor-pointer uppercase font-bold hidden lg:flex items-center gap-1 transition-all shadow-[0_0_8px_rgba(217,107,67,0.2)]"
               >
-                <span>⚡ SKIN QUIZ</span>
+                <span>⚡ QUIZ</span>
               </button>
 
               {/* VIP Vault Trigger */}
               <button
                 onClick={() => setVipDrawerOpen(true)}
-                className="bg-neutral-950 border border-neutral-800 hover:border-copper text-neutral-300 hover:text-copper font-mono text-xs px-2.5 py-1.5 cursor-pointer uppercase font-semibold hidden md:flex items-center gap-1"
+                className="bg-neutral-900/80 border border-neutral-800 hover:border-copper text-neutral-300 hover:text-copper font-mono text-[11px] px-2.5 py-1.5 cursor-pointer uppercase font-semibold hidden md:flex items-center gap-1 transition-all"
               >
-                <span>👑 VANGUARD VAULT</span>
+                <span>👑 VAULT</span>
               </button>
 
               {/* Currency Selector */}
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value as any)}
-                className="bg-neutral-950 border border-neutral-800 text-canvas font-mono text-xs px-2 py-1.5 focus:border-copper outline-none cursor-pointer"
+                className="bg-neutral-900 border border-neutral-800 text-canvas font-mono text-xs px-2 py-1.5 focus:border-copper outline-none cursor-pointer"
                 aria-label="Select currency"
               >
                 <option value="USD">USD ($)</option>
@@ -750,26 +722,27 @@ export default function App() {
               {/* Unit System Toggle */}
               <button
                 onClick={() => setUnitSystem((prev) => (prev === "metric" ? "imperial" : "metric"))}
-                className="bg-neutral-950 border border-neutral-800 text-neutral-400 hover:text-copper font-mono text-xs px-2 py-1.5 cursor-pointer uppercase font-semibold"
+                className="bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-copper font-mono text-xs px-2 py-1.5 cursor-pointer uppercase font-semibold"
                 title="Toggle Metric / Imperial units"
               >
                 {unitSystem === "metric" ? "METRIC" : "IMPERIAL"}
               </button>
 
+              {/* Cart Bag Trigger */}
               <button
                 id="cart-trigger-btn"
                 onClick={() => setCartOpen(true)}
                 aria-label={`Open cart, ${cart.reduce((s, i) => s + i.quantity, 0)} items`}
                 aria-expanded={cartOpen}
-                aria-controls="cart-drawer"
-                className={`relative min-h-[44px] px-4 py-2 border border-neutral-700 bg-neutral-950 font-mono text-xs font-bold tracking-widest hover:border-copper hover:text-copper transition-all flex items-center gap-2 rounded-none cursor-pointer focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-2 ${
-                  cartBump ? "animate-cartBump border-copper text-copper" : ""
+                className={`relative min-h-[38px] px-3.5 py-1.5 border border-neutral-700 bg-neutral-900 font-mono text-xs font-bold tracking-widest hover:border-copper hover:text-copper transition-all flex items-center gap-2 rounded-none cursor-pointer ${
+                  cartBump ? "animate-cartBump border-copper text-copper shadow-[0_0_12px_#D96B43]" : ""
                 }`}
               >
                 <ShoppingBag size={14} aria-hidden="true" />
                 BAG [<span className="text-copper" aria-hidden="true">{cart.reduce((s, i) => s + i.quantity, 0)}</span>]
               </button>
             </div>
+
           </div>
         </header>
 
