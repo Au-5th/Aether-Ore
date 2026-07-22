@@ -646,10 +646,14 @@ export default function App() {
             
             {/* Logo & Operational Status */}
             <div className="flex items-center gap-3">
-              <div className="relative flex items-center justify-center">
-                <span className="h-4 w-4 rounded-full bg-emerald-500/20 animate-ping absolute"></span>
-                <span className="h-2 w-2 rounded-full bg-emerald-400 relative"></span>
-              </div>
+              <a href="#" className="relative group block flex-shrink-0">
+                <img
+                  src="/assets/brand_creative_logo.webp"
+                  alt="AETHER & ORE Creative Logo Mark"
+                  className="w-9 h-9 object-cover border border-copper/80 shadow-[0_0_10px_rgba(217,107,67,0.4)] group-hover:scale-105 transition-transform"
+                />
+                <span className="h-2 w-2 rounded-full bg-emerald-400 absolute -top-1 -right-1 border border-neutral-950 animate-pulse"></span>
+              </a>
               <div>
                 <a href="#" className="font-display font-black text-lg tracking-[0.25em] text-canvas hover:text-copper transition-colors uppercase block leading-none">
                   AETHER & ORE
@@ -687,14 +691,6 @@ export default function App() {
 
             {/* Quick Action Controls */}
             <div className="flex items-center gap-2 flex-wrap justify-center">
-              {/* Compare Matrix Trigger */}
-              <button
-                onClick={() => setCompareModalOpen(true)}
-                className="bg-neutral-900/80 border border-neutral-800 hover:border-copper text-neutral-300 hover:text-copper font-mono text-[11px] px-2.5 py-1.5 cursor-pointer uppercase font-semibold hidden xl:flex items-center gap-1 transition-all"
-              >
-                <span>⚖️ COMPARE ({comparedProductIds.length})</span>
-              </button>
-
               {/* Alpine Audio Soundscape Toggle */}
               <button
                 onClick={toggleAlpineAudio}
@@ -704,30 +700,6 @@ export default function App() {
                 title="Toggle Web Audio Alpine Wind Soundscape"
               >
                 <span>{audioPlaying ? "🔊 AMBIENT: ON" : "🔇 AMBIENT"}</span>
-              </button>
-
-              {/* Satellite Order Telemetry Trigger */}
-              <button
-                onClick={() => setOrderTelemetryOpen(true)}
-                className="bg-neutral-900/80 border border-neutral-800 hover:border-copper text-neutral-300 hover:text-copper font-mono text-[11px] px-2.5 py-1.5 cursor-pointer uppercase font-semibold hidden lg:flex items-center gap-1 transition-all"
-              >
-                <span>🛰️ TELEMETRY</span>
-              </button>
-
-              {/* Quiz Trigger */}
-              <button
-                onClick={() => setQuizModalOpen(true)}
-                className="bg-neutral-900/80 border border-copper/60 hover:border-copper text-copper font-mono text-[11px] px-2.5 py-1.5 cursor-pointer uppercase font-bold hidden lg:flex items-center gap-1 transition-all shadow-[0_0_8px_rgba(217,107,67,0.2)]"
-              >
-                <span>⚡ QUIZ</span>
-              </button>
-
-              {/* VIP Vault Trigger */}
-              <button
-                onClick={() => setVipDrawerOpen(true)}
-                className="bg-neutral-900/80 border border-neutral-800 hover:border-copper text-neutral-300 hover:text-copper font-mono text-[11px] px-2.5 py-1.5 cursor-pointer uppercase font-semibold hidden md:flex items-center gap-1 transition-all"
-              >
-                <span>👑 VAULT</span>
               </button>
 
               {/* Currency Selector */}
@@ -1105,6 +1077,97 @@ export default function App() {
                     </div>
                   </div>
 
+                </div>
+              </section>
+
+              {/* OPERATIVE COMMAND CENTER — Compare, Telemetry, Quiz, Vault */}
+              <section id="command-center" className="py-16 bg-gradient-to-b from-basalt via-neutral-950 to-basalt">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+                  <div className="text-center max-w-3xl mx-auto space-y-3">
+                    <span className="font-mono text-[10px] text-copper uppercase tracking-[0.25em] font-bold">
+                      FIELD OPERATIVE TOOLKIT // INTERACTIVE COMMAND CENTER
+                    </span>
+                    <h2 className="font-display font-bold text-3xl tracking-wider text-canvas uppercase">
+                      OPERATIVE COMMAND CENTER
+                    </h2>
+                    <p className="text-neutral-400 text-xs font-mono">
+                      DIAGNOSTIC TOOLS • ORDER TRACKING • LOYALTY REWARDS • SIDE-BY-SIDE COMPARISON
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    {/* Skin Quiz Card */}
+                    <button
+                      type="button"
+                      onClick={() => setQuizModalOpen(true)}
+                      className="group border-2 border-neutral-800 bg-neutral-950 p-6 text-left space-y-4 cursor-pointer transition-all hover:border-copper hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(217,107,67,0.2),4px_4px_0px_0px_#D96B43]"
+                    >
+                      <div className="flex justify-between items-start">
+                        <span className="text-3xl">⚡</span>
+                        <span className="bg-copper text-basalt font-mono text-[8px] font-bold px-2 py-0.5 uppercase">DIAGNOSTIC</span>
+                      </div>
+                      <h3 className="font-display font-bold text-sm text-canvas uppercase tracking-wider">SUB-ZERO SKIN RESILIENCE QUIZ</h3>
+                      <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">3-step AI diagnostic assessing your environment, activity type, and skin sensitivity to generate a tailored antidote routine.</p>
+                      <div className="flex items-center gap-2 text-copper font-mono text-[10px] font-bold uppercase group-hover:translate-x-1 transition-transform">
+                        <span>LAUNCH DIAGNOSTIC</span>
+                        <span>→</span>
+                      </div>
+                    </button>
+
+                    {/* Order Telemetry Card */}
+                    <button
+                      type="button"
+                      onClick={() => setOrderTelemetryOpen(true)}
+                      className="group border-2 border-neutral-800 bg-neutral-950 p-6 text-left space-y-4 cursor-pointer transition-all hover:border-copper hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(217,107,67,0.2),4px_4px_0px_0px_#D96B43]"
+                    >
+                      <div className="flex justify-between items-start">
+                        <span className="text-3xl">🛰️</span>
+                        <span className="bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono text-[8px] font-bold px-2 py-0.5 uppercase">LIVE TRACKING</span>
+                      </div>
+                      <h3 className="font-display font-bold text-sm text-canvas uppercase tracking-wider">SATELLITE ORDER TELEMETRY</h3>
+                      <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">Track your expedition cargo in real-time across Arctic supply corridors. Reykjavík 64°N → Svalbard 78°N flight telemetry.</p>
+                      <div className="flex items-center gap-2 text-copper font-mono text-[10px] font-bold uppercase group-hover:translate-x-1 transition-transform">
+                        <span>OPEN TRACKER</span>
+                        <span>→</span>
+                      </div>
+                    </button>
+
+                    {/* Product Comparison Card */}
+                    <button
+                      type="button"
+                      onClick={() => setCompareModalOpen(true)}
+                      className="group border-2 border-neutral-800 bg-neutral-950 p-6 text-left space-y-4 cursor-pointer transition-all hover:border-copper hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(217,107,67,0.2),4px_4px_0px_0px_#D96B43]"
+                    >
+                      <div className="flex justify-between items-start">
+                        <span className="text-3xl">⚖️</span>
+                        <span className="bg-neutral-800 text-canvas font-mono text-[8px] font-bold px-2 py-0.5 uppercase">{comparedProductIds.length} MODULES</span>
+                      </div>
+                      <h3 className="font-display font-bold text-sm text-canvas uppercase tracking-wider">SIDE-BY-SIDE COMPARISON</h3>
+                      <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">Compare up to 3 system modules on thermal limits, container alloy, lipid concentration, and price — with 1-click quick-adds.</p>
+                      <div className="flex items-center gap-2 text-copper font-mono text-[10px] font-bold uppercase group-hover:translate-x-1 transition-transform">
+                        <span>OPEN MATRIX</span>
+                        <span>→</span>
+                      </div>
+                    </button>
+
+                    {/* VIP Vault Card */}
+                    <button
+                      type="button"
+                      onClick={() => setVipDrawerOpen(true)}
+                      className="group border-2 border-copper/40 bg-neutral-950 p-6 text-left space-y-4 cursor-pointer transition-all hover:border-copper hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(217,107,67,0.2),4px_4px_0px_0px_#D96B43]"
+                    >
+                      <div className="flex justify-between items-start">
+                        <span className="text-3xl">👑</span>
+                        <span className="bg-copper text-basalt font-mono text-[8px] font-bold px-2 py-0.5 uppercase">1,450 PTS</span>
+                      </div>
+                      <h3 className="font-display font-bold text-sm text-canvas uppercase tracking-wider">VANGUARD VIP LOYALTY VAULT</h3>
+                      <p className="text-neutral-400 font-mono text-[10px] leading-relaxed">Access your operative tier status, claim free annual refill pods, unlock early access to limited batch drops, and track expedition points.</p>
+                      <div className="flex items-center gap-2 text-copper font-mono text-[10px] font-bold uppercase group-hover:translate-x-1 transition-transform">
+                        <span>OPEN VAULT</span>
+                        <span>→</span>
+                      </div>
+                    </button>
+                  </div>
                 </div>
               </section>
 
@@ -1919,9 +1982,9 @@ export default function App() {
                     {/* Reel 1 */}
                     <div className="group relative border-2 border-neutral-800 bg-neutral-950 overflow-hidden aspect-[9/16] flex flex-col justify-between p-6 shadow-[6px_6px_0px_0px_#0B0D0E]">
                       <img
-                        src="/assets/portrait of a 38-year-old alpine climber with weathered, healthy skin and crisp focus.webp"
+                        src="/assets/reel_glacier_traverse.webp"
                         alt="Glacier Traverse Field Reel"
-                        className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-60"
+                        className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-70"
                         loading="lazy"
                       />
                       <div className="relative z-10 flex justify-between items-start font-mono text-[9px]">
@@ -1944,9 +2007,9 @@ export default function App() {
                     {/* Reel 2 */}
                     <div className="group relative border-2 border-neutral-800 bg-neutral-950 overflow-hidden aspect-[9/16] flex flex-col justify-between p-6 shadow-[6px_6px_0px_0px_#0B0D0E]">
                       <img
-                        src="/assets/Basalt Volcanic Exfoliating Block Studio View.webp"
+                        src="/assets/reel_volcanic_scrub.webp"
                         alt="Volcanic Ash Dermabrasion Demo Reel"
-                        className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-60"
+                        className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-70"
                         loading="lazy"
                       />
                       <div className="relative z-10 flex justify-between items-start font-mono text-[9px]">
