@@ -114,8 +114,9 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v2_standard", name: "Standard Block", sku: "VEB-STD-150", inventory: 124 },
       { id: "v2_dual", name: "Dual-Grit Extreme (Coarse)", sku: "VEB-EXT-150", inventory: 56 }
     ],
-    image: "/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.webp",
+    image: "/assets/Basalt Volcanic Exfoliating Block Studio View.webp",
     images: [
+      "/assets/Basalt Volcanic Exfoliating Block Studio View.webp",
       "/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.webp",
       "/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.webp",
       "/assets/knolling flat lay photograph of disassembled skincare packaging.webp"
@@ -200,8 +201,9 @@ export const PRODUCTS_DATA: Product[] = [
     variants: [
       { id: "v4_standard", name: "Aluminium Squeeze Tube", sku: "CHB-ALU-75", inventory: 240 }
     ],
-    image: "/assets/Clean studio profile view of an anodized titanium skincare bottle.webp",
+    image: "/assets/Tactile Carbon Hand Balm Tube View.webp",
     images: [
+      "/assets/Tactile Carbon Hand Balm Tube View.webp",
       "/assets/Clean studio profile view of an anodized titanium skincare bottle.webp",
       "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.webp",
       "/assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.webp"
@@ -286,8 +288,9 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v6_raw", name: "Raw Milled Brass", sku: "MTV-BRS-150", inventory: 12 },
       { id: "v6_black", name: "Cerakote Tactical Black", sku: "MTV-BLK-150", inventory: 22 }
     ],
-    image: "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp",
+    image: "/assets/Milled Brass Travel Vault Studio View.webp",
     images: [
+      "/assets/Milled Brass Travel Vault Studio View.webp",
       "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp",
       "/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.webp"
     ],

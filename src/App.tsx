@@ -1053,13 +1053,21 @@ export default function App() {
                       </div>
 
                       {/* aspect-video = 16/9. The colon syntax "16:9" is not valid CSS — slash form required. */}
-                      <div className="aspect-video w-full bg-basalt overflow-hidden border border-neutral-800 relative">
+                      <div 
+                        onClick={() => openProductProtocol(flagshipProduct)}
+                        className="aspect-video w-full bg-basalt overflow-hidden border border-neutral-800 relative cursor-pointer group"
+                      >
                         <img 
                           src={flagshipProduct.image} 
                           alt="Anodized Titanium Flask Detail" 
-                          className="object-cover w-full h-full filter grayscale hover:grayscale-0 transition-all duration-500"
+                          className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-500"
                           loading="lazy"
                         />
+                        <div className="absolute inset-0 bg-copper/0 group-hover:bg-copper/10 transition-colors flex items-center justify-center">
+                          <span className="opacity-0 group-hover:opacity-100 bg-basalt/90 text-copper border border-copper font-mono text-[9px] px-3 py-1 font-bold tracking-widest uppercase transition-opacity">
+                            + QUICK POPUP MODAL
+                          </span>
+                        </div>
                       </div>
 
                       <p className="text-neutral-300 text-xs sm:text-sm leading-relaxed">
@@ -1118,22 +1126,33 @@ export default function App() {
                       className="border-2 border-neutral-800 bg-neutral-950 p-5 flex flex-col justify-between transition-all duration-300 hover:border-copper hover:-translate-y-1 shadow-[4px_4px_0px_0px_rgba(11,13,14,1)] hover:shadow-[4px_4px_0px_0px_#D96B43]"
                     >
                       <div>
-                        <div className="aspect-[4/3] w-full bg-basalt overflow-hidden border border-neutral-800 mb-4 relative">
+                        <div 
+                          onClick={() => openProductProtocol(prod)}
+                          className="aspect-[4/3] w-full bg-basalt overflow-hidden border border-neutral-800 mb-4 relative cursor-pointer group"
+                        >
                           <img 
                             src={prod.image} 
                             alt={prod.title} 
-                            className="object-cover w-full h-full filter grayscale hover:grayscale-0 transition-all duration-500"
+                            className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-500"
                             loading="lazy"
                           />
-                          <span className="absolute bottom-2 left-2 bg-basalt text-canvas border border-neutral-800 font-mono text-[8px] px-1.5 py-0.5">
+                          <span className="absolute bottom-2 left-2 bg-basalt text-canvas border border-neutral-800 font-mono text-[8px] px-1.5 py-0.5 z-10">
                             {formatSize(prod.size)}
                           </span>
+                          <div className="absolute inset-0 bg-copper/0 group-hover:bg-copper/10 transition-colors flex items-center justify-center">
+                            <span className="opacity-0 group-hover:opacity-100 bg-basalt/90 text-copper border border-copper font-mono text-[8px] px-2 py-0.5 font-bold tracking-wider uppercase transition-opacity">
+                              + QUICK POPUP
+                            </span>
+                          </div>
                         </div>
 
                         <div className="flex justify-between items-start gap-2">
                           <div>
                             <span className="font-mono text-[9px] text-neutral-500 tracking-widest uppercase">{prod.category}</span>
-                            <h4 className="font-display font-semibold text-xs tracking-wider text-canvas line-clamp-1 mt-0.5">
+                            <h4 
+                              onClick={() => openProductProtocol(prod)}
+                              className="font-display font-semibold text-xs tracking-wider text-canvas line-clamp-1 mt-0.5 cursor-pointer hover:text-copper transition-colors"
+                            >
                               {prod.title}
                             </h4>
                           </div>
