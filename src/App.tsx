@@ -266,6 +266,21 @@ export default function App() {
   const [stressTemp, setStressTemp] = useState(-25);
   const [stressUV, setStressUV] = useState(9);
 
+  // ─── AR HAPTIC TELEMETRY & THERMAL HEATMAP STATE ───
+  const [arWireframeMode, setArWireframeMode] = useState<boolean>(false);
+  const [arThermalMode, setArThermalMode] = useState<boolean>(false);
+
+  // ─── SUB-ZERO SKIN RESILIENCE QUIZ STATE ───
+  const [quizModalOpen, setQuizModalOpen] = useState<boolean>(false);
+  const [quizStep, setQuizStep] = useState<number>(1);
+  const [quizElevation, setQuizElevation] = useState<"moderate" | "high" | "extreme">("high");
+  const [quizActivity, setQuizActivity] = useState<"alpine" | "industrial" | "marine">("alpine");
+  const [quizSensitivity, setQuizSensitivity] = useState<"standard" | "sensitive" | "reactive">("sensitive");
+  const [quizCompleted, setQuizCompleted] = useState<boolean>(false);
+
+  // ─── VANGUARD VIP LOYALTY VAULT STATE ───
+  const [vipDrawerOpen, setVipDrawerOpen] = useState<boolean>(false);
+
   const filteredProducts = useMemo(() => {
     return PRODUCTS_DATA.filter((p) => {
       const matchesSearch =
@@ -607,7 +622,23 @@ export default function App() {
               </button>
             </nav>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              {/* Quiz Trigger */}
+              <button
+                onClick={() => setQuizModalOpen(true)}
+                className="bg-neutral-950 border border-copper/50 hover:border-copper text-copper font-mono text-xs px-2.5 py-1.5 cursor-pointer uppercase font-bold hidden lg:flex items-center gap-1.5"
+              >
+                <span>⚡ SKIN QUIZ</span>
+              </button>
+
+              {/* VIP Vault Trigger */}
+              <button
+                onClick={() => setVipDrawerOpen(true)}
+                className="bg-neutral-950 border border-neutral-800 hover:border-copper text-neutral-300 hover:text-copper font-mono text-xs px-2.5 py-1.5 cursor-pointer uppercase font-semibold hidden md:flex items-center gap-1"
+              >
+                <span>👑 VANGUARD VAULT</span>
+              </button>
+
               {/* Currency Selector */}
               <select
                 value={currency}
@@ -1055,19 +1086,54 @@ export default function App() {
                       {/* aspect-video = 16/9. The colon syntax "16:9" is not valid CSS — slash form required. */}
                       <div 
                         onClick={() => openProductProtocol(flagshipProduct)}
-                        className="aspect-video w-full bg-basalt overflow-hidden border border-neutral-800 relative cursor-pointer group"
+                        className={`aspect-video w-full bg-basalt overflow-hidden border border-neutral-800 relative cursor-pointer group ${
+                          arWireframeMode ? "border-copper shadow-[0_0_15px_rgba(217,107,67,0.5)]" : ""
+                        }`}
                       >
                         <img 
                           src={flagshipProduct.image} 
                           alt="Anodized Titanium Flask Detail" 
-                          className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                          className={`object-cover w-full h-full transition-all duration-500 ${
+                            arThermalMode ? "hue-rotate-180 contrast-200" : "filter grayscale group-hover:grayscale-0"
+                          }`}
                           loading="lazy"
                         />
+                        {/* Overlay Product Telemetry Tag */}
+                        <div className="absolute top-2 right-2 bg-basalt/90 text-copper border border-neutral-800 font-mono text-[8px] px-2 py-0.5 font-bold uppercase backdrop-blur-sm z-10">
+                          SKU: {flagshipProduct.code} • {flagshipProduct.category} • {formatSize(flagshipProduct.size)}
+                        </div>
+
+                        {arWireframeMode && (
+                          <div className="absolute inset-0 bg-[radial-gradient(#D96B43_1px,transparent_1px)] [background-size:12px_12px] opacity-40 pointer-events-none"></div>
+                        )}
+
                         <div className="absolute inset-0 bg-copper/0 group-hover:bg-copper/10 transition-colors flex items-center justify-center">
                           <span className="opacity-0 group-hover:opacity-100 bg-basalt/90 text-copper border border-copper font-mono text-[9px] px-3 py-1 font-bold tracking-widest uppercase transition-opacity">
                             + QUICK POPUP MODAL
                           </span>
                         </div>
+                      </div>
+
+                      {/* AR Telemetry Mode Toggle Controls */}
+                      <div className="flex gap-2 font-mono text-[9px] pt-1">
+                        <button
+                          type="button"
+                          onClick={() => setArWireframeMode(!arWireframeMode)}
+                          className={`px-2 py-1 border transition-colors cursor-pointer ${
+                            arWireframeMode ? "bg-copper text-basalt font-bold border-copper" : "bg-neutral-900 text-neutral-400 border-neutral-800"
+                          }`}
+                        >
+                          {arWireframeMode ? "✓ AR GRID ON" : "AR WIREFRAME 3D"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setArThermalMode(!arThermalMode)}
+                          className={`px-2 py-1 border transition-colors cursor-pointer ${
+                            arThermalMode ? "bg-emerald-950 text-emerald-400 font-bold border-emerald-800" : "bg-neutral-900 text-neutral-400 border-neutral-800"
+                          }`}
+                        >
+                          {arThermalMode ? "✓ THERMAL ON" : "THERMAL HEATMAP"}
+                        </button>
                       </div>
 
                       <p className="text-neutral-300 text-xs sm:text-sm leading-relaxed">
@@ -1136,6 +1202,10 @@ export default function App() {
                             className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-500"
                             loading="lazy"
                           />
+                          {/* Overlay Product Identification Telemetry Tag */}
+                          <div className="absolute top-2 right-2 bg-basalt/90 text-copper border border-neutral-800 font-mono text-[8px] px-1.5 py-0.5 font-bold uppercase backdrop-blur-sm z-10">
+                            {prod.code} • {formatSize(prod.size)}
+                          </div>
                           <span className="absolute bottom-2 left-2 bg-basalt text-canvas border border-neutral-800 font-mono text-[8px] px-1.5 py-0.5 z-10">
                             {formatSize(prod.size)}
                           </span>
@@ -1340,18 +1410,18 @@ export default function App() {
                 </div>
               </section>
 
-              {/* EDITORIAL CAMPAIGN DUAL-SYSTEM PROMO BANNER */}
-              <section className="py-16 border-t border-b border-neutral-800 bg-neutral-950 relative overflow-hidden">
+              {/* FULL UNCROPPED EDITORIAL CAMPAIGN DUAL-SYSTEM PROMO BANNER */}
+              <section id="hardware-campaign" className="py-16 border-t border-b border-neutral-800 bg-neutral-950 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                  <div className="lg:col-span-6 relative overflow-hidden border border-neutral-800 group h-[360px]">
+                  <div className="lg:col-span-6 relative overflow-hidden border border-neutral-800 bg-black aspect-[4/3] md:aspect-[16/9] w-full flex items-center justify-center">
                     <img
                       src="/assets/Split screen ad visual.webp"
                       alt="AETHER & ORE Dual Formulation & Hardware Campaign Visual"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter grayscale contrast-125"
+                      className="w-full h-full object-contain filter grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-basalt via-transparent to-transparent opacity-85"></div>
-                    <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end font-mono text-[10px] text-canvas">
+                    <div className="absolute inset-0 bg-gradient-to-t from-basalt via-transparent to-transparent opacity-70 pointer-events-none"></div>
+                    <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end font-mono text-[10px] text-canvas z-10">
                       <span className="bg-copper text-basalt px-2 py-0.5 font-bold uppercase tracking-wider">CAMPAIGN FEATURE // DUAL SYSTEM</span>
                       <span className="text-neutral-400">REYKJAVÍK 64°N</span>
                     </div>
@@ -1368,6 +1438,60 @@ export default function App() {
                       <a href="#collection" className="bg-copper hover:bg-canvas hover:text-basalt text-basalt text-xs font-mono font-bold px-5 py-3 rounded-none uppercase transition-colors">
                         EXPLORE COMPLETE EXPEDITION KIT
                       </a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* DEDICATED COMPLETE COLLECTION MASTER SUITE SECTION */}
+              <section id="master-suite" className="py-20 border-t border-neutral-800 bg-neutral-900/40">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  <div className="lg:col-span-6 space-y-6">
+                    <span className="bg-copper text-basalt font-mono text-[10px] font-bold px-2.5 py-1 uppercase tracking-widest">
+                      THE COMPLETE MASTER EXPEDITION VAULT SUITE
+                    </span>
+                    <h2 className="font-display font-extrabold text-3xl sm:text-5xl text-canvas uppercase tracking-tight">
+                      ALL 6 SYSTEM MODULES IN ONE VAULT
+                    </h2>
+                    <p className="text-neutral-300 font-mono text-xs leading-relaxed">
+                      Includes the Grade-5 Titanium Flask, Basalt Volcanic Block, Alpine Barrier Cream, Carbon Hand Balm, Glacier Shield Dispenser, and Milled Brass Vault — encased in our wool transit wrap.
+                    </p>
+
+                    <div className="p-4 bg-neutral-950 border border-neutral-800 space-y-2 font-mono text-xs">
+                      <div className="flex justify-between text-neutral-400">
+                        <span>INDIVIDUAL COMBINED PRICE:</span>
+                        <span className="line-through">{formatPrice(349)}</span>
+                      </div>
+                      <div className="flex justify-between text-copper font-bold">
+                        <span>20% VANGUARD SUITE SAVINGS:</span>
+                        <span>-{formatPrice(70)}</span>
+                      </div>
+                      <div className="flex justify-between text-canvas font-extrabold text-base pt-2 border-t border-neutral-800">
+                        <span>MASTER SUITE PRICE:</span>
+                        <span className="text-copper">{formatPrice(279)}</span>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        PRODUCTS_DATA.forEach(p => handleAddToCart(p, p.variants[0], 1, false));
+                      }}
+                      className="w-full sm:w-auto bg-copper hover:bg-canvas hover:text-basalt text-basalt font-display font-bold text-xs py-4 px-8 uppercase transition-colors cursor-pointer"
+                    >
+                      ADD COMPLETE MASTER SUITE TO BAG — {formatPrice(279)}
+                    </button>
+                  </div>
+
+                  <div className="lg:col-span-6 relative border-2 border-neutral-800 bg-neutral-950 overflow-hidden group">
+                    <img
+                      src="/assets/studio group photograph of the complete AETHER & ORE skincare module collection.webp"
+                      alt="Studio group photograph of the complete AETHER & ORE skincare module collection"
+                      className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700"
+                      loading="lazy"
+                    />
+                    <div className="absolute bottom-3 left-3 bg-basalt/90 text-copper border border-neutral-800 font-mono text-[9px] px-2.5 py-1 font-bold uppercase backdrop-blur-sm">
+                      COMPLETE MASTER MODULE SUITE // 6 PIECES
                     </div>
                   </div>
                 </div>
@@ -1714,19 +1838,43 @@ export default function App() {
                 </div>
               </section>
 
-              {/* Bottom Brand System Overview Accent Banner */}
-              <section className="bg-neutral-950 border-t border-neutral-800 py-16 text-center">
-                <div className="max-w-4xl mx-auto px-4 space-y-4">
-                  <h3 className="font-display text-lg tracking-[0.2em] text-canvas">AETHER & ORE PACKAGING PROTOCOL</h3>
-                  <p className="text-neutral-400 text-xs max-w-2xl mx-auto">
-                    {BRAND_SYSTEM.packaging.vessel} {BRAND_SYSTEM.packaging.outer} Marking system: {BRAND_SYSTEM.packaging.marking}
-                  </p>
-                  <div className="flex justify-center gap-6 text-[10px] font-mono text-neutral-500">
-                    <span>99.8% BIO-DEGRADABLE SYSTEM</span>
-                    <span>•</span>
-                    <span>100% RECYCLED MARINE MATERIALS</span>
-                    <span>•</span>
-                    <span>ZERO SYNTHETIC RESIDUE</span>
+              {/* AETHER & ORE PACKAGING PROTOCOL SECTION WITH KNOLLING FLAT LAY */}
+              <section id="packaging-protocol" className="bg-neutral-950 border-t border-neutral-800 py-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  <div className="lg:col-span-6 relative border border-neutral-800 overflow-hidden group">
+                    <img
+                      src="/assets/knolling flat lay photograph of disassembled skincare packaging.webp"
+                      alt="Exploded Packaging Knolling Flat Lay — disassembled skincare packaging grid"
+                      className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700"
+                      loading="lazy"
+                    />
+                    <div className="absolute bottom-3 left-3 bg-basalt/90 text-copper border border-neutral-800 font-mono text-[9px] px-2.5 py-1 font-bold uppercase backdrop-blur-sm">
+                      KNOLLING PACKAGING PROTOCOL // 100% RECYCLED MARINE ALUMINUM
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-6 space-y-5">
+                    <span className="font-mono text-xs text-copper uppercase tracking-[0.25em] font-semibold">ZERO-WASTE REFILL ARCHITECTURE</span>
+                    <h3 className="font-display text-3xl font-extrabold tracking-wider text-canvas uppercase">
+                      AETHER & ORE PACKAGING PROTOCOL
+                    </h3>
+                    <p className="text-neutral-300 text-xs font-mono leading-relaxed">
+                      {BRAND_SYSTEM.packaging.vessel} {BRAND_SYSTEM.packaging.outer} Marking system: {BRAND_SYSTEM.packaging.marking}
+                    </p>
+                    <div className="grid grid-cols-3 gap-3 pt-2 font-mono text-[10px] text-neutral-400">
+                      <div className="p-3 bg-neutral-900 border border-neutral-800">
+                        <span className="text-copper font-bold block mb-1">99.8% BIO</span>
+                        DEGRADABLE
+                      </div>
+                      <div className="p-3 bg-neutral-900 border border-neutral-800">
+                        <span className="text-copper font-bold block mb-1">100% RECYCLED</span>
+                        MARINE ORE
+                      </div>
+                      <div className="p-3 bg-neutral-900 border border-neutral-800">
+                        <span className="text-copper font-bold block mb-1">0% SYNTHETIC</span>
+                        PLASTIC RESIDUE
+                      </div>
+                    </div>
                   </div>
                 </div>
               </section>
@@ -2986,6 +3134,205 @@ fn function_main(input: Input) -> Result<Output, Error> {
                 </div>
               </div>
 
+            </div>
+          </div>
+        )}
+
+        {/* SUB-ZERO SKIN RESILIENCE QUIZ MODAL */}
+        {quizModalOpen && (
+          <div
+            className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-center justify-center p-4"
+            aria-hidden="true"
+            onClick={(e) => { if (e.target === e.currentTarget) setQuizModalOpen(false); }}
+          >
+            <div className="bg-neutral-950 border-2 border-copper w-full max-w-xl p-6 sm:p-8 rounded-none shadow-[6px_6px_0px_0px_#D96B43] relative animate-scale-up z-50">
+              <button
+                onClick={() => setQuizModalOpen(false)}
+                className="absolute top-4 right-4 text-neutral-400 hover:text-copper cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+
+              <div className="space-y-4 font-mono">
+                <div className="flex items-center gap-2">
+                  <span className="bg-copper text-basalt text-[9px] font-bold px-2 py-0.5 uppercase">
+                    AI SKIN DIAGNOSTIC PROTOCOL
+                  </span>
+                  <span className="text-neutral-500 text-[10px]">STEP {quizStep} OF 3</span>
+                </div>
+
+                <h3 className="font-display font-extrabold text-xl text-canvas uppercase tracking-wider">
+                  SUB-ZERO SKIN RESILIENCE QUIZ
+                </h3>
+
+                {!quizCompleted && quizStep === 1 && (
+                  <div className="space-y-4 pt-2">
+                    <p className="text-neutral-300 text-xs">SELECT TARGET EXPEDITION ELEVATION & EXPOSURE:</p>
+                    <div className="space-y-2">
+                      {[
+                        { id: "moderate", label: "0 - 2,000M (COASTAL & VALLEY COLD)" },
+                        { id: "high", label: "2,000 - 4,500M (HIGH ALPINE RIDGE)" },
+                        { id: "extreme", label: "4,500M+ (SUB-ZERO EXPEDITION FIELD)" }
+                      ].map((opt) => (
+                        <button
+                          key={opt.id}
+                          onClick={() => { setQuizElevation(opt.id as any); setQuizStep(2); }}
+                          className={`w-full text-left p-3 border font-mono text-xs transition-colors cursor-pointer ${
+                            quizElevation === opt.id ? "border-copper bg-copper/10 text-copper font-bold" : "border-neutral-800 bg-neutral-900 text-canvas hover:border-copper"
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {!quizCompleted && quizStep === 2 && (
+                  <div className="space-y-4 pt-2">
+                    <p className="text-neutral-300 text-xs">SELECT PRIMARY FIELD ACTIVITY TYPE:</p>
+                    <div className="space-y-2">
+                      {[
+                        { id: "alpine", label: "ALPINE SKI & MOUNTAINEERING" },
+                        { id: "industrial", label: "INDUSTRIAL OUTDOOR HARD WORK" },
+                        { id: "marine", label: "ARCTIC MARINE & HIGH WIND" }
+                      ].map((opt) => (
+                        <button
+                          key={opt.id}
+                          onClick={() => { setQuizActivity(opt.id as any); setQuizStep(3); }}
+                          className={`w-full text-left p-3 border font-mono text-xs transition-colors cursor-pointer ${
+                            quizActivity === opt.id ? "border-copper bg-copper/10 text-copper font-bold" : "border-neutral-800 bg-neutral-900 text-canvas hover:border-copper"
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {!quizCompleted && quizStep === 3 && (
+                  <div className="space-y-4 pt-2">
+                    <p className="text-neutral-300 text-xs">SELECT DERMAL RECOVERY REQUIREMENT:</p>
+                    <div className="space-y-2">
+                      {[
+                        { id: "standard", label: "STANDARD DAILY LIPID HYDRATION" },
+                        { id: "sensitive", label: "INTENSE WINDBURN & CHAPPING SHIELD" },
+                        { id: "reactive", label: "EXTREME CELLULAR DAMAGE REPAIR" }
+                      ].map((opt) => (
+                        <button
+                          key={opt.id}
+                          onClick={() => {
+                            setQuizSensitivity(opt.id as any);
+                            setQuizCompleted(true);
+                          }}
+                          className={`w-full text-left p-3 border font-mono text-xs transition-colors cursor-pointer ${
+                            quizSensitivity === opt.id ? "border-copper bg-copper/10 text-copper font-bold" : "border-neutral-800 bg-neutral-900 text-canvas hover:border-copper"
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {quizCompleted && (
+                  <div className="space-y-4 pt-2 border-t border-neutral-800">
+                    <div className="p-3 bg-emerald-950/60 border border-emerald-800 text-emerald-400 text-xs">
+                      ✓ DIAGNOSTIC COMPLETE: RECOMMENDED ROUTINE BUNDLE GENERATED
+                    </div>
+                    <div className="p-4 bg-neutral-900 border border-neutral-800 space-y-2 text-xs">
+                      <div className="text-copper font-bold uppercase">PRESCRIBED ANTIDOTE:</div>
+                      <div className="text-canvas font-semibold">• Thermophile Alpine Barrier Cream (50ml)</div>
+                      <div className="text-canvas font-semibold">• UV-Hazard Glacier Shield Dispenser (60ml)</div>
+                      <div className="text-canvas font-semibold">• Basalt Volcanic Exfoliating Block (150g)</div>
+                      <div className="text-copper font-bold pt-2 border-t border-neutral-800 flex justify-between">
+                        <span>BUNDLE DISCOUNT PRICE:</span>
+                        <span>{formatPrice(89)} <span className="line-through text-neutral-500 font-normal text-[10px]">{formatPrice(123)}</span></span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleAddToCart(PRODUCTS_DATA[2], PRODUCTS_DATA[2].variants[0], 1, false);
+                        handleAddToCart(PRODUCTS_DATA[4], PRODUCTS_DATA[4].variants[0], 1, false);
+                        handleAddToCart(PRODUCTS_DATA[1], PRODUCTS_DATA[1].variants[0], 1, false);
+                        setQuizModalOpen(false);
+                      }}
+                      className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-mono font-bold text-xs py-3.5 uppercase transition-colors cursor-pointer"
+                    >
+                      ADD PRESCRIBED ROUTINE BUNDLE TO BAG ({formatPrice(89)})
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* VANGUARD VIP LOYALTY VAULT DRAWER */}
+        {vipDrawerOpen && (
+          <div
+            className="fixed inset-0 bg-basalt/80 backdrop-blur-sm z-50 flex justify-end"
+            aria-hidden="true"
+            onClick={(e) => { if (e.target === e.currentTarget) setVipDrawerOpen(false); }}
+          >
+            <div className="w-full max-w-md bg-neutral-950 border-l border-neutral-800 h-full flex flex-col justify-between p-6 overflow-y-auto animate-slide-in font-mono z-50">
+              <div className="space-y-6">
+                <div className="flex justify-between items-center border-b border-neutral-800 pb-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-copper font-bold">👑 VANGUARD VIP VAULT</span>
+                  </div>
+                  <button onClick={() => setVipDrawerOpen(false)} className="text-neutral-400 hover:text-copper cursor-pointer">
+                    <X size={18} />
+                  </button>
+                </div>
+
+                <div className="p-4 bg-neutral-900 border border-copper space-y-2">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-neutral-400">OPERATIVE STATUS:</span>
+                    <span className="text-copper font-bold">SUB-ZERO PIONEER</span>
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span className="text-neutral-400">EXPEDITION POINTS:</span>
+                    <span className="text-canvas font-bold">1,450 PTS</span>
+                  </div>
+                  <div className="w-full bg-neutral-800 h-2 mt-2">
+                    <div className="bg-copper h-2 w-[72%]"></div>
+                  </div>
+                  <span className="text-[9px] text-neutral-500 block text-right">550 PTS TO TITANIUM VANGUARD TIER</span>
+                </div>
+
+                <div className="space-y-3">
+                  <span className="text-[10px] text-copper uppercase font-bold tracking-wider block">UNLOCKED OPERATIVE PERKS:</span>
+                  <div className="space-y-2 text-xs">
+                    <div className="p-3 bg-neutral-900 border border-neutral-800 flex justify-between items-center">
+                      <div>
+                        <div className="font-bold text-canvas">FREE ANNUAL REFILL POD</div>
+                        <div className="text-[10px] text-neutral-400">Claim 1 complimentary 50ml pod every 12 months</div>
+                      </div>
+                      <button onClick={() => alert("Free Refill Pod added to account!")} className="bg-copper text-basalt font-bold px-2 py-1 text-[10px] cursor-pointer">CLAIM</button>
+                    </div>
+                    <div className="p-3 bg-neutral-900 border border-neutral-800 flex justify-between items-center">
+                      <div>
+                        <div className="font-bold text-canvas">FREE CUSTOM LASER ENGRAVING</div>
+                        <div className="text-[10px] text-neutral-400">Unlimited custom coordinate laser etching</div>
+                      </div>
+                      <span className="text-emerald-400 text-[10px] font-bold">ACTIVE</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6 border-t border-neutral-800">
+                <button
+                  onClick={() => setVipDrawerOpen(false)}
+                  className="w-full bg-neutral-900 border border-neutral-800 hover:border-copper text-canvas text-xs py-3 uppercase tracking-wider transition-colors cursor-pointer"
+                >
+                  CLOSE VIP VAULT
+                </button>
+              </div>
             </div>
           </div>
         )}
