@@ -218,6 +218,72 @@ export default function App() {
   const [selectedCodeFile, setSelectedCodeFile] = useState<CodeFile>(CODEBASE_FILES[0]);
   const [copiedFile, setCopiedFile] = useState<string | null>(null);
 
+  // ─── EXPEDITION CURRENCY & UNITS STATE ───
+  const [currency, setCurrency] = useState<"USD" | "EUR" | "GBP" | "JPY">("USD");
+  const [unitSystem, setUnitSystem] = useState<"metric" | "imperial">("metric");
+
+  const CURRENCY_MAP: Record<string, { rate: number; symbol: string }> = {
+    USD: { rate: 1.0, symbol: "$" },
+    EUR: { rate: 0.92, symbol: "€" },
+    GBP: { rate: 0.78, symbol: "£" },
+    JPY: { rate: 155.0, symbol: "¥" }
+  };
+
+  const formatPrice = (usdAmount: number, targetCurrency = currency) => {
+    const c = CURRENCY_MAP[targetCurrency] || CURRENCY_MAP.USD;
+    const converted = usdAmount * c.rate;
+    if (targetCurrency === "JPY") {
+      return `${c.symbol}${Math.round(converted).toLocaleString()}`;
+    }
+    return `${c.symbol}${converted.toFixed(2)}`;
+  };
+
+  const formatSize = (sizeStr: string, sys = unitSystem) => {
+    if (sys === "metric") return sizeStr;
+    if (sizeStr === "500ml") return "16.9 fl.oz";
+    if (sizeStr === "150g") return "5.3 oz";
+    if (sizeStr === "50ml") return "1.7 fl.oz";
+    if (sizeStr === "75ml") return "2.5 fl.oz";
+    if (sizeStr === "60ml") return "2.0 fl.oz";
+    return sizeStr;
+  };
+
+  // ─── SEARCH & CATEGORY FILTER STATE ───
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>("ALL");
+
+  // ─── LASER ENGRAVING INPUT STATE ───
+  const [laserEngravings, setLaserEngravings] = useState<Record<string, string>>({});
+
+  // ─── MODULAR EXPEDITION KIT CONFIGURATOR STATE ───
+  const [kitVessel, setKitVessel] = useState<Product>(PRODUCTS_DATA[0]);
+  const [kitPods, setKitPods] = useState<Product[]>([PRODUCTS_DATA[1], PRODUCTS_DATA[2]]);
+  const [kitWrap, setKitWrap] = useState<"Basalt Charcoal" | "Nordic Navy" | "Obsidian Black">("Basalt Charcoal");
+  const [kitAddedSuccess, setKitAddedSuccess] = useState(false);
+
+  // ─── HAZARD STRESS TEST SIMULATOR STATE ───
+  const [stressWind, setStressWind] = useState(65);
+  const [stressTemp, setStressTemp] = useState(-25);
+  const [stressUV, setStressUV] = useState(9);
+
+  const filteredProducts = useMemo(() => {
+    return PRODUCTS_DATA.filter((p) => {
+      const matchesSearch =
+        searchQuery.trim() === "" ||
+        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.category.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesCat =
+        selectedCategoryFilter === "ALL" ||
+        (selectedCategoryFilter === "FLAGSHIP" && p.isFlagship) ||
+        p.category.toLowerCase() === selectedCategoryFilter.toLowerCase();
+
+      return matchesSearch && matchesCat;
+    });
+  }, [searchQuery, selectedCategoryFilter]);
+
   // KPI Dashboard Multiplier (Case Study Interactive Slider)
   const [croEfficiencyFactor, setCroEfficiencyFactor] = useState(1.0);
 
@@ -541,7 +607,29 @@ export default function App() {
               </button>
             </nav>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
+              {/* Currency Selector */}
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value as any)}
+                className="bg-neutral-950 border border-neutral-800 text-canvas font-mono text-xs px-2 py-1.5 focus:border-copper outline-none cursor-pointer"
+                aria-label="Select currency"
+              >
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="GBP">GBP (£)</option>
+                <option value="JPY">JPY (¥)</option>
+              </select>
+
+              {/* Unit System Toggle */}
+              <button
+                onClick={() => setUnitSystem((prev) => (prev === "metric" ? "imperial" : "metric"))}
+                className="bg-neutral-950 border border-neutral-800 text-neutral-400 hover:text-copper font-mono text-xs px-2 py-1.5 cursor-pointer uppercase font-semibold"
+                title="Toggle Metric / Imperial units"
+              >
+                {unitSystem === "metric" ? "METRIC" : "IMPERIAL"}
+              </button>
+
               <button
                 id="cart-trigger-btn"
                 onClick={() => setCartOpen(true)}
@@ -900,13 +988,45 @@ export default function App() {
               {/* 4. Asymmetric Product Collection Grid */}
               <section id="collection" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
                 
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
                   <div>
                     <span className="font-mono text-xs text-copper uppercase tracking-[0.2em] font-semibold">SYSTEM OVERVIEW</span>
                     <h2 className="text-3xl font-display font-bold tracking-wider text-canvas mt-2">TACTICAL COLLECTION</h2>
                   </div>
                   <div className="text-neutral-500 font-mono text-xs uppercase">
-                    SHOWING 6 ENGINEERED SOLUTIONS // 100% IN-STOCK READY
+                    SHOWING {filteredProducts.length} OF {PRODUCTS_DATA.length} ENGINEERED SOLUTIONS
+                  </div>
+                </div>
+
+                {/* Instant Search & Category Filter Controls */}
+                <div className="mb-10 flex flex-col md:flex-row gap-4 items-center justify-between border-y border-neutral-800 py-4 bg-neutral-950/60 p-4">
+                  {/* Search Input */}
+                  <div className="w-full md:w-80 relative">
+                    <input
+                      type="text"
+                      placeholder="Search title, SKU code, or formulation..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full bg-neutral-900 border border-neutral-800 text-canvas font-mono text-xs p-2.5 pl-3 focus:border-copper outline-none"
+                    />
+                  </div>
+
+                  {/* Category Filter Pills */}
+                  <div className="flex flex-wrap gap-2 font-mono text-xs w-full md:w-auto">
+                    {["ALL", "FLAGSHIP", "HARDWARE", "APOTHECARY", "SKINCARE"].map((cat) => (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={() => setSelectedCategoryFilter(cat)}
+                        className={`px-3 py-1.5 border transition-all cursor-pointer ${
+                          selectedCategoryFilter === cat
+                            ? "bg-copper text-basalt font-bold border-copper"
+                            : "bg-neutral-900 text-neutral-400 border-neutral-800 hover:text-canvas"
+                        }`}
+                      >
+                        {cat}
+                      </button>
+                    ))}
                   </div>
                 </div>
 
@@ -917,18 +1037,23 @@ export default function App() {
                     <div className="space-y-4">
                       <div className="flex justify-between items-start">
                         <div>
-                          <span className="bg-copper text-basalt font-mono text-[9px] font-bold px-2 py-0.5 tracking-wider uppercase">
-                            FLAGSHIP HARDWARE SYSTEM
-                          </span>
+                          <div className="flex items-center gap-2">
+                            <span className="bg-copper text-basalt font-mono text-[9px] font-bold px-2 py-0.5 tracking-wider uppercase">
+                              FLAGSHIP HARDWARE SYSTEM
+                            </span>
+                            <span className="text-[9px] font-mono text-emerald-400 border border-emerald-800/60 px-1.5 py-0.5">
+                              ONLY 8 LEFT IN BATCH #409
+                            </span>
+                          </div>
                           <h3 className="font-display font-bold text-xl tracking-wider text-canvas mt-2">
                             {flagshipProduct.title}
                           </h3>
                         </div>
-                        <span className="font-mono text-lg font-extrabold text-copper">${flagshipProduct.price}</span>
+                        <span className="font-mono text-lg font-extrabold text-copper">{formatPrice(flagshipProduct.price)}</span>
                       </div>
 
                       {/* aspect-video = 16/9. The colon syntax "16:9" is not valid CSS — slash form required. */}
-                      <div className="aspect-video w-full bg-basalt overflow-hidden border border-neutral-800">
+                      <div className="aspect-video w-full bg-basalt overflow-hidden border border-neutral-800 relative">
                         <img 
                           src={flagshipProduct.image} 
                           alt="Anodized Titanium Flask Detail" 
@@ -944,7 +1069,7 @@ export default function App() {
                       <div className="grid grid-cols-3 gap-2 py-3 border-y border-neutral-800/60 text-center text-[10px] font-mono text-neutral-400">
                         <div>
                           <span className="block text-[8px] text-neutral-500 uppercase">CONTAINER SIZE</span>
-                          {flagshipProduct.size}
+                          {formatSize(flagshipProduct.size)}
                         </div>
                         <div>
                           <span className="block text-[8px] text-neutral-500 uppercase">THERMAL RATING</span>
@@ -954,6 +1079,19 @@ export default function App() {
                           <span className="block text-[8px] text-neutral-500 uppercase">VESSEL RATING</span>
                           MIL-STD Grade 5
                         </div>
+                      </div>
+
+                      {/* Custom Laser Engraving Input */}
+                      <div className="pt-1 font-mono text-[9px] space-y-1">
+                        <label className="text-copper font-bold block uppercase tracking-wider">CUSTOM LASER ETCHING (FREE):</label>
+                        <input
+                          type="text"
+                          maxLength={14}
+                          placeholder="e.g. 64°08'N 21°56'W or initials"
+                          value={laserEngravings[flagshipProduct.id] || ""}
+                          onChange={(e) => setLaserEngravings({ ...laserEngravings, [flagshipProduct.id]: e.target.value })}
+                          className="w-full bg-neutral-900 border border-neutral-800 text-canvas px-2.5 py-1.5 focus:border-copper outline-none text-xs"
+                        />
                       </div>
                     </div>
 
@@ -965,7 +1103,7 @@ export default function App() {
                         VIEW APPLICATION PROTOCOL
                       </button>
                       <button
-                        onClick={() => handleAddToCart(flagshipProduct, flagshipProduct.variants[0], 1, false)}
+                        onClick={() => handleAddToCart(flagshipProduct, flagshipProduct.variants[0], 1, false, laserEngravings[flagshipProduct.id])}
                         className="bg-copper hover:bg-canvas hover:text-basalt font-mono text-xs font-bold text-basalt py-2 px-4 rounded-none uppercase transition-colors cursor-pointer"
                       >
                         ADD TO SYSTEM
@@ -973,8 +1111,8 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Rest of the 5 products in asymmetric standard grid */}
-                  {PRODUCTS_DATA.filter(p => !p.isFlagship).map((prod) => (
+                  {/* Rest of the products in filtered products list */}
+                  {filteredProducts.filter(p => !p.isFlagship).map((prod) => (
                     <div 
                       key={prod.id}
                       className="border-2 border-neutral-800 bg-neutral-950 p-5 flex flex-col justify-between transition-all duration-300 hover:border-copper hover:-translate-y-1 shadow-[4px_4px_0px_0px_rgba(11,13,14,1)] hover:shadow-[4px_4px_0px_0px_#D96B43]"
@@ -988,7 +1126,7 @@ export default function App() {
                             loading="lazy"
                           />
                           <span className="absolute bottom-2 left-2 bg-basalt text-canvas border border-neutral-800 font-mono text-[8px] px-1.5 py-0.5">
-                            {prod.size}
+                            {formatSize(prod.size)}
                           </span>
                         </div>
 
@@ -999,7 +1137,7 @@ export default function App() {
                               {prod.title}
                             </h4>
                           </div>
-                          <span className="font-mono text-xs font-bold text-copper">${prod.price}</span>
+                          <span className="font-mono text-xs font-bold text-copper">{formatPrice(prod.price)}</span>
                         </div>
 
                         <p className="text-neutral-400 text-[11px] leading-relaxed mt-2 line-clamp-3">
@@ -1010,6 +1148,21 @@ export default function App() {
                           <span className="text-copper uppercase font-bold">SCENT:</span>
                           {prod.scent}
                         </div>
+
+                        {/* Laser Engraving Input for Hardware */}
+                        {prod.category === "Hardware" && (
+                          <div className="mt-3 font-mono text-[9px] space-y-1">
+                            <label className="text-copper font-bold block uppercase">LASER ENGRAVING:</label>
+                            <input
+                              type="text"
+                              maxLength={14}
+                              placeholder="e.g. 64°08'N 21°56'W"
+                              value={laserEngravings[prod.id] || ""}
+                              onChange={(e) => setLaserEngravings({ ...laserEngravings, [prod.id]: e.target.value })}
+                              className="w-full bg-neutral-900 border border-neutral-800 text-canvas px-2 py-1 focus:border-copper outline-none text-[10px]"
+                            />
+                          </div>
+                        )}
                       </div>
 
                       <div className="mt-6 pt-3 border-t border-neutral-900 flex justify-between items-center">
@@ -1020,7 +1173,7 @@ export default function App() {
                           PROTOCOL
                         </button>
                         <button
-                          onClick={() => handleAddToCart(prod, prod.variants[0], 1, false)}
+                          onClick={() => handleAddToCart(prod, prod.variants[0], 1, false, laserEngravings[prod.id])}
                           className="bg-neutral-900 border border-neutral-800 hover:border-copper hover:bg-copper/5 hover:text-copper text-xs font-mono font-bold text-canvas py-1.5 px-3 rounded-none uppercase transition-all cursor-pointer"
                         >
                           QUICK ADD
@@ -1029,6 +1182,142 @@ export default function App() {
                     </div>
                   ))}
 
+                </div>
+              </section>
+
+              {/* 3-STEP MODULAR EXPEDITION KIT BUILDER */}
+              <section className="py-20 border-t border-neutral-800 bg-neutral-900/30">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                  <div className="text-center max-w-3xl mx-auto space-y-3">
+                    <span className="font-mono text-[10px] text-copper uppercase tracking-[0.25em] font-bold">
+                      MODULAR SYSTEM CUSTOMIZER // 20% KIT SAVINGS
+                    </span>
+                    <h2 className="font-display font-bold text-3xl tracking-wider text-canvas uppercase">
+                      BUILD YOUR CUSTOM EXPEDITION VAULT
+                    </h2>
+                    <p className="text-neutral-400 text-xs font-mono">
+                      SELECT 1 HARDWARE VESSEL + 2 FORMULATION MODULES + 1 WOOL TRANSIT WRAP
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                    {/* Step 1: Vessel Selection */}
+                    <div className="lg:col-span-4 border-2 border-neutral-800 bg-neutral-950 p-6 space-y-4">
+                      <span className="bg-copper text-basalt font-mono text-[9px] font-bold px-2 py-0.5 uppercase">
+                        STEP 1: HARDWARE VESSEL
+                      </span>
+                      <div className="space-y-3 pt-2">
+                        {PRODUCTS_DATA.filter(p => p.category === "Hardware").map((v) => (
+                          <div
+                            key={v.id}
+                            onClick={() => setKitVessel(v)}
+                            className={`p-3 border flex items-center justify-between cursor-pointer transition-all ${
+                              kitVessel.id === v.id ? "border-copper bg-copper/5" : "border-neutral-800 bg-neutral-900 hover:border-neutral-700"
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <img src={v.image} alt={v.title} className="w-10 h-10 object-cover border border-neutral-800 filter grayscale" />
+                              <div>
+                                <h4 className="font-bold text-canvas text-xs">{v.title}</h4>
+                                <span className="text-neutral-400 font-mono text-[10px]">{formatPrice(v.price)}</span>
+                              </div>
+                            </div>
+                            <span className={`w-3.5 h-3.5 border rounded-none ${kitVessel.id === v.id ? "bg-copper border-copper" : "border-neutral-700"}`}></span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Step 2: Formulations Selection */}
+                    <div className="lg:col-span-4 border-2 border-neutral-800 bg-neutral-950 p-6 space-y-4">
+                      <span className="bg-neutral-800 text-canvas border border-neutral-700 font-mono text-[9px] font-bold px-2 py-0.5 uppercase">
+                        STEP 2: FORMULATION PODS (PICK 2)
+                      </span>
+                      <div className="space-y-2 pt-2 max-h-64 overflow-y-auto pr-1">
+                        {PRODUCTS_DATA.filter(p => p.category !== "Hardware").map((pod) => {
+                          const isSelected = kitPods.some(p => p.id === pod.id);
+                          return (
+                            <div
+                              key={pod.id}
+                              onClick={() => {
+                                if (isSelected) {
+                                  if (kitPods.length > 1) setKitPods(kitPods.filter(p => p.id !== pod.id));
+                                } else {
+                                  if (kitPods.length < 2) setKitPods([...kitPods, pod]);
+                                  else setKitPods([kitPods[1], pod]);
+                                }
+                              }}
+                              className={`p-2.5 border flex items-center justify-between cursor-pointer transition-all ${
+                                isSelected ? "border-copper bg-copper/5" : "border-neutral-800 bg-neutral-900 hover:border-neutral-700"
+                              }`}
+                            >
+                              <div className="flex items-center gap-2.5">
+                                <img src={pod.image} alt={pod.title} className="w-8 h-8 object-cover border border-neutral-800 filter grayscale" />
+                                <div>
+                                  <h4 className="font-semibold text-canvas text-[11px] truncate max-w-[140px]">{pod.title}</h4>
+                                  <span className="text-neutral-400 font-mono text-[9px]">{formatPrice(pod.price)}</span>
+                                </div>
+                              </div>
+                              <span className={`w-3 h-3 border ${isSelected ? "bg-copper border-copper" : "border-neutral-700"}`}></span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Step 3: Wrap Color & Add to Bag Summary */}
+                    <div className="lg:col-span-4 border-2 border-copper bg-neutral-950 p-6 space-y-5 flex flex-col justify-between">
+                      <div className="space-y-4">
+                        <span className="bg-copper text-basalt font-mono text-[9px] font-bold px-2 py-0.5 uppercase">
+                          STEP 3: WOOL TRANSIT WRAP
+                        </span>
+                        
+                        <div className="grid grid-cols-3 gap-2 pt-1 font-mono text-[10px]">
+                          {(["Basalt Charcoal", "Nordic Navy", "Obsidian Black"] as const).map((wColor) => (
+                            <button
+                              key={wColor}
+                              type="button"
+                              onClick={() => setKitWrap(wColor)}
+                              className={`p-2 border text-center transition-all cursor-pointer ${
+                                kitWrap === wColor ? "border-copper bg-copper text-basalt font-bold" : "border-neutral-800 bg-neutral-900 text-neutral-400"
+                              }`}
+                            >
+                              {wColor.split(" ")[0]}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Kit Calculation Summary */}
+                        <div className="p-3 bg-neutral-900 border border-neutral-800 space-y-1.5 font-mono text-xs">
+                          <div className="flex justify-between text-neutral-400">
+                            <span>RAW COMBINED:</span>
+                            <span>{formatPrice(kitVessel.price + kitPods.reduce((s, p) => s + p.price, 0))}</span>
+                          </div>
+                          <div className="flex justify-between text-copper font-bold">
+                            <span>20% KIT DISCOUNT:</span>
+                            <span>-{formatPrice((kitVessel.price + kitPods.reduce((s, p) => s + p.price, 0)) * 0.2)}</span>
+                          </div>
+                          <div className="flex justify-between text-canvas font-extrabold text-sm pt-1 border-t border-neutral-800">
+                            <span>EXPEDITION KIT TOTAL:</span>
+                            <span className="text-copper">{formatPrice((kitVessel.price + kitPods.reduce((s, p) => s + p.price, 0)) * 0.8)}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleAddToCart(kitVessel, kitVessel.variants[0], 1, false, `Custom Kit Wrap: ${kitWrap}`);
+                          kitPods.forEach(p => handleAddToCart(p, p.variants[0], 1, false));
+                          setKitAddedSuccess(true);
+                          setTimeout(() => setKitAddedSuccess(false), 3000);
+                        }}
+                        className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-display font-bold text-xs py-3.5 rounded-none uppercase transition-colors cursor-pointer"
+                      >
+                        {kitAddedSuccess ? "✓ CUSTOM KIT ADDED TO BAG!" : "ASSEMBLE & ADD KIT TO BAG"}
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </section>
 
@@ -1249,6 +1538,132 @@ export default function App() {
                           High-density grey wool transit pouch protecting aluminum replenishment canisters on glacier fields. Zero waste packaging designed for complete system loops.
                         </p>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* INTERACTIVE HAZARD STRESS TEST SIMULATOR */}
+              <section className="py-20 border-t border-neutral-800 bg-neutral-950">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                  <div className="text-center max-w-3xl mx-auto space-y-3">
+                    <span className="font-mono text-[10px] text-copper uppercase tracking-[0.25em] font-bold">
+                      ENVIRONMENTAL FRICTION MATRIX // REAL-TIME RISK CALCULATOR
+                    </span>
+                    <h2 className="font-display font-bold text-3xl tracking-wider text-canvas uppercase">
+                      HAZARD STRESS TEST SIMULATOR
+                    </h2>
+                    <p className="text-neutral-400 text-xs font-mono">
+                      ADJUST ALPINE EXPOSURE VARIABLES TO COMPUTE SKIN BARRIER BREAKDOWN RISK & FORMULATION ANTIDOTE
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border border-neutral-800 bg-neutral-900/40 p-6 sm:p-8">
+                    {/* Sliders Column */}
+                    <div className="lg:col-span-7 space-y-6">
+                      {/* Slider 1: Wind Velocity */}
+                      <div className="space-y-2 font-mono text-xs">
+                        <div className="flex justify-between">
+                          <span className="text-neutral-300">WIND VELOCITY:</span>
+                          <span className="text-copper font-bold">{stressWind} KM/H</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="0"
+                          max="120"
+                          value={stressWind}
+                          onChange={(e) => setStressWind(Number(e.target.value))}
+                          className="w-full accent-copper cursor-pointer bg-neutral-950 border border-neutral-800"
+                        />
+                      </div>
+
+                      {/* Slider 2: Sub-Zero Temperature */}
+                      <div className="space-y-2 font-mono text-xs">
+                        <div className="flex justify-between">
+                          <span className="text-neutral-300">SUB-ZERO TEMPERATURE:</span>
+                          <span className="text-copper font-bold">{stressTemp}°C</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="-50"
+                          max="20"
+                          value={stressTemp}
+                          onChange={(e) => setStressTemp(Number(e.target.value))}
+                          className="w-full accent-copper cursor-pointer bg-neutral-950 border border-neutral-800"
+                        />
+                      </div>
+
+                      {/* Slider 3: UV Radiation */}
+                      <div className="space-y-2 font-mono text-xs">
+                        <div className="flex justify-between">
+                          <span className="text-neutral-300">UV RADIATION INDEX:</span>
+                          <span className="text-copper font-bold">INDEX {stressUV}</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="1"
+                          max="12"
+                          value={stressUV}
+                          onChange={(e) => setStressUV(Number(e.target.value))}
+                          className="w-full accent-copper cursor-pointer bg-neutral-950 border border-neutral-800"
+                        />
+                      </div>
+
+                      {/* Telemetry Output Metrics */}
+                      <div className="grid grid-cols-2 gap-4 pt-4 border-t border-neutral-800 font-mono text-xs">
+                        <div className="p-3 bg-neutral-950 border border-neutral-800">
+                          <span className="text-neutral-500 text-[10px] block">LIPID EROSION RISK</span>
+                          <span className="text-xl font-extrabold text-copper">
+                            {Math.min(100, Math.round((stressWind * 0.35) + (Math.abs(stressTemp - 20) * 0.7) + (stressUV * 3.5)))}%
+                          </span>
+                        </div>
+                        <div className="p-3 bg-neutral-950 border border-neutral-800">
+                          <span className="text-neutral-500 text-[10px] block">FROSTBITE HAZARD INDEX</span>
+                          <span className="text-xl font-extrabold text-emerald-400">
+                            {stressTemp < 0 ? Math.round(Math.abs(stressTemp) * 1.4 + stressWind * 0.4) : 0} PTS
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Antidote Recommendation Column */}
+                    <div className="lg:col-span-5 border-2 border-copper bg-neutral-950 p-6 space-y-4">
+                      <span className="bg-copper text-basalt font-mono text-[9px] font-bold px-2 py-0.5 uppercase">
+                        PRESCRIBED FORMULATION ANTIDOTE
+                      </span>
+
+                      <div className="flex items-center gap-4">
+                        <img
+                          src={stressUV > 7 ? PRODUCTS_DATA[5].image : PRODUCTS_DATA[2].image}
+                          alt="Formulation Antidote"
+                          className="w-16 h-16 object-cover border border-neutral-800 filter grayscale"
+                        />
+                        <div>
+                          <h4 className="font-display font-bold text-sm text-canvas">
+                            {stressUV > 7 ? PRODUCTS_DATA[5].title : PRODUCTS_DATA[2].title}
+                          </h4>
+                          <span className="text-copper font-mono text-xs font-bold">
+                            {formatPrice(stressUV > 7 ? PRODUCTS_DATA[5].price : PRODUCTS_DATA[2].price)}
+                          </span>
+                        </div>
+                      </div>
+
+                      <p className="text-neutral-400 font-mono text-[11px] leading-relaxed">
+                        {stressUV > 7
+                          ? "High-UV Glacier Shield Dispenser creates a physical mineral block preventing cellular DNA degradation under high altitude exposure."
+                          : "Sub-Zero Alpine Lip Balm & Hydro-Gel creates an impenetrable lipid film resisting high windchill freeze."}
+                      </p>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const targetProd = stressUV > 7 ? PRODUCTS_DATA[5] : PRODUCTS_DATA[2];
+                          handleAddToCart(targetProd, targetProd.variants[0], 1, false);
+                        }}
+                        className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-mono font-bold text-xs py-3 rounded-none uppercase transition-colors cursor-pointer"
+                      >
+                        + ADD PRESCRIBED SHIELD TO BAG
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -2080,8 +2495,14 @@ fn function_main(input: Input) -> Result<Output, Error> {
                       </div>
                       
                       <p className="text-neutral-400 font-mono text-[10px] mt-0.5 truncate uppercase">
-                        {item.variant.name} ({item.product.size})
+                        {item.variant.name} ({formatSize(item.product.size)})
                       </p>
+
+                      {item.engraving && (
+                        <span className="text-copper font-mono text-[9px] block mt-0.5 font-bold uppercase">
+                          ETCH: "{item.engraving}"
+                        </span>
+                      )}
                       
                       {!isFreeGift && (
                         <div className="flex items-center gap-2 mt-1.5">
@@ -2136,20 +2557,47 @@ fn function_main(input: Input) -> Result<Output, Error> {
               </div>
             </div>
 
-            <button
-              onClick={() => {
-                if (cart.length === 0) {
-                  alert("Your active gear system is empty.");
-                  return;
-                }
-                alert("Simulating redirect to Shopify Plus 1-Tap Secure Checkout...");
-                setCart([]);
-                setCartOpen(false);
-              }}
-              className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-display font-bold text-xs tracking-[0.15em] py-4 rounded-none uppercase transition-colors cursor-pointer"
-            >
-              PROCEED TO SECURE CHECKOUT
-            </button>
+            <div className="space-y-2">
+              <button
+                onClick={() => {
+                  if (cart.length === 0) {
+                    alert("Your active gear system is empty.");
+                    return;
+                  }
+                  alert("Simulating redirect to Shopify Plus 1-Tap Secure Checkout...");
+                  setCart([]);
+                  setCartOpen(false);
+                }}
+                className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-display font-bold text-xs tracking-[0.15em] py-4 rounded-none uppercase transition-colors cursor-pointer"
+              >
+                PROCEED TO SECURE CHECKOUT — ${cartSubtotal.toFixed(2)}
+              </button>
+
+              {/* Express 1-Click Payment Buttons */}
+              <div className="grid grid-cols-3 gap-2 font-mono text-[9px] pt-1">
+                <button
+                  type="button"
+                  onClick={() => { alert("Simulating Shop Pay Express 1-Tap Checkout..."); setCart([]); setCartOpen(false); }}
+                  className="bg-[#5A31F4] hover:bg-[#4822D6] text-white py-2 font-bold rounded-none uppercase transition-colors cursor-pointer"
+                >
+                  SHOP PAY
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { alert("Simulating Apple Pay Express Checkout..."); setCart([]); setCartOpen(false); }}
+                  className="bg-black hover:bg-neutral-800 text-white border border-neutral-700 py-2 font-bold rounded-none uppercase transition-colors cursor-pointer"
+                >
+                   PAY
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { alert("Simulating Google Pay Express Checkout..."); setCart([]); setCartOpen(false); }}
+                  className="bg-white hover:bg-neutral-200 text-black py-2 font-bold rounded-none uppercase transition-colors cursor-pointer"
+                >
+                  G PAY
+                </button>
+              </div>
+            </div>
             <div className="text-[10px] text-neutral-500 text-center font-mono">
               SECURED WITH AES-256 ENCRYPTION • VIP HOOKS INTEGRATED
             </div>
