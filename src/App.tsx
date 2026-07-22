@@ -1557,59 +1557,7 @@ export default function App() {
                 </div>
               </section>
 
-              {/* DEDICATED COMPLETE COLLECTION MASTER SUITE SECTION */}
-              <section id="master-suite" className="py-20 border-t border-neutral-800 bg-neutral-900/40">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                  <div className="lg:col-span-6 space-y-6">
-                    <span className="bg-copper text-basalt font-mono text-[10px] font-bold px-2.5 py-1 uppercase tracking-widest">
-                      THE COMPLETE MASTER EXPEDITION VAULT SUITE
-                    </span>
-                    <h2 className="font-display font-extrabold text-3xl sm:text-5xl text-canvas uppercase tracking-tight">
-                      ALL 7 SYSTEM MODULES IN ONE VAULT
-                    </h2>
-                    <p className="text-neutral-300 font-mono text-xs leading-relaxed">
-                      Includes the Titanium Flask, Volcanic Block, Alpine Barrier Cream, Carbon Hand Balm, Glacier Shield Dispenser, Milled Brass Vault, and Obsidian Hydration Pod — encased in our wool transit wrap.
-                    </p>
 
-                    <div className="p-4 bg-neutral-950 border border-neutral-800 space-y-2 font-mono text-xs">
-                      <div className="flex justify-between text-neutral-400">
-                        <span>INDIVIDUAL COMBINED PRICE:</span>
-                        <span className="line-through">{formatPrice(364)}</span>
-                      </div>
-                      <div className="flex justify-between text-copper font-bold">
-                        <span>20% VANGUARD SUITE SAVINGS:</span>
-                        <span>-{formatPrice(73)}</span>
-                      </div>
-                      <div className="flex justify-between text-canvas font-extrabold text-base pt-2 border-t border-neutral-800">
-                        <span>MASTER SUITE PRICE:</span>
-                        <span className="text-copper">{formatPrice(291)}</span>
-                      </div>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        PRODUCTS_DATA.forEach(p => handleAddToCart(p, p.variants[0], 1, false));
-                      }}
-                      className="w-full sm:w-auto bg-copper hover:bg-canvas hover:text-basalt text-basalt font-display font-bold text-xs py-4 px-8 uppercase transition-colors cursor-pointer"
-                    >
-                      ADD COMPLETE MASTER SUITE TO BAG — {formatPrice(291)}
-                    </button>
-                  </div>
-
-                  <div className="lg:col-span-6 relative border-2 border-neutral-800 bg-neutral-950 overflow-hidden group">
-                    <img
-                      src="/assets/studio group photograph of the complete AETHER & ORE skincare module collection.webp"
-                      alt="Studio group photograph of the complete AETHER & ORE skincare module collection"
-                      className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700"
-                      loading="lazy"
-                    />
-                    <div className="absolute bottom-3 left-3 bg-basalt/90 text-copper border border-neutral-800 font-mono text-[9px] px-2.5 py-1 font-bold uppercase backdrop-blur-sm">
-                      COMPLETE MASTER MODULE SUITE // 6 PIECES
-                    </div>
-                  </div>
-                </div>
-              </section>
 
               {/* BRAND CAMPAIGN & FIELD LOGS BENTO GRID */}
               <section className="py-20 border-t border-neutral-800 bg-neutral-900/10">
