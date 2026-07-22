@@ -18,7 +18,7 @@ export const CODEBASE_FILES: CodeFile[] = [
   <title>AETHER & ORE | Engineered Skincare & Machined Hardware</title>
   
   <!-- Preload Critical Above-The-Fold Assets (LCP < 1.2s) -->
-  <link rel="preload" href="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200" as="image" fetchpriority="high">
+  <link rel="preload" href="/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp" as="image" fetchpriority="high">
   
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/layout.css">
@@ -62,7 +62,7 @@ export const CODEBASE_FILES: CodeFile[] = [
       
       <div class="hero-transaction-column">
         <div class="hero-image-bounds">
-          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200" alt="Anodized Titanium Flask on Nordic Fjords" fetchpriority="high" width="600" height="400">
+          <img src="/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp" alt="Anodized Titanium Flask on Nordic Fjords" fetchpriority="high" width="600" height="400">
         </div>
         <div class="transaction-box shadow-tactile">
           <div class="product-header">
@@ -177,7 +177,7 @@ export const CODEBASE_FILES: CodeFile[] = [
       "@type": "Product",
       "name": "Anodized Titanium Hydration Flask",
       "image": [
-        "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200"
+        "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp"
       ],
       "description": "Grade-5 vacuum-insulated tactical titanium flask with micro-milled exterior grip.",
       "sku": "THF-RAW-500",

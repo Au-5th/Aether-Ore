@@ -44,14 +44,14 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v1_basalt", name: "Anodized Basalt Black", sku: "THF-BSL-500", inventory: 15 },
       { id: "v1_copper", name: "Forged Copper Accent", sku: "THF-COP-500", inventory: 8 }
     ],
-    image: "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.jpg",
+    image: "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp",
     images: [
-      "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.jpg",
-      "/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.jpg",
-      "/assets/Clean studio profile view of an anodized titanium skincare bottle.jpg",
-      "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.jpg",
-      "/assets/an Arctic field researcher inspecting equipment inside a mountain shelter.jpg",
-      "/assets/Split screen ad visual.jpg"
+      "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp",
+      "/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.webp",
+      "/assets/Clean studio profile view of an anodized titanium skincare bottle.webp",
+      "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp",
+      "/assets/an Arctic field researcher inspecting equipment inside a mountain shelter.webp",
+      "/assets/Split screen ad visual.webp"
     ],
     isFlagship: true
   },
@@ -75,11 +75,11 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v2_standard", name: "Standard Block", sku: "VEB-STD-150", inventory: 124 },
       { id: "v2_dual", name: "Dual-Grit Extreme (Coarse)", sku: "VEB-EXT-150", inventory: 56 }
     ],
-    image: "/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.jpg",
+    image: "/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.webp",
     images: [
-      "/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.jpg",
-      "/assets/knolling flat lay photograph of disassembled skincare packaging.jpg",
-      "/assets/studio group photograph of the complete AETHER & ORE skincare module collection.jpg"
+      "/assets/basalt rocks resting in shallow icy water with subtle copper mineral veins.webp",
+      "/assets/knolling flat lay photograph of disassembled skincare packaging.webp",
+      "/assets/studio group photograph of the complete AETHER & ORE skincare module collection.webp"
     ],
     isFlagship: false
   },
@@ -103,12 +103,12 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v3_standard", name: "Single Tube", sku: "TBC-STD-50", inventory: 89 },
       { id: "v3_heavy", name: "Heavy Expedition Jar", sku: "TBC-JAR-100", inventory: 30 }
     ],
-    image: "/assets/Isolated commercial studio shot of AETHER & ORE Glacial Barrier Balm.jpg",
+    image: "/assets/Isolated commercial studio shot of AETHER & ORE Glacial Barrier Balm.webp",
     images: [
-      "/assets/Isolated commercial studio shot of AETHER & ORE Glacial Barrier Balm.jpg",
-      "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.jpg",
-      "/assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.jpg",
-      "/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.jpg"
+      "/assets/Isolated commercial studio shot of AETHER & ORE Glacial Barrier Balm.webp",
+      "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.webp",
+      "/assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.webp",
+      "/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.webp"
     ],
     isFlagship: false
   },
@@ -131,10 +131,10 @@ export const PRODUCTS_DATA: Product[] = [
     variants: [
       { id: "v4_standard", name: "Aluminium Squeeze Tube", sku: "CHB-ALU-75", inventory: 240 }
     ],
-    image: "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.jpg",
+    image: "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.webp",
     images: [
-      "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.jpg",
-      "/assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.jpg"
+      "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.webp",
+      "/assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.webp"
     ],
     isFlagship: false
   },
@@ -157,11 +157,11 @@ export const PRODUCTS_DATA: Product[] = [
     variants: [
       { id: "v5_standard", name: "Active Flask Dispenser", sku: "UIS-FLK-60", inventory: 98 }
     ],
-    image: "/assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.jpg",
+    image: "/assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.webp",
     images: [
-      "/assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.jpg",
-      "/assets/frozen glacial water crystals expanding under a polarized light microscope.jpg",
-      "/assets/landscape photography of windswept sub-zero alpine mountain peaks.jpg"
+      "/assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.webp",
+      "/assets/frozen glacial water crystals expanding under a polarized light microscope.webp",
+      "/assets/landscape photography of windswept sub-zero alpine mountain peaks.webp"
     ],
     isFlagship: false
   },
@@ -185,11 +185,11 @@ export const PRODUCTS_DATA: Product[] = [
       { id: "v6_raw", name: "Raw Milled Brass", sku: "MTV-BRS-150", inventory: 12 },
       { id: "v6_black", name: "Cerakote Tactical Black", sku: "MTV-BLK-150", inventory: 22 }
     ],
-    image: "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.jpg",
+    image: "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp",
     images: [
-      "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.jpg",
-      "/assets/Clean studio profile view of an anodized titanium skincare bottle.jpg",
-      "/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.jpg"
+      "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp",
+      "/assets/Clean studio profile view of an anodized titanium skincare bottle.webp",
+      "/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.webp"
     ],
     isFlagship: false
   }
