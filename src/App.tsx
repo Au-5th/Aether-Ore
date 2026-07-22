@@ -129,6 +129,15 @@ export default function App() {
   // Modal state declared here so it's available to the ESC handler below
   const [selectedProductDetails, setSelectedProductDetails] = useState<Product | null>(null);
   const [modalActiveImage, setModalActiveImage] = useState<string | null>(null);
+  const [modalTab, setModalTab] = useState<"details" | "reviews" | "frequently_bought">("details");
+  const [userReviewName, setUserReviewName] = useState("");
+  const [userReviewTitle, setUserReviewTitle] = useState("");
+  const [userReviewComment, setUserReviewComment] = useState("");
+  const [userReviewRating, setUserReviewRating] = useState(5);
+  const [userReviewSubmitted, setUserReviewSubmitted] = useState(false);
+  const [hardwareAngle, setHardwareAngle] = useState<number>(0);
+  const [tactile360Active, setTactile360Active] = useState<boolean>(false);
+  const [reviewFilter, setReviewFilter] = useState<string>("ALL");
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -156,6 +165,11 @@ export default function App() {
     lastFocusedElement.current = document.activeElement as HTMLElement;
     setSelectedProductDetails(product);
     setModalActiveImage(product.image);
+    setModalTab("details");
+    setUserReviewSubmitted(false);
+    setTactile360Active(false);
+    setHardwareAngle(0);
+    setReviewFilter("ALL");
     // Defer focus to after render
     requestAnimationFrame(() => {
       modalRef.current?.focus();
@@ -177,11 +191,11 @@ export default function App() {
   // Synchronize Hero Image with Selected Variant
   useEffect(() => {
     if (heroVariant.id === "v1_raw") {
-      setHeroActiveImage("/assets/Clean studio profile view of an anodized titanium skincare bottle.webp");
+      setHeroActiveImage("/assets/Raw Brushed Titanium Flask Studio View.webp");
     } else if (heroVariant.id === "v1_basalt") {
-      setHeroActiveImage("/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.webp");
+      setHeroActiveImage("/assets/Anodized Basalt Black Titanium Flask View.webp");
     } else if (heroVariant.id === "v1_copper") {
-      setHeroActiveImage("/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp");
+      setHeroActiveImage("/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp");
     }
   }, [heroVariant]);
 
@@ -1015,6 +1029,39 @@ export default function App() {
                     </div>
                   ))}
 
+                </div>
+              </section>
+
+              {/* EDITORIAL CAMPAIGN DUAL-SYSTEM PROMO BANNER */}
+              <section className="py-16 border-t border-b border-neutral-800 bg-neutral-950 relative overflow-hidden">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  <div className="lg:col-span-6 relative overflow-hidden border border-neutral-800 group h-[360px]">
+                    <img
+                      src="/assets/Split screen ad visual.webp"
+                      alt="AETHER & ORE Dual Formulation & Hardware Campaign Visual"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter grayscale contrast-125"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-basalt via-transparent to-transparent opacity-85"></div>
+                    <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end font-mono text-[10px] text-canvas">
+                      <span className="bg-copper text-basalt px-2 py-0.5 font-bold uppercase tracking-wider">CAMPAIGN FEATURE // DUAL SYSTEM</span>
+                      <span className="text-neutral-400">REYKJAVÍK 64°N</span>
+                    </div>
+                  </div>
+                  <div className="lg:col-span-6 space-y-5">
+                    <span className="font-mono text-xs text-copper tracking-[0.25em] font-semibold uppercase">HARDWARE & DERMABRASION INTEGRATION</span>
+                    <h3 className="font-display text-2xl sm:text-4xl font-extrabold uppercase text-canvas tracking-tight leading-tight">
+                      TACTILE HARDWARE MEETS VOLCANIC ASH ARMOR
+                    </h3>
+                    <p className="text-neutral-400 font-mono text-xs leading-relaxed">
+                      Forged to withstand high-altitude freeze, thermal shock, and granite rock friction. Combine Grade-5 titanium hydration vessels with deep-sea thermophile lipids and basalt ash dermabrasion blocks for maximum skin recovery.
+                    </p>
+                    <div className="pt-2 flex flex-wrap gap-4">
+                      <a href="#collection" className="bg-copper hover:bg-canvas hover:text-basalt text-basalt text-xs font-mono font-bold px-5 py-3 rounded-none uppercase transition-colors">
+                        EXPLORE COMPLETE EXPEDITION KIT
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </section>
 
@@ -2140,11 +2187,50 @@ fn function_main(input: Input) -> Result<Output, Error> {
                     <img 
                       src={modalActiveImage || selectedProductDetails.image} 
                       alt={selectedProductDetails.title} 
-                      className="object-cover w-full h-full filter grayscale hover:grayscale-0 transition-all duration-300"
+                      className={`object-cover w-full h-full filter grayscale hover:grayscale-0 transition-all duration-300 ${
+                        tactile360Active ? `rotate-[${hardwareAngle * 90}deg]` : ""
+                      }`}
                       referrerPolicy="no-referrer"
                     />
+
+                    {/* 360° Tactile Telemetry Overlay */}
+                    {selectedProductDetails.category === "Hardware" && (
+                      <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center font-mono text-[9px] bg-basalt/80 p-1.5 border border-neutral-800 backdrop-blur-sm">
+                        <span className="text-copper font-bold">TACTILE ANGLE: {hardwareAngle * 90}°</span>
+                        <span className="text-neutral-400">64°08'N // 21°56'W</span>
+                      </div>
+                    )}
                   </div>
                   
+                  {/* Hardware 360° Rotator Controls */}
+                  {selectedProductDetails.category === "Hardware" && (
+                    <div className="flex gap-1.5 font-mono text-[9px] border border-neutral-800 p-1 bg-neutral-900 justify-between items-center">
+                      <span className="text-copper font-bold pl-1 uppercase">360° TACTILE ROTATOR:</span>
+                      <div className="flex gap-1">
+                        {[0, 1, 2, 3].map((angleIndex) => (
+                          <button
+                            key={angleIndex}
+                            type="button"
+                            onClick={() => {
+                              setTactile360Active(true);
+                              setHardwareAngle(angleIndex);
+                              if (selectedProductDetails.images[angleIndex]) {
+                                setModalActiveImage(selectedProductDetails.images[angleIndex]);
+                              }
+                            }}
+                            className={`px-2 py-0.5 border cursor-pointer ${
+                              hardwareAngle === angleIndex
+                                ? "bg-copper text-basalt border-copper font-bold"
+                                : "bg-neutral-950 text-neutral-400 border-neutral-800 hover:text-canvas"
+                            }`}
+                          >
+                            {angleIndex * 90}°
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Gallery Thumbnails */}
                   {selectedProductDetails.images && selectedProductDetails.images.length > 1 && (
                     <div className="grid grid-cols-4 gap-2" role="group" aria-label="Product image gallery">
@@ -2177,26 +2263,220 @@ fn function_main(input: Input) -> Result<Output, Error> {
                 <div className="md:col-span-7 space-y-5 flex flex-col justify-between">
                   <div className="space-y-4">
                     <div>
-                      <span className="font-mono text-[10px] text-copper uppercase tracking-widest font-bold">APPLICATION PROTOCOL RITUAL</span>
-                      <h3 id="modal-product-title" className="font-display font-bold text-lg text-canvas tracking-wider mt-1">{selectedProductDetails.title}</h3>
-                      <p className="text-neutral-400 font-mono text-xs mt-0.5">PRODUCT CODE: {selectedProductDetails.code}</p>
-                    </div>
-
-                    <div className="text-xs text-neutral-300 leading-relaxed font-sans bg-neutral-900/60 p-3 border border-neutral-800">
-                      {selectedProductDetails.description}
-                    </div>
-
-                    <div className="space-y-3">
-                      <span className="block font-mono text-[10px] text-neutral-500 uppercase tracking-wider font-bold">STEP-BY-STEP HAZARD DISCHARGE:</span>
-                      <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
-                        {selectedProductDetails.ritual.map((step, sIdx) => (
-                          <div key={sIdx} className="flex gap-3 font-mono text-xs text-neutral-300">
-                            <span className="text-copper font-extrabold">{sIdx + 1}.</span>
-                            <p className="leading-normal">{step}</p>
-                          </div>
-                        ))}
+                      <div className="flex justify-between items-start gap-2">
+                        <span className="font-mono text-[10px] text-copper uppercase tracking-widest font-bold">APPLICATION PROTOCOL & REVIEWS</span>
+                        <div className="flex items-center gap-1 font-mono text-xs text-copper font-bold">
+                          ★ {selectedProductDetails.rating || 4.9} <span className="text-neutral-500 font-normal">({selectedProductDetails.reviewCount || 90})</span>
+                        </div>
                       </div>
+                      <h3 id="modal-product-title" className="font-display font-bold text-lg text-canvas tracking-wider mt-1">{selectedProductDetails.title}</h3>
+                      <p className="text-neutral-400 font-mono text-xs mt-0.5">PRODUCT CODE: {selectedProductDetails.code} • ${selectedProductDetails.price}.00</p>
                     </div>
+
+                    {/* Inner Modal Tab Navigation */}
+                    <div className="flex border-b border-neutral-800 font-mono text-xs gap-1 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setModalTab("details")}
+                        className={`px-3 py-1.5 transition-colors cursor-pointer ${
+                          modalTab === "details" ? "bg-copper text-basalt font-bold" : "text-neutral-400 hover:text-canvas"
+                        }`}
+                      >
+                        PROTOCOL & RITUAL
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setModalTab("reviews")}
+                        className={`px-3 py-1.5 transition-colors cursor-pointer ${
+                          modalTab === "reviews" ? "bg-copper text-basalt font-bold" : "text-neutral-400 hover:text-canvas"
+                        }`}
+                      >
+                        REVIEWS ({selectedProductDetails.reviewCount || (selectedProductDetails.reviews ? selectedProductDetails.reviews.length : 0)})
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setModalTab("frequently_bought")}
+                        className={`px-3 py-1.5 transition-colors cursor-pointer ${
+                          modalTab === "frequently_bought" ? "bg-copper text-basalt font-bold" : "text-neutral-400 hover:text-canvas"
+                        }`}
+                      >
+                        PAIR WITH
+                      </button>
+                    </div>
+
+                    {/* Tab 1: Protocol & Ritual */}
+                    {modalTab === "details" && (
+                      <div className="space-y-4 animate-fade-in">
+                        <div className="text-xs text-neutral-300 leading-relaxed font-sans bg-neutral-900/60 p-3 border border-neutral-800">
+                          {selectedProductDetails.description}
+                        </div>
+
+                        <div className="space-y-3">
+                          <span className="block font-mono text-[10px] text-neutral-500 uppercase tracking-wider font-bold">STEP-BY-STEP HAZARD DISCHARGE:</span>
+                          <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
+                            {selectedProductDetails.ritual.map((step, sIdx) => (
+                              <div key={sIdx} className="flex gap-3 font-mono text-xs text-neutral-300">
+                                <span className="text-copper font-extrabold">{sIdx + 1}.</span>
+                                <p className="leading-normal">{step}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="pt-2">
+                          <button
+                            onClick={() => {
+                              handleAddToCart(selectedProductDetails, selectedProductDetails.variants[0], 1, false);
+                              closeModal();
+                            }}
+                            className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-display font-bold text-xs py-3 rounded-none uppercase transition-colors cursor-pointer tracking-wider"
+                          >
+                            ADD TO BAG — ${selectedProductDetails.price}.00
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Tab 2: Ratings & Reviews */}
+                    {modalTab === "reviews" && (
+                      <div className="space-y-4 max-h-80 overflow-y-auto pr-2 animate-fade-in font-mono text-xs">
+                        <div className="flex items-center justify-between p-3 bg-neutral-900 border border-neutral-800">
+                          <div>
+                            <span className="text-xl font-bold text-copper">{selectedProductDetails.rating || 4.9} / 5.0</span>
+                            <span className="text-neutral-400 text-[10px] block mt-0.5">Based on {selectedProductDetails.reviewCount || 100} verified field reports</span>
+                          </div>
+                          <span className="bg-emerald-950 text-emerald-400 border border-emerald-800 text-[9px] px-2 py-1 font-bold">
+                            98% RECOMMEND FOR EXPEDITIONS
+                          </span>
+                        </div>
+
+                        {/* Interactive Review Tag Filters */}
+                        <div className="flex gap-1 text-[9px] font-mono border-b border-neutral-800 pb-2 overflow-x-auto">
+                          {["ALL", "5 STARS", "SUB-ZERO TESTED", "VERIFIED BUYERS"].map((fTag) => (
+                            <button
+                              key={fTag}
+                              type="button"
+                              onClick={() => setReviewFilter(fTag)}
+                              className={`px-2 py-1 border transition-colors cursor-pointer whitespace-nowrap ${
+                                reviewFilter === fTag
+                                  ? "bg-copper text-basalt font-bold border-copper"
+                                  : "bg-neutral-950 text-neutral-400 border-neutral-800 hover:text-canvas"
+                              }`}
+                            >
+                              {fTag}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Customer Reviews List */}
+                        <div className="space-y-3">
+                          {(selectedProductDetails.reviews || []).map((rev) => (
+                            <div key={rev.id} className="p-3 bg-neutral-900/40 border border-neutral-850 space-y-1.5">
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <span className="font-bold text-canvas">{rev.author}</span>
+                                  <span className="text-neutral-500 text-[9px] block">{rev.location} • {rev.date}</span>
+                                </div>
+                                <span className="text-copper font-bold">{"★".repeat(rev.rating)}</span>
+                              </div>
+                              <h5 className="font-semibold text-neutral-200 text-xs">{rev.title}</h5>
+                              <p className="text-neutral-400 text-[11px] font-sans leading-relaxed">{rev.comment}</p>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Interactive Review Submission Form */}
+                        <div className="p-3 bg-neutral-900/70 border border-neutral-800 space-y-2 mt-4">
+                          <span className="text-[10px] font-bold text-copper uppercase block">SUBMIT FIELD EVALUATION REPORT</span>
+                          {userReviewSubmitted ? (
+                            <div className="text-emerald-400 text-xs py-2 font-bold">
+                              ✓ Report logged into telemetry database. Thank you!
+                            </div>
+                          ) : (
+                            <form
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                if (!userReviewName || !userReviewComment) return;
+                                setUserReviewSubmitted(true);
+                              }}
+                              className="space-y-2"
+                            >
+                              <div className="grid grid-cols-2 gap-2">
+                                <input
+                                  type="text"
+                                  placeholder="Your Name / Call sign"
+                                  value={userReviewName}
+                                  onChange={(e) => setUserReviewName(e.target.value)}
+                                  className="bg-neutral-950 border border-neutral-800 p-1.5 text-xs text-canvas focus:border-copper outline-none"
+                                  required
+                                />
+                                <select
+                                  value={userReviewRating}
+                                  onChange={(e) => setUserReviewRating(Number(e.target.value))}
+                                  className="bg-neutral-950 border border-neutral-800 p-1.5 text-xs text-canvas focus:border-copper outline-none"
+                                >
+                                  <option value={5}>5 Stars — Field Standard</option>
+                                  <option value={4}>4 Stars — High Performance</option>
+                                  <option value={3}>3 Stars — Moderate</option>
+                                </select>
+                              </div>
+                              <input
+                                type="text"
+                                placeholder="Review Headline Title"
+                                value={userReviewTitle}
+                                onChange={(e) => setUserReviewTitle(e.target.value)}
+                                className="w-full bg-neutral-950 border border-neutral-800 p-1.5 text-xs text-canvas focus:border-copper outline-none"
+                              />
+                              <textarea
+                                placeholder="Detail your experience in extreme conditions..."
+                                value={userReviewComment}
+                                onChange={(e) => setUserReviewComment(e.target.value)}
+                                className="w-full bg-neutral-950 border border-neutral-800 p-1.5 text-xs text-canvas focus:border-copper outline-none h-16 resize-none"
+                                required
+                              />
+                              <button
+                                type="submit"
+                                className="w-full bg-neutral-800 hover:bg-copper hover:text-basalt text-canvas font-mono font-bold text-xs py-2 uppercase transition-colors"
+                              >
+                                TRANSMIT EVALUATION
+                              </button>
+                            </form>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Tab 3: Frequently Bought Together */}
+                    {modalTab === "frequently_bought" && (
+                      <div className="space-y-3 max-h-80 overflow-y-auto pr-2 animate-fade-in font-mono text-xs">
+                        <span className="text-[10px] text-neutral-400 uppercase tracking-wider block">RECOMMENDED EXPEDITION BUNDLE COMPLEMENTS:</span>
+                        <div className="space-y-2">
+                          {(selectedProductDetails.frequentlyBoughtWithIds || []).map((bId) => {
+                            const bProd = PRODUCTS_DATA.find((p) => p.id === bId);
+                            if (!bProd) return null;
+                            return (
+                              <div key={bId} className="flex items-center justify-between p-3 bg-neutral-900 border border-neutral-800 gap-3">
+                                <div className="flex items-center gap-3">
+                                  <img src={bProd.image} alt={bProd.title} className="w-12 h-12 object-cover border border-neutral-800 filter grayscale" />
+                                  <div>
+                                    <span className="text-[9px] text-copper uppercase block">{bProd.category}</span>
+                                    <h5 className="font-bold text-canvas text-xs">{bProd.title}</h5>
+                                    <span className="text-neutral-400 text-[10px]">${bProd.price}.00</span>
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => handleAddToCart(bProd, bProd.variants[0], 1, false)}
+                                  className="bg-neutral-800 hover:bg-copper hover:text-basalt text-canvas text-[10px] font-bold px-3 py-1.5 uppercase transition-colors cursor-pointer border border-neutral-700"
+                                >
+                                  + ADD (${bProd.price})
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="pt-4 border-t border-neutral-900 flex justify-between items-center gap-4">
@@ -2207,7 +2487,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
                       onClick={closeModal}
                       className="bg-neutral-900 border border-neutral-800 hover:border-copper hover:text-copper text-xs font-mono font-bold text-canvas px-5 py-2 rounded-none uppercase transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-copper"
                     >
-                      DISMISS ROUTINE
+                      CLOSE MODAL
                     </button>
                   </div>
                 </div>

@@ -5,6 +5,17 @@ export interface ProductVariant {
   inventory: number;
 }
 
+export interface Review {
+  id: string;
+  author: string;
+  rating: number;
+  date: string;
+  title: string;
+  comment: string;
+  verified: boolean;
+  location: string;
+}
+
 export interface Product {
   id: string;
   code: string;
@@ -20,6 +31,10 @@ export interface Product {
   image: string;
   images: string[];
   isFlagship: boolean;
+  rating: number;
+  reviewCount: number;
+  reviews: Review[];
+  frequentlyBoughtWithIds: string[];
 }
 
 export const PRODUCTS_DATA: Product[] = [
@@ -47,13 +62,37 @@ export const PRODUCTS_DATA: Product[] = [
     image: "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp",
     images: [
       "/assets/hero photograph of an anodized dark titanium flask with knurled copper cap.webp",
-      "/assets/a dark anodized skincare bottle sitting next to crushed black obsidian rocks and a single iceberg water droplet.webp",
-      "/assets/Clean studio profile view of an anodized titanium skincare bottle.webp",
+      "/assets/Raw Brushed Titanium Flask Studio View.webp",
+      "/assets/Anodized Basalt Black Titanium Flask View.webp",
       "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp",
-      "/assets/an Arctic field researcher inspecting equipment inside a mountain shelter.webp",
-      "/assets/Split screen ad visual.webp"
+      "/assets/an Arctic field researcher inspecting equipment inside a mountain shelter.webp"
     ],
-    isFlagship: true
+    isFlagship: true,
+    rating: 4.95,
+    reviewCount: 148,
+    reviews: [
+      {
+        id: "rev_101",
+        author: "Capt. Soren Lindqvist",
+        rating: 5,
+        date: "2026-06-14",
+        title: "Survived 14 Days on Denali Ridge",
+        comment: "Zero heat loss across 8-hour sub-zero traverses. The knurled copper cap is effortless to operate with thick expedition gloves.",
+        verified: true,
+        location: "Troumsø, Norway"
+      },
+      {
+        id: "rev_102",
+        author: "Elena Rostova",
+        rating: 5,
+        date: "2026-05-29",
+        title: "Pure Engineering Perfection",
+        comment: "The raw brushed grade-5 titanium doesn't scratch or dent. Feels indestructible in hand.",
+        verified: true,
+        location: "Zurich, Switzerland"
+      }
+    ],
+    frequentlyBoughtWithIds: ["prod_2", "prod_6"]
   },
   {
     id: "prod_2",
@@ -81,7 +120,22 @@ export const PRODUCTS_DATA: Product[] = [
       "/assets/knolling flat lay photograph of disassembled skincare packaging.webp",
       "/assets/studio group photograph of the complete AETHER & ORE skincare module collection.webp"
     ],
-    isFlagship: false
+    isFlagship: false,
+    rating: 4.88,
+    reviewCount: 92,
+    reviews: [
+      {
+        id: "rev_201",
+        author: "Marcus Thorne",
+        rating: 5,
+        date: "2026-07-02",
+        title: "Strips Industrial Grime Effortlessly",
+        comment: "After working with industrial lubricants all day, this is the only bar that cleans skin completely without drying it out.",
+        verified: true,
+        location: "Reykjavík, Iceland"
+      }
+    ],
+    frequentlyBoughtWithIds: ["prod_6", "prod_3"]
   },
   {
     id: "prod_3",
@@ -110,7 +164,22 @@ export const PRODUCTS_DATA: Product[] = [
       "/assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.webp",
       "/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.webp"
     ],
-    isFlagship: false
+    isFlagship: false,
+    rating: 4.92,
+    reviewCount: 116,
+    reviews: [
+      {
+        id: "rev_301",
+        author: "Aris Vance",
+        rating: 5,
+        date: "2026-06-20",
+        title: "No More Windburn",
+        comment: "Tested on sub-zero ski tours in northern Sweden. Completely stopped wind chapping on cheeks.",
+        verified: true,
+        location: "Kiruna, Sweden"
+      }
+    ],
+    frequentlyBoughtWithIds: ["prod_5", "prod_1"]
   },
   {
     id: "prod_4",
@@ -136,7 +205,22 @@ export const PRODUCTS_DATA: Product[] = [
       "/assets/close-up macro photograph of a dense, frosted cream emulsion being scooped by a brushed titanium spatula.webp",
       "/assets/Close-up shot of a man's hands with clean cuticles applying dense barrier cream onto his cheekbones.webp"
     ],
-    isFlagship: false
+    isFlagship: false,
+    rating: 4.87,
+    reviewCount: 64,
+    reviews: [
+      {
+        id: "rev_401",
+        author: "Liam K.",
+        rating: 5,
+        date: "2026-05-18",
+        title: "Climber Essential",
+        comment: "Restores torn calluses overnight without leaving oily residue on gear.",
+        verified: true,
+        location: "Innsbruck, Austria"
+      }
+    ],
+    frequentlyBoughtWithIds: ["prod_2", "prod_1"]
   },
   {
     id: "prod_5",
@@ -157,13 +241,29 @@ export const PRODUCTS_DATA: Product[] = [
     variants: [
       { id: "v5_standard", name: "Active Flask Dispenser", sku: "UIS-FLK-60", inventory: 98 }
     ],
-    image: "/assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.webp",
+    image: "/assets/UV-Hazard Glacier Shield Dispenser Studio View.webp",
     images: [
+      "/assets/UV-Hazard Glacier Shield Dispenser Studio View.webp",
       "/assets/a hand holding a dark aluminum flask under a freezing alpine waterfall.webp",
       "/assets/frozen glacial water crystals expanding under a polarized light microscope.webp",
       "/assets/landscape photography of windswept sub-zero alpine mountain peaks.webp"
     ],
-    isFlagship: false
+    isFlagship: false,
+    rating: 4.91,
+    reviewCount: 88,
+    reviews: [
+      {
+        id: "rev_501",
+        author: "Dr. K. Lindberg",
+        rating: 5,
+        date: "2026-06-30",
+        title: "Glacier Radiation Protection",
+        comment: "Zero sunburn on high-altitude snowfields. Does not run into eyes when sweating.",
+        verified: true,
+        location: "Chamonix, France"
+      }
+    ],
+    frequentlyBoughtWithIds: ["prod_3", "prod_1"]
   },
   {
     id: "prod_6",
@@ -188,10 +288,24 @@ export const PRODUCTS_DATA: Product[] = [
     image: "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp",
     images: [
       "/assets/Top-down macro studio shot of a knurled solid brass twist-cap mechanism on a dark basalt flask.webp",
-      "/assets/Clean studio profile view of an anodized titanium skincare bottle.webp",
       "/assets/three matte black refillable skincare pods encased in a dark wool felt travel wrap.webp"
     ],
-    isFlagship: false
+    isFlagship: false,
+    rating: 4.96,
+    reviewCount: 105,
+    reviews: [
+      {
+        id: "rev_601",
+        author: "Henrik V.",
+        rating: 5,
+        date: "2026-07-10",
+        title: "Built Like a Tank",
+        comment: "The threads are liquid smooth and keep the soap block bone dry inside my duffel bag.",
+        verified: true,
+        location: "Oslo, Norway"
+      }
+    ],
+    frequentlyBoughtWithIds: ["prod_2", "prod_1"]
   }
 ];
 
