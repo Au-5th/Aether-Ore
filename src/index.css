@@ -200,5 +200,35 @@ img.in-view,
   box-shadow: 0 0 25px rgba(217, 107, 67, 0.35), 4px 4px 0px 0px #D96B43 !important;
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE POPUP CARD & DRAWER OPTIMIZATION
+═══════════════════════════════════════════════════════════════════ */
+.mobile-modal-card {
+  max-height: 88dvh;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 16px));
+}
+
+@supports (height: 100dvh) {
+  .h-dvh {
+    height: 100dvh;
+  }
+  .max-h-dvh {
+    max-height: 88dvh;
+  }
+}
+
+/* Custom scrollbars for modal scrollable containers */
+.modal-scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: #D96B43 #111315;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
 
 

@@ -302,6 +302,26 @@ export default function App() {
     }
   };
 
+  // ─── UNIFIED MOBILE BODY SCROLL LOCK FOR MODALS & DRAWERS ───
+  const isAnyModalOpen = cartOpen || !!selectedProductDetails || orderTelemetryOpen || vipDrawerOpen || quizModalOpen || compareModalOpen || showLeadCapture;
+
+  useEffect(() => {
+    if (isAnyModalOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+        document.body.style.overflow = "";
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isAnyModalOpen]);
+
   // ─── WEB AUDIO ALPINE AMBIENT SOUNDSCAPE SYNTHESIZER ───
   const [audioPlaying, setAudioPlaying] = useState(false);
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -2901,7 +2921,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
           aria-modal="true"
           aria-label="Shopping cart"
           aria-hidden={!cartOpen}
-          className={`fixed top-0 right-0 h-full w-full sm:w-[480px] bg-basalt border-l border-neutral-800 z-50 transition-all duration-300 flex flex-col justify-between ${
+          className={`fixed top-0 right-0 h-full max-h-dvh w-full sm:w-[480px] bg-basalt border-l border-neutral-800 z-50 transition-all duration-300 flex flex-col justify-between ${
             cartOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -2946,7 +2966,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
           </div>
 
           {/* Cart items list */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+          <div className="flex-1 overflow-y-auto overscroll-contain modal-scroll-container p-4 sm:p-6 space-y-4">
             {activeCartItemsWithGifts.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center space-y-4 font-mono text-xs text-neutral-500">
                 <ShoppingBag size={32} className="text-neutral-700" />
@@ -3043,7 +3063,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
           </div>
 
           {/* Drawer Footer */}
-          <div className="p-4 sm:p-6 border-t border-neutral-800 bg-neutral-950 space-y-4">
+          <div className="p-4 sm:p-6 border-t border-neutral-800 bg-neutral-950 space-y-4 pb-safe">
             <div className="space-y-1.5 font-mono text-xs">
               <div className="flex justify-between items-center text-neutral-400">
                 <span>ESTIMATED FREIGHT</span>
@@ -3106,7 +3126,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
         {/* 7. Product Ritual & Application Protocol Modal */}
         {selectedProductDetails && (
           <div
-            className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-2 sm:p-4"
             aria-hidden="true"
             onClick={(e) => { if (e.target === e.currentTarget) closeModal(); }}
           >
@@ -3116,12 +3136,13 @@ fn function_main(input: Input) -> Result<Output, Error> {
               aria-modal="true"
               aria-labelledby="modal-product-title"
               tabIndex={-1}
-              className="bg-neutral-950 border-2 border-copper w-full max-w-4xl p-6 sm:p-8 rounded-none shadow-[6px_6px_0px_0px_rgba(11,13,14,1)] relative animate-scale-up z-50 outline-none"
+              className="bg-neutral-950 border-2 border-copper w-full max-w-4xl max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto overscroll-contain modal-scroll-container p-4 sm:p-8 rounded-t-xl sm:rounded-none shadow-[6px_6px_0px_0px_rgba(11,13,14,1)] relative animate-scale-up z-50 outline-none pb-safe"
             >
+              <span className="w-12 h-1 bg-neutral-700 rounded-full mx-auto mb-3 block sm:hidden"></span>
               <button 
                 onClick={closeModal}
                 aria-label="Close product details"
-                className="absolute top-4 right-4 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper cursor-pointer z-10 focus-visible:outline-2 focus-visible:outline-copper rounded-none"
+                className="absolute top-3 right-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper cursor-pointer z-20 focus-visible:outline-2 focus-visible:outline-copper rounded-none"
               >
                 <X size={18} aria-hidden="true" />
               </button>
@@ -3446,14 +3467,15 @@ fn function_main(input: Input) -> Result<Output, Error> {
         {/* SUB-ZERO SKIN RESILIENCE QUIZ MODAL */}
         {quizModalOpen && (
           <div
-            className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-2 sm:p-4"
             aria-hidden="true"
             onClick={(e) => { if (e.target === e.currentTarget) setQuizModalOpen(false); }}
           >
-            <div className="bg-neutral-950 border-2 border-copper w-full max-w-xl p-6 sm:p-8 rounded-none shadow-[6px_6px_0px_0px_#D96B43] relative animate-scale-up z-50">
+            <div className="bg-neutral-950 border-2 border-copper w-full max-w-xl max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto overscroll-contain modal-scroll-container p-4 sm:p-8 rounded-t-xl sm:rounded-none shadow-[6px_6px_0px_0px_#D96B43] relative animate-scale-up z-50 pb-safe">
+              <span className="w-12 h-1 bg-neutral-700 rounded-full mx-auto mb-3 block sm:hidden"></span>
               <button
                 onClick={() => setQuizModalOpen(false)}
-                className="absolute top-4 right-4 text-neutral-400 hover:text-copper cursor-pointer"
+                className="absolute top-3 right-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper cursor-pointer z-10"
               >
                 <X size={18} />
               </button>
@@ -3583,13 +3605,13 @@ fn function_main(input: Input) -> Result<Output, Error> {
             aria-hidden="true"
             onClick={(e) => { if (e.target === e.currentTarget) setVipDrawerOpen(false); }}
           >
-            <div className="w-full max-w-md bg-neutral-950 border-l border-neutral-800 h-full flex flex-col justify-between p-6 overflow-y-auto animate-slide-in font-mono z-50">
+            <div className="w-full max-w-md bg-neutral-950 border-l border-neutral-800 h-full max-h-dvh flex flex-col justify-between p-4 sm:p-6 overflow-y-auto overscroll-contain modal-scroll-container animate-slide-in font-mono z-50 pb-safe">
               <div className="space-y-6">
                 <div className="flex justify-between items-center border-b border-neutral-800 pb-4">
                   <div className="flex items-center gap-2">
                     <span className="text-copper font-bold">👑 VANGUARD VIP VAULT</span>
                   </div>
-                  <button onClick={() => setVipDrawerOpen(false)} className="text-neutral-400 hover:text-copper cursor-pointer">
+                  <button onClick={() => setVipDrawerOpen(false)} className="min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper cursor-pointer">
                     <X size={18} />
                   </button>
                 </div>
@@ -3645,14 +3667,15 @@ fn function_main(input: Input) -> Result<Output, Error> {
         {/* SATELLITE ORDER TELEMETRY TRACKER MODAL */}
         {orderTelemetryOpen && (
           <div
-            className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-2 sm:p-4"
             aria-hidden="true"
             onClick={(e) => { if (e.target === e.currentTarget) setOrderTelemetryOpen(false); }}
           >
-            <div className="bg-neutral-950 border-2 border-copper w-full max-w-xl p-6 sm:p-8 rounded-none shadow-[6px_6px_0px_0px_#D96B43] relative animate-scale-up z-50 font-mono">
+            <div className="bg-neutral-950 border-2 border-copper w-full max-w-xl max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto overscroll-contain modal-scroll-container p-4 sm:p-8 rounded-t-xl sm:rounded-none shadow-[6px_6px_0px_0px_#D96B43] relative animate-scale-up z-50 font-mono pb-safe">
+              <span className="w-12 h-1 bg-neutral-700 rounded-full mx-auto mb-3 block sm:hidden"></span>
               <button
                 onClick={() => setOrderTelemetryOpen(false)}
-                className="absolute top-4 right-4 text-neutral-400 hover:text-copper cursor-pointer"
+                className="absolute top-3 right-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper cursor-pointer z-10"
               >
                 <X size={18} />
               </button>
@@ -3725,14 +3748,15 @@ fn function_main(input: Input) -> Result<Output, Error> {
         {/* SIDE-BY-SIDE PRODUCT COMPARISON MATRIX MODAL */}
         {compareModalOpen && (
           <div
-            className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto"
+            className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-2 sm:p-4"
             aria-hidden="true"
             onClick={(e) => { if (e.target === e.currentTarget) setCompareModalOpen(false); }}
           >
-            <div className="bg-neutral-950 border-2 border-copper w-full max-w-4xl p-6 sm:p-8 rounded-none shadow-[8px_8px_0px_0px_#D96B43] relative animate-scale-up z-50 font-mono my-8">
+            <div className="bg-neutral-950 border-2 border-copper w-full max-w-4xl max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto overscroll-contain modal-scroll-container p-4 sm:p-8 rounded-t-xl sm:rounded-none shadow-[8px_8px_0px_0px_#D96B43] relative animate-scale-up z-50 font-mono my-0 sm:my-8 pb-safe">
+              <span className="w-12 h-1 bg-neutral-700 rounded-full mx-auto mb-3 block sm:hidden"></span>
               <button
                 onClick={() => setCompareModalOpen(false)}
-                className="absolute top-4 right-4 text-neutral-400 hover:text-copper cursor-pointer"
+                className="absolute top-3 right-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper cursor-pointer z-10"
               >
                 <X size={18} />
               </button>
@@ -3846,7 +3870,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
         ═══════════════════════════════════════════════════════════ */}
         {showLeadCapture && (
           <div
-            className="fixed inset-0 bg-basalt/75 backdrop-blur-sm z-[60] flex items-end sm:items-center justify-center p-4"
+            className="fixed inset-0 bg-basalt/75 backdrop-blur-sm z-[60] flex items-end sm:items-center justify-center p-2 sm:p-4"
             aria-hidden="true"
             onClick={(e) => { if (e.target === e.currentTarget) dismissLeadCapture(); }}
           >
@@ -3854,13 +3878,14 @@ fn function_main(input: Input) -> Result<Output, Error> {
               role="dialog"
               aria-modal="true"
               aria-labelledby="lead-capture-title"
-              className="w-full max-w-md bg-neutral-950 border-2 border-copper p-6 sm:p-8 shadow-[6px_6px_0px_0px_#D96B43] space-y-5 animate-scale-up"
+              className="w-full max-w-md max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto overscroll-contain modal-scroll-container bg-neutral-950 border-2 border-copper p-5 sm:p-8 rounded-t-xl sm:rounded-none shadow-[6px_6px_0px_0px_#D96B43] space-y-5 animate-scale-up relative pb-safe"
             >
+              <span className="w-12 h-1 bg-neutral-700 rounded-full mx-auto mb-2 block sm:hidden"></span>
               {/* Close */}
               <button
                 onClick={dismissLeadCapture}
                 aria-label="Close offer"
-                className="absolute top-4 right-4 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper focus-visible:outline-2 focus-visible:outline-copper"
+                className="absolute top-3 right-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper focus-visible:outline-2 focus-visible:outline-copper z-10"
               >
                 <X size={16} aria-hidden="true" />
               </button>
