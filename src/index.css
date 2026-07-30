@@ -428,9 +428,12 @@ img.in-view,
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* ==========================================================================
-   CINEMATIC HIMALAYAN ATMOSPHERIC SCENERY & PARALLAX ENGINE (60FPS GPU)
-   ========================================================================== */
+/* Zero-CLS Containment for Himalayan Parallax Engine */
+#himalayan-scenery-banner {
+  contain: layout paint;
+  content-visibility: auto;
+  contain-intrinsic-size: 100vw 600px;
+}
 
 .himalayan-viewport {
   position: relative;
@@ -439,6 +442,9 @@ img.in-view,
   overflow: hidden;
   background-color: #000;
   perspective: 1000px;
+  contain: strict;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .himalayan-layer {

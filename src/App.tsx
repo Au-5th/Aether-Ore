@@ -1244,7 +1244,7 @@ export default function App() {
               </section>
 
               {/* 60FPS CINEMATIC HIMALAYAN ATMOSPHERIC SCENERY & PARALLAX BANNER */}
-              <section id="himalayan-scenery-banner" className="relative h-[480px] sm:h-[600px] w-full border-t border-b border-neutral-800 overflow-hidden my-12">
+              <section id="himalayan-scenery-banner" className="relative h-[480px] sm:h-[600px] min-h-[480px] sm:min-h-[600px] w-full border-t border-b border-neutral-800 overflow-hidden my-12">
                 <div className="himalayan-viewport">
                   {/* Layer 1: Static Base Sky & Background Peaks */}
                   <div className="himalayan-layer himalayan-bg-layer"></div>
@@ -3062,7 +3062,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
           </div>
 
           {/* Tiered Free Gift Progress Bar (CRO Component) */}
-          <div className="p-4 bg-neutral-900 border-b border-neutral-800 space-y-2.5 fx-aurora-glow">
+          <div className="p-4 bg-neutral-900 border-b border-neutral-800 space-y-2.5">
             <div className="flex justify-between items-center font-mono text-[10px]">
               <span className="text-neutral-300 font-bold uppercase tracking-wider">
                 PRESTIGE EXPEDITION REWARDS LADDER
@@ -3126,7 +3126,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
                 return (
                   <div 
                     key={idx} 
-                    className={`border p-4 space-y-3 rounded-none fx-liquid-copper transition-all ${
+                    className={`border p-4 space-y-3 rounded-none transition-all ${
                       isFreeGift 
                         ? "border-hazard/50 bg-hazard/5" 
                         : "border-neutral-800 bg-neutral-950"
@@ -3303,7 +3303,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
                   setCart([]);
                   setCartOpen(false);
                 }}
-                className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-display font-bold text-xs tracking-[0.15em] py-4 rounded-none uppercase transition-colors cursor-pointer fx-holographic-pulse"
+                className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-display font-bold text-xs tracking-[0.15em] py-4 rounded-none uppercase transition-colors cursor-pointer"
               >
                 PROCEED TO SECURE CHECKOUT — ${cartSubtotal.toFixed(2)}
               </button>
