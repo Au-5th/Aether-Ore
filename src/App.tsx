@@ -1115,7 +1115,7 @@ export default function App() {
                     {/* Card 1: Skin Quiz */}
                     <div 
                       onClick={() => setQuizModalOpen(true)}
-                      className="group border-2 border-neutral-800 bg-neutral-900/60 p-6 flex flex-col justify-between space-y-6 cursor-pointer hover:border-copper hover:-translate-y-1 transition-all duration-300 shadow-[4px_4px_0px_0px_#0B0D0E] hover:shadow-[4px_4px_0px_0px_#D96B43]"
+                      className="group border-2 border-neutral-800 bg-neutral-900/60 p-6 flex flex-col justify-between space-y-6 cursor-pointer hover:border-copper hover:-translate-y-1 transition-all duration-300 shadow-[4px_4px_0px_0px_#0B0D0E] hover:shadow-[4px_4px_0px_0px_#D96B43] fx-subzero-frost"
                     >
                       <div className="space-y-4">
                         <div className="w-14 h-14 bg-basalt border-2 border-copper/80 p-3 flex items-center justify-center text-copper shadow-[0_0_15px_rgba(217,107,67,0.3)] group-hover:scale-110 transition-transform">
@@ -1139,7 +1139,7 @@ export default function App() {
                     {/* Card 2: Order Telemetry */}
                     <div 
                       onClick={() => setOrderTelemetryOpen(true)}
-                      className="group border-2 border-neutral-800 bg-neutral-900/60 p-6 flex flex-col justify-between space-y-6 cursor-pointer hover:border-copper hover:-translate-y-1 transition-all duration-300 shadow-[4px_4px_0px_0px_#0B0D0E] hover:shadow-[4px_4px_0px_0px_#D96B43]"
+                      className="group border-2 border-neutral-800 bg-neutral-900/60 p-6 flex flex-col justify-between space-y-6 cursor-pointer hover:border-copper hover:-translate-y-1 transition-all duration-300 shadow-[4px_4px_0px_0px_#0B0D0E] hover:shadow-[4px_4px_0px_0px_#D96B43] fx-radar-sweep"
                     >
                       <div className="space-y-4">
                         <div className="w-14 h-14 bg-basalt border-2 border-emerald-500/80 p-3 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.2)] group-hover:scale-110 transition-transform">
@@ -1163,7 +1163,7 @@ export default function App() {
                     {/* Card 3: Compare Matrix */}
                     <div 
                       onClick={() => setCompareModalOpen(true)}
-                      className="group border-2 border-neutral-800 bg-neutral-900/60 p-6 flex flex-col justify-between space-y-6 cursor-pointer hover:border-copper hover:-translate-y-1 transition-all duration-300 shadow-[4px_4px_0px_0px_#0B0D0E] hover:shadow-[4px_4px_0px_0px_#D96B43]"
+                      className="group border-2 border-neutral-800 bg-neutral-900/60 p-6 flex flex-col justify-between space-y-6 cursor-pointer hover:border-copper hover:-translate-y-1 transition-all duration-300 shadow-[4px_4px_0px_0px_#0B0D0E] hover:shadow-[4px_4px_0px_0px_#D96B43] fx-titanium-sheen"
                     >
                       <div className="space-y-4">
                         <div className="w-14 h-14 bg-basalt border-2 border-copper/80 p-3 flex items-center justify-center text-copper shadow-[0_0_15px_rgba(217,107,67,0.3)] group-hover:scale-110 transition-transform">
@@ -1187,7 +1187,7 @@ export default function App() {
                     {/* Card 4: VIP Loyalty Vault */}
                     <div 
                       onClick={() => setVipDrawerOpen(true)}
-                      className="group border-2 border-neutral-800 bg-neutral-900/60 p-6 flex flex-col justify-between space-y-6 cursor-pointer hover:border-copper hover:-translate-y-1 transition-all duration-300 shadow-[4px_4px_0px_0px_#0B0D0E] hover:shadow-[4px_4px_0px_0px_#D96B43]"
+                      className="group border-2 border-neutral-800 bg-neutral-900/60 p-6 flex flex-col justify-between space-y-6 cursor-pointer hover:border-copper hover:-translate-y-1 transition-all duration-300 shadow-[4px_4px_0px_0px_#0B0D0E] hover:shadow-[4px_4px_0px_0px_#D96B43] fx-aurora-glow"
                     >
                       <div className="space-y-4">
                         <div className="w-14 h-14 bg-basalt border-2 border-amber-500/80 p-3 flex items-center justify-center text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.2)] group-hover:scale-110 transition-transform">
@@ -2287,7 +2287,7 @@ export default function App() {
                     </button>
                   </div>
 
-                  <div className="flex-1 min-h-[400px] max-h-[600px] overflow-y-auto font-mono text-xs p-4 bg-neutral-950 text-emerald-400 border border-neutral-800 leading-relaxed whitespace-pre select-all selection:bg-neutral-800">
+                  <div className="flex-1 min-h-[400px] max-h-[600px] overflow-y-auto font-mono text-xs p-4 bg-neutral-950 text-emerald-400 border border-neutral-800 leading-relaxed whitespace-pre select-all selection:bg-neutral-800 fx-cyber-grid">
                     {selectedCodeFile.content}
                   </div>
                 </div>
@@ -2319,7 +2319,7 @@ export default function App() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
                 {/* Code and concept */}
-                <div className="lg:col-span-7 border border-neutral-800 p-6 bg-neutral-950 space-y-4">
+                <div className="lg:col-span-7 border border-neutral-800 p-6 bg-neutral-950 space-y-4 fx-cyber-grid">
                   <div className="flex justify-between items-center border-b border-neutral-800 pb-3">
                     <div className="flex items-center gap-2">
                       <Terminal size={16} className="text-copper" />
@@ -2943,7 +2943,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
           </div>
 
           {/* Tiered Free Gift Progress Bar (CRO Component) */}
-          <div className="p-4 bg-neutral-900 border-b border-neutral-800 space-y-2">
+          <div className="p-4 bg-neutral-900 border-b border-neutral-800 space-y-2 fx-aurora-glow">
             <div className="flex justify-between items-center font-mono text-[10px]">
               <span className="text-neutral-400 font-semibold uppercase">PRESTIGE REWARDS PROGRAM</span>
               <span className="text-copper font-bold">{freeGiftProgress.percent}%</span>
@@ -2980,7 +2980,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
                 return (
                   <div 
                     key={idx} 
-                    className={`border p-3.5 flex gap-4 items-center justify-between rounded-none ${
+                    className={`border p-3.5 flex gap-4 items-center justify-between rounded-none fx-liquid-copper ${
                       isFreeGift 
                         ? "border-hazard/50 bg-hazard/5" 
                         : "border-neutral-800 bg-neutral-950"
@@ -3086,7 +3086,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
                   setCart([]);
                   setCartOpen(false);
                 }}
-                className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-display font-bold text-xs tracking-[0.15em] py-4 rounded-none uppercase transition-colors cursor-pointer"
+                className="w-full bg-copper hover:bg-canvas hover:text-basalt text-basalt font-display font-bold text-xs tracking-[0.15em] py-4 rounded-none uppercase transition-colors cursor-pointer fx-holographic-pulse"
               >
                 PROCEED TO SECURE CHECKOUT — ${cartSubtotal.toFixed(2)}
               </button>

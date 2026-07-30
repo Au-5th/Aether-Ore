@@ -230,5 +230,177 @@ img.in-view,
   -webkit-overflow-scrolling: touch;
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   PURE CSS GPU-COMPOSITED AMBIENT ANIMATION SUITE (60-120 FPS)
+   0 KB extra image download cost • Pure CSS rendering pipeline
+═══════════════════════════════════════════════════════════════════ */
+
+/* 1. Conic Radar Laser Sweep (Tactical Command & Telemetry) */
+.fx-radar-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.fx-radar-sweep::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 280deg,
+    rgba(217, 107, 67, 0.12) 330deg,
+    rgba(217, 107, 67, 0.35) 360deg
+  );
+  animation: fxRadarSweep 5s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  pointer-events: none;
+}
+@keyframes fxRadarSweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 2. Liquid Molten Copper Flow (Cart Items & Hardware Cards) */
+.fx-liquid-copper {
+  background: linear-gradient(
+    135deg,
+    #0B0D0E 0%,
+    #111315 25%,
+    rgba(217, 107, 67, 0.18) 50%,
+    #0A1C36 75%,
+    #0B0D0E 100%
+  );
+  background-size: 250% 250%;
+  animation: fxLiquidFlow 8s ease-in-out infinite alternate;
+  will-change: background-position;
+}
+@keyframes fxLiquidFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 3. Titanium Metallic Laser Sheen (Hero & Modal Headers) */
+.fx-titanium-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.fx-titanium-sheen::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 40%,
+    rgba(240, 244, 248, 0.06) 48%,
+    rgba(217, 107, 67, 0.22) 50%,
+    rgba(240, 244, 248, 0.06) 52%,
+    transparent 60%
+  );
+  transform: translateX(-100%) translateY(-100%);
+  animation: fxLaserSheen 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+  pointer-events: none;
+}
+@keyframes fxLaserSheen {
+  0%, 75% { transform: translateX(-100%) translateY(-100%); }
+  100% { transform: translateX(100%) translateY(100%); }
+}
+
+/* 4. Aurora Borealis Rotating Border Glow (Free Gift Bar & VIP Vault) */
+@property --fx-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.fx-aurora-glow {
+  position: relative;
+  border: 1px solid transparent !important;
+  background: 
+    linear-gradient(#0B0D0E, #0B0D0E) padding-box,
+    conic-gradient(from var(--fx-angle, 0deg), #D96B43, #0A1C36, #10B981, #D96B43) border-box !important;
+  animation: fxRotateBorder 6s linear infinite;
+}
+@keyframes fxRotateBorder {
+  to { --fx-angle: 360deg; }
+}
+
+/* 5. Kinetic Volcanic Ash & Glacial Particle Drift */
+.fx-kinetic-ash {
+  background-color: #0B0D0E;
+  background-image: 
+    radial-gradient(rgba(217, 107, 67, 0.35) 1px, transparent 1px),
+    radial-gradient(rgba(240, 244, 248, 0.18) 1px, transparent 1px);
+  background-size: 40px 40px, 75px 75px;
+  background-position: 0 0, 25px 25px;
+  animation: fxParticleDrift 25s linear infinite;
+  will-change: background-position;
+}
+@keyframes fxParticleDrift {
+  from { background-position: 0 0, 25px 25px; }
+  to { background-position: 400px 400px, -250px 250px; }
+}
+
+/* 6. Sci-Fi Pulsing Cyber Grid (WASM & Codebase Developer Views) */
+.fx-cyber-grid {
+  background-color: #090A0B;
+  background-image: 
+    linear-gradient(to right, rgba(240, 244, 248, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(240, 244, 248, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  animation: fxCyberPulse 4s ease-in-out infinite alternate;
+  will-change: opacity;
+}
+@keyframes fxCyberPulse {
+  0% { background-color: #080A0C; }
+  100% { background-color: #111418; }
+}
+
+/* 7. Sub-Zero Crystalline Frost Sheen (Skincare Pods & Skin Quiz) */
+.fx-subzero-frost {
+  background: linear-gradient(
+    135deg,
+    rgba(10, 28, 54, 0.4) 0%,
+    rgba(17, 19, 21, 0.9) 40%,
+    rgba(16, 185, 129, 0.12) 70%,
+    rgba(10, 28, 54, 0.4) 100%
+  );
+  background-size: 200% 200%;
+  animation: fxFrostShift 7s ease infinite alternate;
+  will-change: background-position;
+}
+@keyframes fxFrostShift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* 8. Tactical HUD Holographic Pulse (CTAs & Quick-Add Buttons) */
+.fx-holographic-pulse {
+  animation: fxHudPulse 2.5s ease-in-out infinite alternate;
+  will-change: box-shadow;
+}
+@keyframes fxHudPulse {
+  0% { box-shadow: 0 0 4px rgba(217, 107, 67, 0.2); }
+  100% { box-shadow: 0 0 16px rgba(217, 107, 67, 0.6), inset 0 0 8px rgba(217, 107, 67, 0.2); }
+}
+
+/* Pause background loops for reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .fx-radar-sweep::before,
+  .fx-liquid-copper,
+  .fx-titanium-sheen::after,
+  .fx-aurora-glow,
+  .fx-kinetic-ash,
+  .fx-cyber-grid,
+  .fx-subzero-frost,
+  .fx-holographic-pulse {
+    animation: none !important;
+  }
+}
+
 
 
