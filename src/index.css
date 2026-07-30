@@ -185,7 +185,7 @@ img.in-view,
 /* Universal Container Copper Glow Sheen on Hover & Focus */
 .border-neutral-800,
 .border-2 {
-  transition: border-color 0.4s ease 0.05s, box-shadow 0.5s ease 0.05s, transform 0.5s ease 0.05s !important;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
 .border-neutral-800:hover,
@@ -193,11 +193,9 @@ img.in-view,
 .border-2:hover,
 .border-2:focus-within,
 .group:hover .border-neutral-800,
-.group:focus-within .border-neutral-800,
-.group.in-view .border-neutral-800,
-.in-view.border-neutral-800 {
+.group:focus-within .border-neutral-800 {
   border-color: #D96B43 !important;
-  box-shadow: 0 0 25px rgba(217, 107, 67, 0.35), 4px 4px 0px 0px #D96B43 !important;
+  box-shadow: 0 0 15px rgba(217, 107, 67, 0.25) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -312,21 +310,28 @@ img.in-view,
 }
 
 /* 4. Aurora Borealis Rotating Border Glow (Free Gift Bar & VIP Vault) */
-@property --fx-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}
 .fx-aurora-glow {
   position: relative;
-  border: 1px solid transparent !important;
-  background: 
-    linear-gradient(#0B0D0E, #0B0D0E) padding-box,
-    conic-gradient(from var(--fx-angle, 0deg), #D96B43, #0A1C36, #10B981, #D96B43) border-box !important;
-  animation: fxRotateBorder 6s linear infinite;
+  overflow: hidden;
+  border: 1px solid rgba(217, 107, 67, 0.4) !important;
+}
+.fx-aurora-glow::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(#D96B43, #0A1C36, #10B981, #D96B43);
+  opacity: 0.15;
+  animation: fxRotateBorder 8s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+  pointer-events: none;
 }
 @keyframes fxRotateBorder {
-  to { --fx-angle: 360deg; }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* 5. Kinetic Volcanic Ash & Glacial Particle Drift */

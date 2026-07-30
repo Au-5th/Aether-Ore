@@ -307,17 +307,9 @@ export default function App() {
 
   useEffect(() => {
     if (isAnyModalOpen) {
-      const scrollY = window.scrollY;
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
       return () => {
-        document.body.style.position = "";
-        document.body.style.top = "";
-        document.body.style.width = "";
         document.body.style.overflow = "";
-        window.scrollTo(0, scrollY);
       };
     }
   }, [isAnyModalOpen]);
@@ -423,7 +415,7 @@ export default function App() {
       { threshold: isMobile ? 0.2 : 0.15, rootMargin }
     );
 
-    const elements = document.querySelectorAll(".scroll-reveal, .group, section img, #collection img, #expedition-reels img");
+    const elements = document.querySelectorAll(".scroll-reveal");
     elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
