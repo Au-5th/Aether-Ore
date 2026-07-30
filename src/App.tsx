@@ -3020,9 +3020,9 @@ fn function_main(input: Input) -> Result<Output, Error> {
         {/* Overlay — aria-hidden so screen readers skip it (the drawer itself is the modal) */}
         <div 
           id="cart-overlay"
-          onClick={() => setCartOpen(false)}
+          onClick={() => startTransition(() => setCartOpen(false))}
           aria-hidden="true"
-          className={`fixed inset-0 bg-basalt/80 backdrop-blur-sm z-50 transition-opacity duration-300 ${
+          className={`fixed inset-0 bg-basalt/80 backdrop-blur-sm z-50 transition-opacity duration-300 will-change-[opacity] transform-gpu ${
             cartOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
         />
@@ -3055,7 +3055,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
             </div>
             <button 
               id="cart-close-btn"
-              onClick={() => setCartOpen(false)}
+              onClick={() => startTransition(() => setCartOpen(false))}
               aria-label="Close cart"
               className="min-h-[44px] min-w-[44px] flex items-center justify-center text-xs font-mono text-neutral-400 hover:text-copper uppercase cursor-pointer focus-visible:outline-2 focus-visible:outline-copper rounded-none"
             >
@@ -3895,7 +3895,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
 
               <div className="pt-6 border-t border-neutral-800">
                 <button
-                  onClick={() => setVipDrawerOpen(false)}
+                  onClick={() => startTransition(() => setVipDrawerOpen(false))}
                   className="w-full bg-neutral-900 border border-neutral-800 hover:border-copper text-canvas text-xs py-3 uppercase tracking-wider transition-colors cursor-pointer"
                 >
                   CLOSE VIP VAULT
@@ -3976,7 +3976,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
 
                 <button
                   type="button"
-                  onClick={() => setOrderTelemetryOpen(false)}
+                  onClick={() => startTransition(() => setOrderTelemetryOpen(false))}
                   className="w-full bg-neutral-900 border border-neutral-800 hover:border-copper text-canvas text-xs py-3 uppercase tracking-wider transition-colors cursor-pointer"
                 >
                   CLOSE TELEMETRY TRACKER
@@ -3991,7 +3991,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
           <div
             className="fixed inset-0 bg-basalt/85 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-2 sm:p-4"
             aria-hidden="true"
-            onClick={(e) => { if (e.target === e.currentTarget) setCompareModalOpen(false); }}
+            onClick={(e) => { if (e.target === e.currentTarget) startTransition(() => setCompareModalOpen(false)); }}
           >
             <div className="bg-neutral-950 border-2 border-copper w-full max-w-4xl max-h-[88dvh] sm:max-h-[85vh] overflow-y-auto overscroll-contain modal-scroll-container p-4 sm:p-8 rounded-t-xl sm:rounded-none shadow-[8px_8px_0px_0px_#D96B43] relative animate-scale-up z-50 font-mono my-0 sm:my-8 pb-safe">
               <span className="w-12 h-1 bg-neutral-700 rounded-full mx-auto mb-3 block sm:hidden"></span>

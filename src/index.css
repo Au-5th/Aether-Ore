@@ -428,57 +428,60 @@ img.in-view,
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Impervious Zero-CLS Containment for Himalayan Parallax Engine */
+/* Impervious Zero-CLS Tab-Switch Containment Lock for Himalayan Parallax Engine */
 #himalayan-scenery-banner {
-  display: block;
-  position: relative;
-  width: 100%;
-  height: 480px;
-  min-height: 480px;
-  max-height: 480px;
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+  height: 480px !important;
+  min-height: 480px !important;
+  max-height: 480px !important;
+  aspect-ratio: 16 / 9;
   overflow: hidden !important;
-  isolation: isolate;
-  contain: strict;
-  box-sizing: border-box;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  isolation: isolate !important;
+  contain: strict !important;
+  contain-intrinsic-size: 100vw 480px;
+  box-sizing: border-box !important;
+  margin-top: 3rem !important;
+  margin-bottom: 3rem !important;
 }
 
 @media (min-width: 640px) {
   #himalayan-scenery-banner {
-    height: 600px;
-    min-height: 600px;
-    max-height: 600px;
+    height: 600px !important;
+    min-height: 600px !important;
+    max-height: 600px !important;
+    contain-intrinsic-size: 100vw 600px;
   }
 }
 
 .himalayan-viewport {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   overflow: hidden !important;
   background-color: #000;
   perspective: 1000px;
-  contain: strict;
-  isolation: isolate;
+  contain: strict !important;
+  isolation: isolate !important;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
 .himalayan-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   overflow: hidden !important;
   pointer-events: none;
   will-change: transform;
   transform: translate3d(0, 0, 0);
-  contain: strict;
-  isolation: isolate;
+  contain: strict !important;
+  isolation: isolate !important;
 }
 
 /* Static Image Layers */
@@ -495,23 +498,27 @@ img.in-view,
   z-index: 5;
 }
 
-/* Wind & Mist Layers (Infinite Horizontal Tile) */
+/* Wind & Mist Layers (Absolute Pixel Bounds - No Tab-Switch Percentage Reflows) */
 .himalayan-wind-layer {
-  width: 200%;
+  position: absolute !important;
+  left: 0 !important;
+  width: 200% !important;
   background: url('/assets/seamless-wind-mist.png') repeat-x left top / 50% 100%;
   mix-blend-mode: screen;
+  contain: strict !important;
+  isolation: isolate !important;
 }
 
 .himalayan-wind-far {
-  top: 15%;
-  height: 40%;
+  top: 90px !important;
+  height: 240px !important;
   opacity: 0.35;
   animation: himalayanWindMove 19s linear infinite;
 }
 
 .himalayan-wind-summit {
-  top: 5%;
-  height: 50%;
+  top: 30px !important;
+  height: 300px !important;
   opacity: 0.65;
   transform: translate3d(0, 0, 0) skewY(-3deg);
   animation: himalayanWindMove 11s linear infinite;
@@ -519,9 +526,15 @@ img.in-view,
 
 /* Snow Particle Layers (Radial Gradients / Tiled Alpha) */
 .himalayan-snow-layer {
-  width: 200%;
-  height: 200%;
+  position: absolute !important;
+  top: -50% !important;
+  left: -50% !important;
+  width: 200% !important;
+  height: 200% !important;
   mix-blend-mode: overlay;
+  contain: strict !important;
+  isolation: isolate !important;
+  pointer-events: none !important;
 }
 
 /* Far Slow Snow */
