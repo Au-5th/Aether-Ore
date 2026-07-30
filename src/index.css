@@ -412,6 +412,23 @@ img.in-view,
 }
 
 /* ==========================================================================
+   TACTICAL EXPEDITION GEAR DEPLOYMENT VAULT (CART DRAWER UTILITIES)
+   ========================================================================== */
+
+.cart-engraved-badge {
+  background: linear-gradient(135deg, #111315 0%, #1A1D20 100%);
+  border: 1px dashed rgba(217, 107, 67, 0.5);
+  font-family: monospace;
+  letter-spacing: 0.15em;
+  color: #D96B43;
+}
+
+.cart-telemetry-gauge {
+  background: radial-gradient(circle at top left, rgba(217, 107, 67, 0.12), transparent 70%), #0D0F11;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
    CINEMATIC HIMALAYAN ATMOSPHERIC SCENERY & PARALLAX ENGINE (60FPS GPU)
    ========================================================================== */
 

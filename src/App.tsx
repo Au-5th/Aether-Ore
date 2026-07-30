@@ -422,12 +422,18 @@ export default function App() {
   }, [activeTab, filteredProducts]);
 
   // Tiered Free Gift Calculation
-  // Tier 1: Over $80 -> Basalt Volcanic Exfoliating Block (Free Gift worth $35)
-  // Tier 2: Over $150 -> Brass Travel Vault (Free Gift worth $85)
+  // Tier 1: Over $80 -> Basalt Volcanic Exfoliating Block ($35 Value)
+  // Tier 2: Over $150 -> Brass Travel Vault ($85 Value)
   const freeGiftProgress = useMemo(() => {
-    if (cartSubtotal >= 150) return { percent: 100, nextTier: "MAX", needed: 0, unlocked: "vault" };
-    if (cartSubtotal >= 80) return { percent: Math.round(((cartSubtotal - 80) / 70) * 100), nextTier: "Brass Travel Vault ($150)", needed: 150 - cartSubtotal, unlocked: "block" };
-    return { percent: Math.round((cartSubtotal / 80) * 100), nextTier: "Volcanic Exfoliating Block ($80)", needed: 80 - cartSubtotal, unlocked: "none" };
+    if (cartSubtotal >= 150) {
+      return { percent: 100, nextTier: "MAX REWARDS SECURED", needed: 0, unlocked: "vault" };
+    }
+    if (cartSubtotal >= 80) {
+      const pct = Math.round(50 + ((cartSubtotal - 80) / 70) * 50);
+      return { percent: pct, nextTier: "Brass Travel Vault ($150)", needed: 150 - cartSubtotal, unlocked: "block" };
+    }
+    const pct = Math.round((cartSubtotal / 80) * 50);
+    return { percent: pct, nextTier: "Volcanic Exfoliating Block ($80)", needed: 80 - cartSubtotal, unlocked: "none" };
   }, [cartSubtotal]);
 
   // Auto-Inject Free Gift into list view if unlocked
@@ -456,6 +462,40 @@ export default function App() {
     }
     return list;
   }, [cart, freeGiftProgress]);
+
+  // Titanium Payload Weight & Thermal Load Telemetry calculation
+  const totalPackWeightGrams = useMemo(() => {
+    return cart.reduce((sum, item) => {
+      const weight = item.product.category === "Hardware" ? 385 : 125;
+      return sum + weight * item.quantity;
+    }, 0);
+  }, [cart]);
+
+  // Frequently Bought Together Upgrades for Cart Drawer
+  const cartProductIds = useMemo(() => cart.map((i) => i.product.id), [cart]);
+  const expeditionUpgrades = useMemo(() => {
+    return PRODUCTS_DATA.filter((p) => !cartProductIds.includes(p.id)).slice(0, 3);
+  }, [cartProductIds]);
+
+  const handleToggleCartItemSubscription = (idx: number) => {
+    setCart((prevCart) => {
+      const updated = [...prevCart];
+      if (updated[idx]) {
+        updated[idx] = { ...updated[idx], isSubscription: !updated[idx].isSubscription };
+      }
+      return updated;
+    });
+  };
+
+  const handleUpdateCartEngraving = (idx: number, engraving: string) => {
+    setCart((prevCart) => {
+      const updated = [...prevCart];
+      if (updated[idx]) {
+        updated[idx] = { ...updated[idx], engraving };
+      }
+      return updated;
+    });
+  };
 
   // Helper to add item to cart
   const handleAddToCart = (product: Product, variant: ProductVariant, qty: number, isSub: boolean, engraving?: string) => {
@@ -2963,8 +3003,6 @@ fn function_main(input: Input) -> Result<Output, Error> {
             </div>
           </div>
         </div>
-
-        {/* 6. AJAX Slide-Out Cart Drawer */}
         {/* Overlay — aria-hidden so screen readers skip it (the drawer itself is the modal) */}
         <div 
           id="cart-overlay"
@@ -2981,16 +3019,25 @@ fn function_main(input: Input) -> Result<Output, Error> {
           aria-modal="true"
           aria-label="Shopping cart"
           aria-hidden={!cartOpen}
-          className={`fixed top-0 right-0 h-full max-h-dvh w-full sm:w-[480px] bg-basalt border-l border-neutral-800 z-50 transition-all duration-300 flex flex-col justify-between ${
+          className={`fixed top-0 right-0 h-full max-h-dvh w-full sm:w-[500px] bg-basalt border-l border-neutral-800 z-50 transition-all duration-300 flex flex-col justify-between shadow-2xl ${
             cartOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
           
           {/* Drawer Header */}
-          <div className="p-4 sm:p-6 border-b border-neutral-800 flex justify-between items-center bg-neutral-950">
-            <div className="flex items-center gap-2">
-              <ShoppingBag size={18} className="text-copper" />
-              <h3 className="font-display font-bold text-base tracking-widest text-canvas">ACTIVE GEAR SYSTEM</h3>
+          <div className="p-4 sm:p-5 border-b border-neutral-800 bg-neutral-950 flex justify-between items-center">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 bg-copper/10 border border-copper flex items-center justify-center text-copper">
+                <ShoppingBag size={16} />
+              </div>
+              <div>
+                <h3 className="font-display font-black text-sm tracking-widest text-canvas uppercase">
+                  EXPEDITION GEAR DEPLOYMENT VAULT
+                </h3>
+                <span className="font-mono text-[9px] text-emerald-400 font-bold uppercase tracking-wider block">
+                  ● ACTIVE SATCOM DISPATCH TELEMETRY
+                </span>
+              </div>
             </div>
             <button 
               id="cart-close-btn"
@@ -3002,92 +3049,155 @@ fn function_main(input: Input) -> Result<Output, Error> {
             </button>
           </div>
 
+          {/* Real-Time Pack Weight & Flight Dispatch Telemetry Bar */}
+          <div className="p-3 bg-neutral-900/90 border-b border-neutral-800 grid grid-cols-2 gap-2 text-[10px] font-mono text-neutral-300">
+            <div className="flex items-center gap-1.5 bg-basalt p-2 border border-neutral-800">
+              <span className="text-copper font-bold">PACK WEIGHT:</span>
+              <span className="text-canvas font-bold">{totalPackWeightGrams}g</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-basalt p-2 border border-neutral-800">
+              <span className="text-emerald-400 font-bold">SATCOM FLIGHT:</span>
+              <span className="text-canvas font-bold">IC-604 (03h 42m)</span>
+            </div>
+          </div>
+
           {/* Tiered Free Gift Progress Bar (CRO Component) */}
-          <div className="p-4 bg-neutral-900 border-b border-neutral-800 space-y-2 fx-aurora-glow">
+          <div className="p-4 bg-neutral-900 border-b border-neutral-800 space-y-2.5 fx-aurora-glow">
             <div className="flex justify-between items-center font-mono text-[10px]">
-              <span className="text-neutral-400 font-semibold uppercase">PRESTIGE REWARDS PROGRAM</span>
-              <span className="text-copper font-bold">{freeGiftProgress.percent}%</span>
+              <span className="text-neutral-300 font-bold uppercase tracking-wider">
+                PRESTIGE EXPEDITION REWARDS LADDER
+              </span>
+              <span className="text-copper font-extrabold">{freeGiftProgress.percent}% SECURED</span>
             </div>
             
-            <div className="h-2 bg-basalt border border-neutral-800 rounded-none overflow-hidden">
+            {/* Multi-Stage Visual Progress Bar with Tier 1 & Tier 2 Markers */}
+            <div className="relative h-2.5 bg-basalt border border-neutral-800 rounded-none overflow-hidden">
               <div 
-                className="h-full bg-copper transition-all duration-500"
+                className="h-full bg-gradient-to-r from-copper via-amber-500 to-emerald-400 transition-all duration-500"
                 style={{ width: `${Math.min(100, freeGiftProgress.percent)}%` }}
               ></div>
+              <div className="absolute top-0 left-1/2 w-0.5 h-full bg-neutral-800 z-10"></div>
             </div>
 
-            <div className="font-mono text-[10px] text-neutral-400">
+            {/* Visual Tier Status Badges */}
+            <div className="grid grid-cols-2 gap-2 font-mono text-[9px]">
+              <div className={`p-1.5 border flex items-center gap-1.5 ${
+                freeGiftProgress.unlocked === "block" || freeGiftProgress.unlocked === "vault"
+                  ? "border-copper/60 bg-copper/10 text-copper font-bold"
+                  : "border-neutral-800 bg-neutral-950 text-neutral-500"
+              }`}>
+                <span>{freeGiftProgress.unlocked === "block" || freeGiftProgress.unlocked === "vault" ? "✓" : "🔒"}</span>
+                <span className="truncate">TIER 1 ($80): VOLCANIC BLOCK</span>
+              </div>
+
+              <div className={`p-1.5 border flex items-center gap-1.5 ${
+                freeGiftProgress.unlocked === "vault"
+                  ? "border-emerald-500/60 bg-emerald-950/40 text-emerald-400 font-bold"
+                  : "border-neutral-800 bg-neutral-950 text-neutral-500"
+              }`}>
+                <span>{freeGiftProgress.unlocked === "vault" ? "✓" : "🔒"}</span>
+                <span className="truncate">TIER 2 ($150): TRAVEL VAULT</span>
+              </div>
+            </div>
+
+            <div className="font-mono text-[10px] text-neutral-300">
               {freeGiftProgress.needed > 0 ? (
                 <span>Add <strong className="text-copper">${freeGiftProgress.needed.toFixed(2)}</strong> more to unlock <strong className="text-canvas uppercase">{freeGiftProgress.nextTier}</strong></span>
               ) : (
-                <span className="text-emerald-400 font-bold">🎉 ALL REWARDS SECURED // VIP DISPATCH CONFIRMED</span>
+                <span className="text-emerald-400 font-bold">🎉 MAX REWARDS SECURED // VOLCANIC BLOCK + TRAVEL VAULT AUTO-CLAIMED</span>
               )}
             </div>
           </div>
 
           {/* Cart items list */}
-          <div className="flex-1 overflow-y-auto overscroll-contain modal-scroll-container p-4 sm:p-6 space-y-4">
+          <div className="flex-1 overflow-y-auto overscroll-contain modal-scroll-container p-4 sm:p-5 space-y-4">
             {activeCartItemsWithGifts.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center space-y-4 font-mono text-xs text-neutral-500">
-                <ShoppingBag size={32} className="text-neutral-700" />
-                <p className="uppercase">ACTIVE BAG GEAR SYSTEM IS EMPTY</p>
-                <p className="text-[10px] text-neutral-600 font-sans">Deploy elements from collection grid to configure protective barriers.</p>
+              <div className="h-full flex flex-col items-center justify-center text-center space-y-4 font-mono text-xs text-neutral-500 py-12">
+                <ShoppingBag size={36} className="text-neutral-700" />
+                <p className="uppercase font-bold text-canvas">EXPEDITION VAULT IS CURRENTLY EMPTY</p>
+                <p className="text-[11px] text-neutral-500 max-w-xs font-sans">Deploy elements from the collection grid to configure your personal tactical defense system.</p>
               </div>
             ) : (
               activeCartItemsWithGifts.map((item, idx) => {
                 const isFreeGift = (item as any).isFreeGift;
                 const price = item.isSubscription ? item.product.subscriptionPrice : item.product.price;
+                const isHardware = item.product.category === "Hardware";
+                
                 return (
                   <div 
                     key={idx} 
-                    className={`border p-3.5 flex gap-4 items-center justify-between rounded-none fx-liquid-copper ${
+                    className={`border p-4 space-y-3 rounded-none fx-liquid-copper transition-all ${
                       isFreeGift 
                         ? "border-hazard/50 bg-hazard/5" 
                         : "border-neutral-800 bg-neutral-950"
                     }`}
                   >
-                    <div className="h-12 w-12 bg-neutral-900 overflow-hidden border border-neutral-800 flex-shrink-0">
-                      <img 
-                        src={item.product.image} 
-                        alt={item.product.title} 
-                        className="object-cover w-full h-full filter grayscale"
-                        loading="lazy"
-                      />
-                    </div>
+                    {/* Top Row: Thumbnail + Product Info + Price */}
+                    <div className="flex gap-4 items-start justify-between">
+                      <div className="h-14 w-14 bg-neutral-900 overflow-hidden border border-neutral-800 flex-shrink-0">
+                        <img 
+                          src={item.product.image} 
+                          alt={item.product.title} 
+                          className="object-cover w-full h-full filter grayscale"
+                          loading="lazy"
+                        />
+                      </div>
 
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <h4 className="font-display font-semibold text-xs tracking-wider text-canvas truncate">
-                          {item.product.title}
-                        </h4>
-                        {isFreeGift && (
-                          <span className="bg-hazard text-canvas font-mono text-[8px] px-1.5 py-0.5 tracking-wider uppercase font-bold">
-                            FREE GIFT
-                          </span>
-                        )}
-                        {item.isSubscription && !isFreeGift && (
-                          <span className="bg-copper/20 text-copper font-mono text-[8px] px-1.5 py-0.5 tracking-wider uppercase font-bold border border-copper/30">
-                            AUTOPILOT
-                          </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <h4 className="font-display font-semibold text-xs tracking-wider text-canvas truncate">
+                            {item.product.title}
+                          </h4>
+                          {isFreeGift && (
+                            <span className="bg-hazard text-canvas font-mono text-[8px] px-1.5 py-0.5 tracking-wider uppercase font-bold">
+                              FREE GIFT
+                            </span>
+                          )}
+                        </div>
+                        
+                        <p className="text-neutral-400 font-mono text-[10px] mt-0.5 truncate uppercase">
+                          {item.variant.name} ({formatSize(item.product.size)})
+                        </p>
+                      </div>
+
+                      <div className="text-right flex-shrink-0 space-y-1">
+                        <span className="font-mono text-xs font-bold block text-canvas">
+                          {isFreeGift ? "$0.00" : `$${(price * item.quantity).toFixed(2)}`}
+                        </span>
+                        {!isFreeGift && (
+                          <button 
+                            onClick={() => handleRemoveFromCart(idx)}
+                            className="text-neutral-500 hover:text-hazard transition-colors font-mono uppercase text-[9px] block ml-auto cursor-pointer"
+                          >
+                            REMOVE
+                          </button>
                         )}
                       </div>
-                      
-                      <p className="text-neutral-400 font-mono text-[10px] mt-0.5 truncate uppercase">
-                        {item.variant.name} ({formatSize(item.product.size)})
-                      </p>
+                    </div>
 
-                      {item.engraving && (
-                        <span className="text-copper font-mono text-[9px] block mt-0.5 font-bold uppercase">
-                          ETCH: "{item.engraving}"
-                        </span>
-                      )}
-                      
-                      {!isFreeGift && (
-                        <div className="flex items-center gap-2 mt-1.5">
+                    {/* Middle Row: In-Cart Subscription Frequency Switcher */}
+                    {!isFreeGift && (
+                      <div className="pt-2 border-t border-neutral-900 flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-1 font-mono text-[9px]">
+                          <span className="text-neutral-500 uppercase">FREQUENCY:</span>
+                          <button
+                            onClick={() => handleToggleCartItemSubscription(idx)}
+                            className={`px-2 py-1 border font-bold uppercase transition-colors cursor-pointer ${
+                              item.isSubscription
+                                ? "bg-copper/20 border-copper text-copper"
+                                : "bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-canvas"
+                            }`}
+                          >
+                            {item.isSubscription ? "⚡ AUTOPILOT (-20%)" : "ONE-TIME DISPATCH"}
+                          </button>
+                        </div>
+
+                        {/* Quantity Controls */}
+                        <div className="flex items-center gap-2">
                           <button 
                             onClick={() => handleUpdateCartQty(idx, -1)}
                             aria-label={`Decrease quantity of ${item.product.title}`}
-                            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper transition-colors focus-visible:outline-2 focus-visible:outline-copper rounded-none"
+                            className="min-w-[32px] h-[32px] bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-copper transition-colors cursor-pointer rounded-none"
                           >
                             <Minus size={10} aria-hidden="true" />
                           </button>
@@ -3095,30 +3205,77 @@ fn function_main(input: Input) -> Result<Output, Error> {
                           <button 
                             onClick={() => handleUpdateCartQty(idx, 1)}
                             aria-label={`Increase quantity of ${item.product.title}`}
-                            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-400 hover:text-copper transition-colors focus-visible:outline-2 focus-visible:outline-copper rounded-none"
+                            className="min-w-[32px] h-[32px] bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-copper transition-colors cursor-pointer rounded-none"
                           >
                             <Plus size={10} aria-hidden="true" />
                           </button>
                         </div>
-                      )}
-                    </div>
+                      </div>
+                    )}
 
-                    <div className="text-right flex-shrink-0 space-y-2">
-                      <span className="font-mono text-xs font-bold block text-canvas">
-                        {isFreeGift ? "$0.00" : `$${(price * item.quantity).toFixed(2)}`}
-                      </span>
-                      {!isFreeGift && (
-                        <button 
-                          onClick={() => handleRemoveFromCart(idx)}
-                          className="text-neutral-500 hover:text-hazard transition-colors font-mono uppercase text-[9px] block"
-                        >
-                          REMOVE
-                        </button>
-                      )}
-                    </div>
+                    {/* Bottom Row: Hardware Laser Engraving Call-Sign Input */}
+                    {!isFreeGift && isHardware && (
+                      <div className="pt-2 border-t border-neutral-900 space-y-1.5">
+                        <div className="flex justify-between items-center font-mono text-[9px]">
+                          <span className="text-copper font-bold uppercase">TACTICAL CALL-SIGN LASER ENGRAVING</span>
+                          <span className="text-neutral-500 font-semibold">MAX 12 CHARS</span>
+                        </div>
+                        <input
+                          type="text"
+                          maxLength={12}
+                          placeholder="e.g. REYKJAVIK-64N"
+                          value={item.engraving || ""}
+                          onChange={(e) => handleUpdateCartEngraving(idx, e.target.value.toUpperCase())}
+                          className="w-full bg-neutral-900 border border-neutral-800 text-canvas font-mono text-xs px-2.5 py-1.5 focus:border-copper outline-none uppercase"
+                        />
+                        {item.engraving && (
+                          <div className="cart-engraved-badge p-1.5 text-center text-[10px] font-mono font-bold uppercase">
+                            ⚙ ETCHED: "{item.engraving}"
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 );
               })
+            )}
+
+            {/* Expedition Upgrades Smart Add-On Carousel (CRO Component) */}
+            {expeditionUpgrades.length > 0 && (
+              <div className="pt-4 border-t border-neutral-800 space-y-3">
+                <div className="flex justify-between items-center font-mono text-[10px]">
+                  <span className="text-copper font-bold uppercase tracking-wider">EXPEDITION UPGRADES // 1-TAP ADD</span>
+                  <span className="text-neutral-500">COMPLEMENTARY GEAR</span>
+                </div>
+
+                <div className="space-y-2">
+                  {expeditionUpgrades.map((upgrade) => (
+                    <div 
+                      key={upgrade.id}
+                      className="p-2.5 bg-neutral-950 border border-neutral-800 flex items-center justify-between gap-3"
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <img 
+                          src={upgrade.image} 
+                          alt={upgrade.title} 
+                          className="w-9 h-9 object-cover border border-neutral-800 filter grayscale flex-shrink-0"
+                        />
+                        <div className="min-w-0">
+                          <h5 className="font-display text-[11px] font-bold text-canvas truncate uppercase">{upgrade.title}</h5>
+                          <span className="font-mono text-[9px] text-neutral-400 block">${upgrade.price.toFixed(2)}</span>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => handleAddToCart(upgrade, upgrade.variants[0], 1, false)}
+                        className="bg-neutral-900 border border-copper/60 hover:bg-copper hover:text-basalt text-copper font-mono text-[9px] font-bold px-3 py-1.5 uppercase transition-colors flex-shrink-0 cursor-pointer"
+                      >
+                        + ADD GEAR
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
 
@@ -3126,11 +3283,11 @@ fn function_main(input: Input) -> Result<Output, Error> {
           <div className="p-4 sm:p-6 border-t border-neutral-800 bg-neutral-950 space-y-4 pb-safe">
             <div className="space-y-1.5 font-mono text-xs">
               <div className="flex justify-between items-center text-neutral-400">
-                <span>ESTIMATED FREIGHT</span>
+                <span>ESTIMATED EXPRESS FREIGHT</span>
                 <span className="text-emerald-400 font-bold uppercase">FREE</span>
               </div>
               <div className="flex justify-between items-center text-neutral-300 font-semibold pt-1 border-t border-neutral-900">
-                <span>SUB-TOTAL</span>
+                <span>TOTAL DISPATCH VALUE</span>
                 <span className="text-copper font-bold text-sm">${cartSubtotal.toFixed(2)}</span>
               </div>
             </div>
@@ -3139,7 +3296,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
               <button
                 onClick={() => {
                   if (cart.length === 0) {
-                    alert("Your active gear system is empty.");
+                    alert("Your expedition vault is empty.");
                     return;
                   }
                   alert("Simulating redirect to Shopify Plus 1-Tap Secure Checkout...");
@@ -3165,7 +3322,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
                   onClick={() => { alert("Simulating Apple Pay Express Checkout..."); setCart([]); setCartOpen(false); }}
                   className="bg-black hover:bg-neutral-800 text-white border border-neutral-700 py-2 font-bold rounded-none uppercase transition-colors cursor-pointer"
                 >
-                   PAY
+                  APPLE PAY
                 </button>
                 <button
                   type="button"
@@ -3175,12 +3332,12 @@ fn function_main(input: Input) -> Result<Output, Error> {
                   G PAY
                 </button>
               </div>
-            </div>
-            <div className="text-[10px] text-neutral-500 text-center font-mono">
-              SECURED WITH AES-256 ENCRYPTION • VIP HOOKS INTEGRATED
+
+              <div className="text-center font-mono text-[9px] text-neutral-500 pt-1">
+                🔒 SHOPIFY PLUS 256-BIT ENCRYPTED DISPATCH // 100% SATISFACTION GUARANTEED
+              </div>
             </div>
           </div>
-
         </div>
 
         {/* 7. Product Ritual & Application Protocol Modal */}
