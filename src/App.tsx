@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback, startTransition } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ShoppingBag,
@@ -279,6 +279,20 @@ export default function App() {
   const [quizSensitivity, setQuizSensitivity] = useState<"standard" | "sensitive" | "reactive">("sensitive");
   const [quizCompleted, setQuizCompleted] = useState<boolean>(false);
 
+  // ─── NON-BLOCKING ZERO-INP TOAST NOTIFICATION ENGINE ───
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToastNotification = useCallback((msg: string) => {
+    startTransition(() => {
+      setToastMessage(msg);
+    });
+    setTimeout(() => {
+      startTransition(() => {
+        setToastMessage(null);
+      });
+    }, 4000);
+  }, []);
+
   // ─── VANGUARD VIP LOYALTY VAULT STATE ───
   const [vipDrawerOpen, setVipDrawerOpen] = useState<boolean>(false);
 
@@ -295,7 +309,7 @@ export default function App() {
       setComparedProductIds(comparedProductIds.filter(p => p !== id));
     } else {
       if (comparedProductIds.length >= 3) {
-        alert("You can compare up to 3 system modules side-by-side.");
+        showToastNotification("You can compare up to 3 system modules side-by-side.");
         return;
       }
       setComparedProductIds([...comparedProductIds, id]);
@@ -1244,7 +1258,7 @@ export default function App() {
               </section>
 
               {/* 60FPS CINEMATIC HIMALAYAN ATMOSPHERIC SCENERY & PARALLAX BANNER */}
-              <section id="himalayan-scenery-banner" className="relative h-[480px] sm:h-[600px] min-h-[480px] sm:min-h-[600px] w-full border-t border-b border-neutral-800 overflow-hidden my-12">
+              <section id="himalayan-scenery-banner" className="relative w-full border-t border-b border-neutral-800 overflow-hidden">
                 <div className="himalayan-viewport">
                   {/* Layer 1: Static Base Sky & Background Peaks */}
                   <div className="himalayan-layer himalayan-bg-layer"></div>
@@ -2226,7 +2240,7 @@ export default function App() {
                           <button
                             key={amt}
                             type="button"
-                            onClick={() => alert(`Digital Expedition Gift Card (${formatPrice(amt)}) added to bag.`)}
+                            onClick={() => showToastNotification(`Digital Expedition Gift Card (${formatPrice(amt)}) added to bag.`)}
                             className="p-3 border border-neutral-800 bg-neutral-950 hover:border-copper text-copper font-bold cursor-pointer transition-all hover:scale-105"
                           >
                             {formatPrice(amt)}
@@ -2246,7 +2260,7 @@ export default function App() {
                       <form
                         onSubmit={(e) => {
                           e.preventDefault();
-                          alert("Corporate Bulk Procurement Inquiry Transmitted. A field specialist will contact you within 4 hours.");
+                          showToastNotification("Corporate Bulk Procurement Inquiry Transmitted. A field specialist will contact you within 4 hours.");
                         }}
                         className="space-y-3 font-mono text-xs"
                       >
@@ -2634,11 +2648,11 @@ fn function_main(input: Input) -> Result<Output, Error> {
                         <button
                           onClick={() => {
                             if (!b2bTermsAccepted) {
-                              alert("Please accept the Net-30 credit assessment terms first.");
+                              showToastNotification("Please accept the Net-30 credit assessment terms first.");
                               return;
                             }
                             if (wholesaleTotals.totalItems === 0) {
-                              alert("Please enter a quantity for at least one B2B variant.");
+                              showToastNotification("Please enter a quantity for at least one B2B variant.");
                               return;
                             }
                             setB2bSimulationStatus("review");
@@ -2748,7 +2762,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
                       <button onClick={() => {
                         const vault = PRODUCTS_DATA[5];
                         handleAddToCart(vault, vault.variants[0], 1, false);
-                        alert("Brass Travel Vault added to your order via checkout post-purchase 1-click extension!");
+                        showToastNotification("Brass Travel Vault added to your order via checkout post-purchase 1-click extension!");
                       }} className="w-full bg-copper hover:bg-canvas text-basalt font-mono text-[10px] py-1.5 font-bold uppercase cursor-pointer">
                         YES, ADD ONE-CLICK UPSELL
                       </button>
@@ -3296,10 +3310,10 @@ fn function_main(input: Input) -> Result<Output, Error> {
               <button
                 onClick={() => {
                   if (cart.length === 0) {
-                    alert("Your expedition vault is empty.");
+                    showToastNotification("Your expedition vault is empty.");
                     return;
                   }
-                  alert("Simulating redirect to Shopify Plus 1-Tap Secure Checkout...");
+                  showToastNotification("Simulating redirect to Shopify Plus 1-Tap Secure Checkout...");
                   setCart([]);
                   setCartOpen(false);
                 }}
@@ -3312,21 +3326,21 @@ fn function_main(input: Input) -> Result<Output, Error> {
               <div className="grid grid-cols-3 gap-2 font-mono text-[9px] pt-1">
                 <button
                   type="button"
-                  onClick={() => { alert("Simulating Shop Pay Express 1-Tap Checkout..."); setCart([]); setCartOpen(false); }}
+                  onClick={() => { showToastNotification("Simulating Shop Pay Express 1-Tap Checkout..."); setCart([]); setCartOpen(false); }}
                   className="bg-[#5A31F4] hover:bg-[#4822D6] text-white py-2 font-bold rounded-none uppercase transition-colors cursor-pointer"
                 >
                   SHOP PAY
                 </button>
                 <button
                   type="button"
-                  onClick={() => { alert("Simulating Apple Pay Express Checkout..."); setCart([]); setCartOpen(false); }}
+                  onClick={() => { showToastNotification("Simulating Apple Pay Express Checkout..."); setCart([]); setCartOpen(false); }}
                   className="bg-black hover:bg-neutral-800 text-white border border-neutral-700 py-2 font-bold rounded-none uppercase transition-colors cursor-pointer"
                 >
                   APPLE PAY
                 </button>
                 <button
                   type="button"
-                  onClick={() => { alert("Simulating Google Pay Express Checkout..."); setCart([]); setCartOpen(false); }}
+                  onClick={() => { showToastNotification("Simulating Google Pay Express Checkout..."); setCart([]); setCartOpen(false); }}
                   className="bg-white hover:bg-neutral-200 text-black py-2 font-bold rounded-none uppercase transition-colors cursor-pointer"
                 >
                   G PAY
@@ -3856,7 +3870,17 @@ fn function_main(input: Input) -> Result<Output, Error> {
                         <div className="font-bold text-canvas">FREE ANNUAL REFILL POD</div>
                         <div className="text-[10px] text-neutral-400">Claim 1 complimentary 50ml pod every 12 months</div>
                       </div>
-                      <button onClick={() => alert("Free Refill Pod added to account!")} className="bg-copper text-basalt font-bold px-2 py-1 text-[10px] cursor-pointer">CLAIM</button>
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          startTransition(() => {
+                            showToastNotification("Free Refill Pod added to account!");
+                          });
+                        }} 
+                        className="bg-copper text-basalt font-bold px-2 py-1 text-[10px] cursor-pointer"
+                      >
+                        CLAIM
+                      </button>
                     </div>
                     <div className="p-3 bg-neutral-900 border border-neutral-800 flex justify-between items-center">
                       <div>
@@ -3919,7 +3943,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
                   />
                   <button
                     type="button"
-                    onClick={() => alert(`Locating satellite telemetry for Order ${orderSearchId}...`)}
+                    onClick={() => showToastNotification(`Locating satellite telemetry for Order ${orderSearchId}...`)}
                     className="bg-copper text-basalt font-bold text-xs px-4 py-2 uppercase hover:bg-canvas transition-colors cursor-pointer"
                   >
                     LOCATE
@@ -4289,7 +4313,7 @@ fn function_main(input: Input) -> Result<Output, Error> {
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    alert("Field Dispatch Subscription confirmed! Check your inbox for your 20% code.");
+                    showToastNotification("Field Dispatch Subscription confirmed! Check your inbox for your 20% code.");
                   }}
                   className="space-y-2"
                 >
@@ -4356,6 +4380,20 @@ fn function_main(input: Input) -> Result<Output, Error> {
 
           </div>
         </footer>
+
+        {/* Non-Blocking Zero-INP Floating Toast Notification */}
+        {toastMessage && (
+          <div className="fixed bottom-6 right-6 z-50 bg-neutral-950 border-2 border-copper p-4 shadow-[0_10px_30px_rgba(0,0,0,0.9)] max-w-sm flex items-center gap-3 animate-fade-in font-mono text-xs text-canvas">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+            <span className="font-semibold uppercase tracking-wider">{toastMessage}</span>
+            <button 
+              onClick={() => setToastMessage(null)}
+              className="ml-auto text-neutral-400 hover:text-copper cursor-pointer font-bold text-xs"
+            >
+              ✕
+            </button>
+          </div>
+        )}
 
       </div>
     </div>

@@ -428,21 +428,41 @@ img.in-view,
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Zero-CLS Containment for Himalayan Parallax Engine */
+/* Impervious Zero-CLS Containment for Himalayan Parallax Engine */
 #himalayan-scenery-banner {
-  contain: layout paint;
-  content-visibility: auto;
-  contain-intrinsic-size: 100vw 600px;
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 480px;
+  min-height: 480px;
+  max-height: 480px;
+  overflow: hidden !important;
+  isolation: isolate;
+  contain: strict;
+  box-sizing: border-box;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 640px) {
+  #himalayan-scenery-banner {
+    height: 600px;
+    min-height: 600px;
+    max-height: 600px;
+  }
 }
 
 .himalayan-viewport {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: hidden !important;
   background-color: #000;
   perspective: 1000px;
   contain: strict;
+  isolation: isolate;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
@@ -453,9 +473,12 @@ img.in-view,
   left: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden !important;
   pointer-events: none;
   will-change: transform;
   transform: translate3d(0, 0, 0);
+  contain: strict;
+  isolation: isolate;
 }
 
 /* Static Image Layers */
