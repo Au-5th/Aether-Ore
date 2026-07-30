@@ -402,8 +402,143 @@ img.in-view,
   .fx-kinetic-ash,
   .fx-cyber-grid,
   .fx-subzero-frost,
-  .fx-holographic-pulse {
+  .fx-holographic-pulse,
+  .himalayan-wind-far,
+  .himalayan-wind-summit,
+  .himalayan-snow-far,
+  .himalayan-snow-near {
     animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   CINEMATIC HIMALAYAN ATMOSPHERIC SCENERY & PARALLAX ENGINE (60FPS GPU)
+   ========================================================================== */
+
+.himalayan-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
+  perspective: 1000px;
+}
+
+.himalayan-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Static Image Layers */
+.himalayan-bg-layer {
+  background: url('/assets/bg-sky-mountains.webp') no-repeat center center / cover;
+}
+
+.himalayan-summit-layer {
+  background: url('/assets/mid-summit.webp') no-repeat center center / cover;
+}
+
+.himalayan-fg-layer {
+  background: url('/assets/fg-ridge-hiker.webp') no-repeat center center / cover;
+  z-index: 5;
+}
+
+/* Wind & Mist Layers (Infinite Horizontal Tile) */
+.himalayan-wind-layer {
+  width: 200%;
+  background: url('/assets/seamless-wind-mist.png') repeat-x left top / 50% 100%;
+  mix-blend-mode: screen;
+}
+
+.himalayan-wind-far {
+  top: 15%;
+  height: 40%;
+  opacity: 0.35;
+  animation: himalayanWindMove 19s linear infinite;
+}
+
+.himalayan-wind-summit {
+  top: 5%;
+  height: 50%;
+  opacity: 0.65;
+  transform: translate3d(0, 0, 0) skewY(-3deg);
+  animation: himalayanWindMove 11s linear infinite;
+}
+
+/* Snow Particle Layers (Radial Gradients / Tiled Alpha) */
+.himalayan-snow-layer {
+  width: 200%;
+  height: 200%;
+  mix-blend-mode: overlay;
+}
+
+/* Far Slow Snow */
+.himalayan-snow-far {
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0)),
+    radial-gradient(2px 2px at 150px 180px, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0)),
+    radial-gradient(1.5px 1.5px at 280px 80px, rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0));
+  background-size: 350px 350px;
+  opacity: 0.5;
+  animation: himalayanSnowStormFar 13s linear infinite;
+}
+
+/* Near Fast Blustery Snow */
+.himalayan-snow-near {
+  z-index: 10;
+  background-image: 
+    radial-gradient(4px 4px at 100px 50px, rgba(255, 255, 255, 0.95), rgba(0, 0, 0, 0)),
+    radial-gradient(5px 5px at 300px 250px, rgba(255, 255, 255, 0.85), rgba(0, 0, 0, 0)),
+    radial-gradient(3px 3px at 500px 120px, rgba(255, 255, 255, 0.9), rgba(0, 0, 0, 0));
+  background-size: 600px 600px;
+  opacity: 0.85;
+  filter: blur(1px);
+  animation: himalayanSnowStormNear 5s linear infinite;
+}
+
+/* Vignette Overlay */
+.himalayan-vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(0,0,0,0) 45%, rgba(10,15,25,0.75) 100%);
+}
+
+/* GPU Keyframe Animations */
+@keyframes himalayanWindMove {
+  0% {
+    transform: translate3d(0, 0, 0) skewY(-2deg);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0) skewY(-2deg);
+  }
+}
+
+@keyframes himalayanSnowStormFar {
+  0% {
+    transform: translate3d(0, -350px, 0);
+  }
+  100% {
+    transform: translate3d(-350px, 0, 0);
+  }
+}
+
+@keyframes himalayanSnowStormNear {
+  0% {
+    transform: translate3d(0, -600px, 0) scale(1.2);
+  }
+  100% {
+    transform: translate3d(-600px, 0, 0) scale(1.2);
   }
 }
 

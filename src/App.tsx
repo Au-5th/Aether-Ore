@@ -1619,6 +1619,74 @@ export default function App() {
                 </div>
               </section>
 
+              {/* 60FPS CINEMATIC HIMALAYAN ATMOSPHERIC SCENERY & PARALLAX BANNER */}
+              <section id="himalayan-scenery-banner" className="relative h-[480px] sm:h-[600px] w-full border-t border-b border-neutral-800 overflow-hidden my-12">
+                <div className="himalayan-viewport">
+                  {/* Layer 1: Static Base Sky & Background Peaks */}
+                  <div className="himalayan-layer himalayan-bg-layer"></div>
+
+                  {/* Layer 2: Main Peak Summit */}
+                  <div className="himalayan-layer himalayan-summit-layer"></div>
+
+                  {/* Layer 3: Far Wind Mist (Sweeping behind the peak summit) */}
+                  <div className="himalayan-layer himalayan-wind-layer himalayan-wind-far"></div>
+
+                  {/* Layer 4: High-Velocity Peak Wind (Sweeping across summit) */}
+                  <div className="himalayan-layer himalayan-wind-layer himalayan-wind-summit"></div>
+
+                  {/* Layer 5: Background Snow Particles */}
+                  <div className="himalayan-layer himalayan-snow-layer himalayan-snow-far"></div>
+
+                  {/* Layer 6: Foreground Rocks & Mountaineer Silhouette */}
+                  <div className="himalayan-layer himalayan-fg-layer"></div>
+
+                  {/* Layer 7: Foreground Snow Particles (Near Camera, High Speed) */}
+                  <div className="himalayan-layer himalayan-snow-layer himalayan-snow-near"></div>
+
+                  {/* Layer 8: Cinematic Lens Vignette Overlay */}
+                  <div className="himalayan-vignette"></div>
+
+                  {/* Overlay Content & Tactical Dispatch HUD */}
+                  <div className="absolute inset-0 z-30 flex flex-col justify-between p-6 sm:p-12 pointer-events-none">
+                    <div className="flex justify-between items-start">
+                      <div className="bg-basalt/80 border border-copper/80 backdrop-blur-md px-3 py-1.5 font-mono text-[10px] text-copper font-bold tracking-widest uppercase">
+                        LIVE ATMOSPHERIC SCENERY // HIMALAYAN RIDGE 7,800M
+                      </div>
+                      <div className="bg-basalt/80 border border-neutral-800 backdrop-blur-md px-3 py-1.5 font-mono text-[10px] text-emerald-400 font-bold tracking-widest uppercase flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        60FPS HARDWARE GPU COMPOSITED
+                      </div>
+                    </div>
+
+                    <div className="max-w-xl space-y-3 pointer-events-auto bg-basalt/85 border border-neutral-800 p-6 sm:p-8 backdrop-blur-md">
+                      <span className="font-mono text-[10px] text-copper uppercase tracking-[0.25em] font-bold">
+                        HIGH-ALTITUDE DERMATOLOGICAL ARMOR
+                      </span>
+                      <h3 className="font-display text-2xl sm:text-3xl font-extrabold uppercase text-canvas tracking-wider">
+                        SUB-ZERO HIMALAYAN EXPEDITION SCENERY
+                      </h3>
+                      <p className="font-mono text-xs text-neutral-300 leading-relaxed">
+                        Engineered for extreme mountain ridges where wind velocities exceed 80 km/h and sub-zero dehydration erodes lipid barriers.
+                      </p>
+                      <div className="pt-2 flex gap-3 flex-wrap">
+                        <a
+                          href="#collection"
+                          className="bg-copper hover:bg-canvas text-basalt font-mono font-bold text-xs px-5 py-3 uppercase transition-colors"
+                        >
+                          EXPLORE EXPEDITION MODULES
+                        </a>
+                        <button
+                          onClick={() => setQuizModalOpen(true)}
+                          className="bg-neutral-900 border border-neutral-700 hover:border-copper text-canvas font-mono font-bold text-xs px-5 py-3 uppercase transition-colors cursor-pointer"
+                        >
+                          RUN AI DIAGNOSTIC
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
               {/* FULL UNCROPPED EDITORIAL CAMPAIGN DUAL-SYSTEM PROMO BANNER */}
               <section id="hardware-campaign" className="py-16 border-t border-b border-neutral-800 bg-neutral-950 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
