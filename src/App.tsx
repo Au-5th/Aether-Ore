@@ -492,55 +492,63 @@ export default function App() {
   }, [cartProductIds]);
 
   const handleToggleCartItemSubscription = (idx: number) => {
-    setCart((prevCart) => {
-      const updated = [...prevCart];
-      if (updated[idx]) {
-        updated[idx] = { ...updated[idx], isSubscription: !updated[idx].isSubscription };
-      }
-      return updated;
+    startTransition(() => {
+      setCart((prevCart) => {
+        const updated = [...prevCart];
+        if (updated[idx]) {
+          updated[idx] = { ...updated[idx], isSubscription: !updated[idx].isSubscription };
+        }
+        return updated;
+      });
     });
   };
 
   const handleUpdateCartEngraving = (idx: number, engraving: string) => {
-    setCart((prevCart) => {
-      const updated = [...prevCart];
-      if (updated[idx]) {
-        updated[idx] = { ...updated[idx], engraving };
-      }
-      return updated;
+    startTransition(() => {
+      setCart((prevCart) => {
+        const updated = [...prevCart];
+        if (updated[idx]) {
+          updated[idx] = { ...updated[idx], engraving };
+        }
+        return updated;
+      });
     });
   };
 
   // Helper to add item to cart
   const handleAddToCart = (product: Product, variant: ProductVariant, qty: number, isSub: boolean, engraving?: string) => {
-    setCart((prevCart) => {
-      const existingIdx = prevCart.findIndex(
-        (item) => item.product.id === product.id && item.variant.id === variant.id && item.isSubscription === isSub
-      );
+    startTransition(() => {
+      setCart((prevCart) => {
+        const existingIdx = prevCart.findIndex(
+          (item) => item.product.id === product.id && item.variant.id === variant.id && item.isSubscription === isSub
+        );
 
-      if (existingIdx > -1) {
-        const updated = [...prevCart];
-        updated[existingIdx].quantity += qty;
-        return updated;
-      } else {
-        return [...prevCart, { product, variant, quantity: qty, isSubscription: isSub }];
-      }
+        if (existingIdx > -1) {
+          const updated = [...prevCart];
+          updated[existingIdx].quantity += qty;
+          return updated;
+        } else {
+          return [...prevCart, { product, variant, quantity: qty, isSubscription: isSub, engraving }];
+        }
+      });
+      setCartBump(true);
+      setCartOpen(true);
     });
-    setCartBump(true);
     setTimeout(() => setCartBump(false), 350);
-    setCartOpen(true);
   };
 
   const handleUpdateCartQty = (idx: number, delta: number) => {
-    setCart((prevCart) => {
-      const updated = [...prevCart];
-      const newQty = updated[idx].quantity + delta;
-      if (newQty <= 0) {
-        updated.splice(idx, 1);
-      } else {
-        updated[idx].quantity = newQty;
-      }
-      return updated;
+    startTransition(() => {
+      setCart((prevCart) => {
+        const updated = [...prevCart];
+        const newQty = updated[idx].quantity + delta;
+        if (newQty <= 0) {
+          updated.splice(idx, 1);
+        } else {
+          updated[idx].quantity = newQty;
+        }
+        return updated;
+      });
     });
   };
 
@@ -866,7 +874,7 @@ export default function App() {
                         referrerPolicy="no-referrer"
                         fetchPriority="high"
                         loading="eager"
-                        decoding="sync"
+                        decoding="async"
                         width={800}
                         height={600}
                       />
@@ -881,7 +889,7 @@ export default function App() {
                         <button
                           key={idx}
                           type="button"
-                          onClick={() => setHeroActiveImage(imgUrl)}
+                          onClick={() => startTransition(() => setHeroActiveImage(imgUrl))}
                           aria-label={`View product image ${idx + 1}`}
                           aria-pressed={heroActiveImage === imgUrl}
                           className={`w-12 h-12 border overflow-hidden transition-all duration-200 rounded-none focus-visible:outline-2 focus-visible:outline-copper focus-visible:outline-offset-2 ${
