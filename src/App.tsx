@@ -870,7 +870,7 @@ export default function App() {
                       <img 
                         src={heroActiveImage} 
                         alt="Aether & Ore Anodized Titanium Flask on frosted Basalt stone" 
-                        className="scroll-reveal object-cover w-full h-full filter grayscale contrast-110 hover:grayscale-0 focus:grayscale-0 hover:contrast-125 focus:contrast-125 hover:saturate-150 focus:saturate-150 hover:scale-105 focus:scale-105 transition-all duration-500 outline-none"
+                        className="object-cover w-full h-full filter grayscale contrast-110 hover:grayscale-0 focus:grayscale-0 hover:contrast-125 focus:contrast-125 hover:saturate-150 focus:saturate-150 hover:scale-105 focus:scale-105 transition-all duration-500 outline-none"
                         referrerPolicy="no-referrer"
                         fetchPriority="high"
                         loading="eager"
