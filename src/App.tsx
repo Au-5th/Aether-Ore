@@ -865,6 +865,10 @@ export default function App() {
                         className="scroll-reveal object-cover w-full h-full filter grayscale contrast-110 hover:grayscale-0 focus:grayscale-0 hover:contrast-125 focus:contrast-125 hover:saturate-150 focus:saturate-150 hover:scale-105 focus:scale-105 transition-all duration-500 outline-none"
                         referrerPolicy="no-referrer"
                         fetchPriority="high"
+                        loading="eager"
+                        decoding="sync"
+                        width={800}
+                        height={600}
                       />
                       <div className="absolute top-3 left-3 bg-basalt text-copper border border-copper font-mono text-[9px] px-2 py-0.5 tracking-widest font-bold">
                         SYSTEM BEST SELLER
